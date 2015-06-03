@@ -151,6 +151,7 @@ public class Game extends Canvas implements Runnable {
         game.start();
 
         Font font = new Font();
+        Font font1 = new Font();
     }
 
 }
