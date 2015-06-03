@@ -28,6 +28,7 @@ public class Game extends Canvas implements Runnable {
     private Keyboard key;
     private Level level;
     private Player player;
+    private Font font;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -40,6 +41,7 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         key = new Keyboard();
         level = Level.spawn;
+        font = new Font();
         TileCoordinate playerSpawn = new TileCoordinate(22, 70);
         player = new Player(playerSpawn.x(), playerSpawn.y(), key);
         level.add(player);
@@ -116,6 +118,7 @@ public class Game extends Canvas implements Runnable {
         double xScroll = player.getX() - screen.width / 2;
         double yScroll = player.getY() - screen.height / 2;
         level.render((int) xScroll, (int) yScroll, screen);
+        font.render(50, 50, -4, 0x00FFFF, "Hello! my name is\n the one and best.", screen);
 
         for(int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
@@ -149,9 +152,6 @@ public class Game extends Canvas implements Runnable {
         game.frame.setVisible(true);
 
         game.start();
-
-        Font font = new Font();
-        Font font1 = new Font();
     }
 
 }
