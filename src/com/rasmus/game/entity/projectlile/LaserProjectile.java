@@ -13,7 +13,7 @@ public class LaserProjectile extends Projectile {
         range = 150;
         damage = 2;
         speed = 3;
-        sprite = Sprite.projectile_laser;
+        sprite = Sprite.rotate(Sprite.projectile_laser, angle);
         size = 7;
 
         nx = speed * Math.cos(angle);

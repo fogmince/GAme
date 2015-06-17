@@ -18,12 +18,12 @@ public class Sprite {
 
     //projectiles
     public static Sprite projectile_laser = new Sprite(16, 0, 0, SpriteSheet.projectile_laser);
+    public static Sprite projectile_arrow = new Sprite(16, 1, 0, SpriteSheet.projectile_laser);
 
 
     //Particles
     public static Sprite particle_Default = new Sprite(3, 0xAAAAAA);
     public static Sprite particle_Red = new Sprite(3, 0xFF0000);
-
 
     public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy);
 
@@ -69,6 +69,77 @@ public class Sprite {
         for(int i = 0; i < pixels.length; i++) {
             this.pixels[i] = pixels[i];
         }
+    }
+
+    public static Sprite rotate(Sprite sprite, double angle) {
+        return new Sprite(rotate(sprite.pixels, sprite.width, sprite.height, angle), sprite.width, sprite.height);
+    }
+
+    private static int[] rotate(int[] pixels, int width, int height, double angle) {
+        int[] result = new int[width * height];
+
+        double nx_x = rot_x(-angle, 1.0, 0.0);
+        double nx_y = rot_y(-angle, 1.0, 0.0);
+        double ny_x = rot_x(-angle, 0.0, 1.0);
+        double ny_y = rot_y(-angle, 0.0, 1.0);
+
+        double x0 = rot_x(-angle, -width / 2.0, -height / 2.0) + width / 2.0;
+        double y0 = rot_y(-angle, -width / 2.0, -height / 2.0) + height / 2.0;
+
+        for(int y = 0; y < height; y++) {
+            double x1 = x0;
+            double y1 = y0;
+            for(int x = 0; x < width; x++) {
+                int xx = (int) x1;
+                int yy = (int) y1;
+                int col = 0;
+                if(xx < 0 || xx >= width || yy < 0 || yy >= height) col = 0xFFFF00FF;
+                else col = pixels[xx + yy * width];
+                result[x + y * width] = col;
+                x1 += nx_x;
+                y1 += nx_y;
+            }
+            x0 += ny_x;
+            y0 += ny_y;
+        }
+
+        return result;
+    }
+
+    private static double rot_x(double angle, double x, double y) {
+        double cos = Math.cos(angle - Math.PI / 2);
+        double sin = Math.sin(angle - Math.PI / 2);
+
+        return x * cos + y * -sin;
+    }
+
+    private static double rot_y(double angle, double x, double y) {
+        double cos = Math.cos(angle - Math.PI / 2);
+        double sin = Math.sin(angle - Math.PI / 2);
+
+        return x * sin + y * cos;
+    }
+
+    public static Sprite scale(int[] pixels, int w1, int h1, int w2, int h2) {
+
+        int[] new_pixels = new int[w2 * h2];
+
+        int xr = (int) ((w1 << 16) / w2) + 1;
+        int yr = (int) ((h1 << 16) / h2) + 1;
+
+        int x2, y2;
+
+        for (int i = 0; i < h2; i++) {
+            for (int j = 0; j < w2; j++) {
+                x2 = ((j * xr) >> 16);
+                y2 = ((i * yr) >> 16);
+                new_pixels[(i * w2) + j] = pixels[(y2 * w1) + x2];
+            }
+        }
+        // Create a new sprite from your new pixels, new width, and new height
+        Sprite new_sprite = new Sprite(new_pixels, w2, h2);
+
+        return new_sprite;
     }
 
     public static Sprite[] split(SpriteSheet sheet) {

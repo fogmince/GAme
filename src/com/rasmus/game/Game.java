@@ -3,6 +3,7 @@ package com.rasmus.game;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Font;
 import com.rasmus.game.graphics.Screen;
+import com.rasmus.game.graphics.ui.UIManager;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
 import com.rasmus.game.level.Level;
@@ -16,34 +17,37 @@ import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
 
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = WIDTH / 16 * 9;
+    private static final int WIDTH = 400 - 110;
+    private static final int HEIGHT = 225;    //225
     private static final int SCALE = 3;
     public static final String TITLE = "Rain";
 
     private Thread thread;
     private JFrame frame;
     private boolean running = false;
+
     private Screen screen;
     private Keyboard key;
     private Level level;
     private Player player;
     private Font font;
+    private static UIManager uiManager;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
     public Game() {
-        Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+        Dimension size = new Dimension(WIDTH * SCALE + 110 * 3, HEIGHT * SCALE);
         setPreferredSize(size);
 
         screen = new Screen(WIDTH, HEIGHT);
+        uiManager = new UIManager();
         frame = new JFrame();
         key = new Keyboard();
         level = Level.spawn;
         font = new Font();
         TileCoordinate playerSpawn = new TileCoordinate(22, 70);
-        player = new Player(playerSpawn.x(), playerSpawn.y(), key);
+        player = new Player("Cherno", playerSpawn.x(), playerSpawn.y(), key);
         level.add(player);
 
         Mouse mouse = new Mouse();
@@ -105,6 +109,7 @@ public class Game extends Canvas implements Runnable {
     public void update() {
         key.update();
         level.update();
+        uiManager.update();
     }
 
     public void render() {
@@ -126,10 +131,15 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bs.getDrawGraphics();
 
 
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+        uiManager.render(g);
 
         g.dispose();
         bs.show();
+    }
+
+    public static UIManager getUiManager() {
+        return uiManager;
     }
 
     public static int getWindowWidth() {

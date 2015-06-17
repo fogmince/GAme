@@ -1,6 +1,7 @@
 package com.rasmus.game.level;
 
 import com.rasmus.game.entity.Entity;
+import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.entity.particle.Particle;
 import com.rasmus.game.entity.projectlile.Projectile;
@@ -24,6 +25,7 @@ public class Level {
     private List<Entity> entities = new ArrayList<Entity>();
     private List<Projectile> projectiles = new ArrayList<Projectile>();
     private List<Particle> particles = new ArrayList<Particle>();
+    private List<Mob> mobs = new ArrayList<Mob>();
 
     private List<Player> players = new ArrayList<Player>();
 
@@ -73,6 +75,10 @@ public class Level {
             players.get(i).update();
         }
 
+        for(int i = 0; i < mobs.size(); i++) {
+            mobs.get(i).update();
+        }
+
         remove();
     }
 
@@ -91,6 +97,10 @@ public class Level {
 
         for(int i = 0; i < players.size(); i++) {
             if(players.get(i).isRemoved()) players.remove(i);
+        }
+
+        for(int i = 0; i < mobs.size(); i++) {
+            mobs.get(i).remove();
         }
     }
 
@@ -139,6 +149,10 @@ public class Level {
         for(int i = 0; i < players.size(); i++) {
             players.get(i).render(screen);
         }
+
+        for(int i = 0; i < mobs.size(); i++) {
+            mobs.get(i).render(screen);
+        }
     }
 
     public Tile getTile(int x, int y) {
@@ -158,6 +172,8 @@ public class Level {
             projectiles.add((Projectile) entity);
         } else if(entity instanceof Player) {
             players.add((Player) entity);
+        } else if(entity instanceof Mob) {
+            mobs.add((Mob) entity);
         } else {
             entities.add(entity);
         }
