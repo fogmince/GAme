@@ -1,9 +1,9 @@
 package com.rasmus.game.graphics;
 
-import com.rasmus.game.entity.mob.Chaser;
 import com.rasmus.game.entity.mob.Mob;
-import com.rasmus.game.entity.mob.Shooter;
-import com.rasmus.game.entity.mob.Star;
+import com.rasmus.game.entity.mob.testMobs.Chaser;
+import com.rasmus.game.entity.mob.testMobs.Shooter;
+import com.rasmus.game.entity.mob.testMobs.Star;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.level.tile.Tile;
 

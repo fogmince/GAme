@@ -118,7 +118,6 @@ public class Game extends Canvas implements Runnable {
         double xScroll = player.getX() - screen.width / 2;
         double yScroll = player.getY() - screen.height / 2;
         level.render((int) xScroll, (int) yScroll, screen);
-        font.render(50, 50, -4, 0x00FFFF, "Hello! my name is\n the one and best.", screen);
 
         for(int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];

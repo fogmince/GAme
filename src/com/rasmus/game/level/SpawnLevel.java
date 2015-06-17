@@ -1,9 +1,8 @@
 package com.rasmus.game.level;
 
-import com.rasmus.game.entity.mob.Chaser;
-import com.rasmus.game.entity.mob.Dummy;
-import com.rasmus.game.entity.mob.Shooter;
-import com.rasmus.game.entity.mob.Star;
+import com.rasmus.game.entity.mob.testMobs.Dummy;
+import com.rasmus.game.entity.mob.testMobs.Shooter;
+import com.rasmus.game.entity.mob.testMobs.Star;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,5 +1,6 @@
-package com.rasmus.game.entity.mob;
+package com.rasmus.game.entity.mob.testMobs;
 
+import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.graphics.AnimatedSprite;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.SpriteSheet;

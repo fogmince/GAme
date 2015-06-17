@@ -1,5 +1,6 @@
-package com.rasmus.game.entity.mob;
+package com.rasmus.game.entity.mob.testMobs;
 
+import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.graphics.AnimatedSprite;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.SpriteSheet;
@@ -21,43 +22,16 @@ public class Star extends Mob {
 
     private List<Node> path = null;
 
+    private int fireRate = 60;
+
     public Star(int x, int y) {
         this.x = x << 4;
         this.y = y << 4;
         sprite = down.getSprite();
     }
 
-    private void move() {
-        xa = 0;
-        ya = 0;
-
-        int px = level.getClientPlayer().getX();
-        int py = level.getClientPlayer().getY();
-
-        Vector2i start = new Vector2i(getX() >> 4, getY() >> 4);
-        Vector2i destination = new Vector2i(px >> 4, py >> 4);
-
-        if(time % 3 == 0) path = level.findPath(start, destination);
-
-        if(path != null) {
-            if(path.size() > 0) {
-                Vector2i vec = path.get(path.size() - 1).tile;
-                if(x < vec.getX() << 4) xa += speed;
-                if(x > vec.getX() << 4) xa -= speed;
-                if(y < vec.getY() << 4) ya += speed;
-                if(y > vec.getY() << 4) ya -= speed;
-            }
-        }
-
-        if(xa != 0 || ya != 0) {
-            move(xa, ya);
-            walking = true;
-        } else {
-            walking = false;
-        }
-    }
-
     public void update() {
+        fireRate--;
         time++;
         move();
         if(walking) animSprite.update();
@@ -77,6 +51,59 @@ public class Star extends Mob {
         } else if(ya > 0) {
             animSprite = down;
             dir = Mob.Direction.DOWN;
+        }
+
+        if(fireRate < 0) {
+            shootClosestPlayer(100);
+            fireRate = 60;
+       }
+
+    }
+
+    private void move() {
+        xa = 0;
+        ya = 0;
+
+        int px = level.getClientPlayer().getX();
+        int py = level.getClientPlayer().getY();
+
+        Vector2i start = new Vector2i(getX() >> 4, getY() >> 4);
+        Vector2i destination = new Vector2i(px >> 4, py >> 4);
+
+        if(time % 5 == 0) path = level.findPath(start, destination);
+
+        if(path != null) {
+            if(path.size() > 0) {
+                Vector2i vec = path.get(path.size() - 1).tile;
+                if(x < vec.getX() << 4) xa += speed;
+                if(x > vec.getX() << 4) xa -= speed;
+                if(y < vec.getY() << 4) ya += speed;
+                if(y > vec.getY() << 4) ya -= speed;
+            }
+        }
+
+        if((Math.abs(getX() - px) / 16) <= 3 && (Math.abs(getY() - py) / 16) <= 4) {
+            walking = false;
+            xa = 0;
+            ya = 0;
+            if(getX() - px <= 0) {
+                xa -= speed;
+            } else {
+                xa += speed;
+            }
+
+            if(getY() - py < 0) {
+                ya -= speed;
+            } else {
+                ya += speed;
+            }
+        }
+
+        if(xa != 0 || ya != 0) {
+            move(xa, ya);
+            walking = true;
+        } else {
+            walking = false;
         }
     }
 
