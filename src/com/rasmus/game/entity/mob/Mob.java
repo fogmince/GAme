@@ -31,7 +31,7 @@ public abstract class Mob extends Entity {
         if(xa > 0) dir = Direction.RIGHT;
         if(xa < 0) dir = Direction.LEFT;
         if(ya > 0) dir = Direction.DOWN;
-        if(ya < 0) dir = Direction.RIGHT;
+        if(ya < 0) dir = Direction.UP;
 
         while(xa != 0) {
             if(Math.abs(xa) > 1) {
@@ -166,8 +166,8 @@ public abstract class Mob extends Entity {
     private boolean collision(double xa, double ya) {
         boolean solid = false;
         for(int c = 0; c < 4; c++) {
-            double xt = ((x + xa) - c % 2 * 15) / 16;
-            double yt = ((y + ya) - c / 2 * 15) / 16;
+            double xt = ((x + xa) - c % 2 * 27 + 5) / 16;
+            double yt = ((y + ya) - c / 2 * 30 + 15) / 16;
 
             int ix = (int) Math.ceil(xt);
             int iy = (int) Math.ceil(yt);

@@ -28,11 +28,10 @@ public class SpawnLevel extends Level {
         }
 
         for(int i = 0; i < 3; i++) {
-            add(new Dummy(20 + i * 3, 70 - i * 3));
+            add(new Dummy(20 + i * 4, 70 - i * 3));
         }
-        //add(new Chaser(21, 60));
-        add(new Star(20, 50));
-        add(new Shooter(20, 60));
+        add(new Star(30, 50));
+        add(new Shooter(30, 60));
 }
 
     protected void generateLevel() {

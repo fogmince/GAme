@@ -9,7 +9,8 @@ import com.rasmus.game.util.Vector2i;
 
 import java.util.List;
 
-public class Star extends Mob {
+public class SmartChaser extends Mob {
+
     private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
     private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
     private AnimatedSprite side = new AnimatedSprite(SpriteSheet.dummy_side, 32, 32, 3);
@@ -22,16 +23,13 @@ public class Star extends Mob {
 
     private List<Node> path = null;
 
-    private int fireRate = 60;
-
-    public Star(int x, int y) {
+    public SmartChaser(int x, int y) {
         this.x = x << 4;
         this.y = y << 4;
         sprite = down.getSprite();
     }
 
     public void update() {
-        fireRate--;
         time++;
         move();
         if(walking) animSprite.update();
@@ -52,12 +50,6 @@ public class Star extends Mob {
             animSprite = down;
             dir = Mob.Direction.DOWN;
         }
-
-        if(fireRate < 0) {
-            shootClosestPlayer(150);
-            fireRate = 40 + random.nextInt(40);
-       }
-
     }
 
     private void move() {
@@ -70,7 +62,12 @@ public class Star extends Mob {
         Vector2i start = new Vector2i(getX() >> 4, getY() >> 4);
         Vector2i destination = new Vector2i(px >> 4, py >> 4);
 
-        if(time % 5 == 0) path = level.findPath(start, destination);
+        int dx = Math.abs(px - getX());
+        int dy = Math.abs(py - getY());
+        double distance = Math.sqrt((dx * dx) + (dy * dy));
+
+        if(distance <= 100)
+            if(time % 3 == 0) path = level.findPath(start, destination);
 
         if(path != null) {
             if(path.size() > 0) {
@@ -81,28 +78,6 @@ public class Star extends Mob {
                 if(y > vec.getY() << 4) ya -= speed;
             }
         }
-
-        if((Math.abs(getX() - px) / 16) <= 3 && (Math.abs(getY() - py) / 16) <= 4) {
-            walking = false;
-            xa = 0;
-            ya = 0;
-            if(getX() - px <= 0) {
-                xa -= speed;
-            } else {
-                xa += speed;
-            }
-
-            if(getY() - py < 0) {
-                ya -= speed;
-            } else {
-                ya += speed;
-            }
-
-        } else if((Math.abs(getX() - px) / 16) <= 5 && (Math.abs(getY() - py) / 16) <= 5) {
-            walking = false;
-            return;
-        }
-
 
         if(xa != 0 || ya != 0) {
             move(xa, ya);
