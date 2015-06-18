@@ -24,6 +24,10 @@ public class UIComponent {
         
     }
 
+    public void setPosition(Vector2i position) {
+        this.position = position;
+    }
+
     void setOffset(Vector2i offset) {
         this.offset = offset;
     }

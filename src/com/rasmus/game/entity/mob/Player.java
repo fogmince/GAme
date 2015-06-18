@@ -160,8 +160,6 @@ public class Player extends Mob {
         sprite = animSprite.getSprite();
 
         screen.renderMob((int) (x - 16), (int) (y - 16), sprite, false, false);
-
-        inventory.render(screen);
     }
 
     public String getName() {

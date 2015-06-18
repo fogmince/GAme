@@ -1,7 +1,6 @@
 package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
-import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.ui.UIPanel;
 
 public abstract class Inventory {
@@ -15,6 +14,4 @@ public abstract class Inventory {
     }
 
     public abstract void update();
-    public abstract void render(Screen screen);
-
 }

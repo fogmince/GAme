@@ -15,17 +15,17 @@ public class Slot {
     public double x, y;
     public double width, height;
 
-    private boolean isMousedOver;
-    private boolean isClicked;
+    public boolean isMousedOver;
+    public boolean isClicked;
 
-    private UIPanel panel;
-    private UISquare square;
+    public UIPanel panel;
+    public UISquare square;
     private UISprite itemSprite;
+    public Item item;
 
-    private boolean hasSquare = false;
-    private boolean hasItem = false;
-    private boolean itemRenderd = false;
-    private Item item;
+    public boolean hasSquare = false;
+    public boolean hasItem = false;
+    private boolean hasRendered = false;
 
     public Slot(double x, double y, double width, double height, UIPanel panel) {
         this.x = x + 870;
@@ -41,21 +41,22 @@ public class Slot {
     public void update() {
         square.update();
         if(Mouse.getButton() == 1) {
-            if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16){
+            if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16) {
                 isClicked = true;
             } else {
                 isClicked = false;
             }
+        } else {
+            isClicked = false;
         }
 
         if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16){
             isMousedOver = true;
         } else {
             isMousedOver = false;
+            isClicked = false;
         }
-    }
 
-    public void render() {
         if(isMousedOver || isClicked) {
             if(!hasSquare) {
                 panel.addComponent(square);
@@ -66,22 +67,26 @@ public class Slot {
             hasSquare = false;
         }
 
-        if(hasItem && item != null && !itemRenderd) {
+        if(hasItem && !hasRendered) {
             itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), item.getSprite().path);
             panel.addComponent(itemSprite);
-            itemRenderd = true;
+            hasRendered = true;
         }
+
+        if(!hasItem) {
+            panel.removeComponent(itemSprite);
+            hasRendered = false;
+        }
+
     }
 
-    public void addItemToSlot(Item item) {
+    public void addItem(Item item) {
         this.item = item;
         hasItem = true;
     }
 
-    public void removeItemFromSlot() {
-        this.item = null;
-        this.hasItem = false;
-        itemRenderd = false;
+    public UISprite removeItem() {
+        hasItem = false;
+        return itemSprite;
     }
-
 }
