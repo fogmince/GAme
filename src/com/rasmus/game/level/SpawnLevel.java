@@ -1,8 +1,10 @@
 package com.rasmus.game.level;
 
+import com.rasmus.game.entity.item.TestItem;
 import com.rasmus.game.entity.mob.testMobs.Dummy;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
 import com.rasmus.game.entity.mob.testMobs.Star;
+import com.rasmus.game.graphics.Sprite;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,6 +34,8 @@ public class SpawnLevel extends Level {
         }
         add(new Star(30, 50));
         add(new Shooter(30, 60));
+
+        add(new TestItem(30, 60, Sprite.sword, false));
 }
 
     protected void generateLevel() {

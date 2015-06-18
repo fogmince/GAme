@@ -1,6 +1,7 @@
 package com.rasmus.game.level;
 
 import com.rasmus.game.entity.Entity;
+import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.entity.particle.Particle;
@@ -28,6 +29,8 @@ public class Level {
     private List<Mob> mobs = new ArrayList<Mob>();
 
     private List<Player> players = new ArrayList<Player>();
+
+    private List<Item> items = new ArrayList<Item>();
 
     private Comparator<Node> nodeSorter = new Comparator<Node>() {
         public int compare(Node n0, Node n1) {
@@ -79,6 +82,10 @@ public class Level {
             mobs.get(i).update();
         }
 
+        for(int i = 0; i < items.size(); i++) {
+            items.get(i).update();
+        }
+
         remove();
     }
 
@@ -101,6 +108,10 @@ public class Level {
 
         for(int i = 0; i < mobs.size(); i++) {
             mobs.get(i).remove();
+        }
+
+        for(int i = 0; i < items.size(); i++) {
+            items.get(i).remove();
         }
     }
 
@@ -153,6 +164,10 @@ public class Level {
         for(int i = 0; i < mobs.size(); i++) {
             mobs.get(i).render(screen);
         }
+
+        for(int i = 0; i < items.size(); i++) {
+            items.get(i).render(screen);
+        }
     }
 
     public Tile getTile(int x, int y) {
@@ -174,6 +189,8 @@ public class Level {
             players.add((Player) entity);
         } else if(entity instanceof Mob) {
             mobs.add((Mob) entity);
+        } else if(entities instanceof Item) {
+            items.add((Item) entity);
         } else {
             entities.add(entity);
         }

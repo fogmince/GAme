@@ -28,6 +28,10 @@ public class UIComponent {
         this.offset = offset;
     }
 
+    public Vector2i getOffset() {
+        return offset;
+    }
+
     public UIComponent setColor(int color) {
         this.color = new Color(color);
         return this;

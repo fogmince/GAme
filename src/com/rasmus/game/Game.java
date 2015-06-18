@@ -1,7 +1,6 @@
 package com.rasmus.game;
 
 import com.rasmus.game.entity.mob.Player;
-import com.rasmus.game.graphics.Font;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.ui.UIManager;
 import com.rasmus.game.input.Keyboard;
@@ -30,7 +29,6 @@ public class Game extends Canvas implements Runnable {
     private Keyboard key;
     private Level level;
     private Player player;
-    private Font font;
     private static UIManager uiManager;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -45,7 +43,6 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         key = new Keyboard();
         level = Level.spawn;
-        font = new Font();
         TileCoordinate playerSpawn = new TileCoordinate(22, 70);
         player = new Player("Cherno", playerSpawn.x(), playerSpawn.y(), key);
         level.add(player);

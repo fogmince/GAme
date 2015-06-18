@@ -10,6 +10,7 @@ import com.rasmus.game.graphics.SpriteSheet;
 import com.rasmus.game.graphics.ui.*;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
+import com.rasmus.game.inventory.PlayerInventory;
 import com.rasmus.game.util.Vector2i;
 
 import java.awt.*;
@@ -32,12 +33,15 @@ public class Player extends Mob {
     private UIManager ui;
     private UIProgressBar uiHealthBar;
     private UILabel uiNameLabel;
-    private UIProgressBar uiManaBar;
+    private UIProgressBar uiEnergyBar;
     private UILabel uiHpLabel;
-    private UILabel uiMPLabel;
+    private UILabel uiENLabel;
     private UISprite uiPlayerClassIcon;
 
-    private int enery;
+    private PlayerInventory inventory;
+
+    //Player stats
+    private int energy;
 
     public Player(String name, Keyboard input) {
         this.name = name;
@@ -57,40 +61,42 @@ public class Player extends Mob {
 
         //Default player stats
         health = 100;
-        enery = 100;
+        energy = 100;
 
         //UI Stuff
         ui = Game.getUiManager();
         UIPanel panel = (UIPanel) new UIPanel(new Vector2i((400 - 110) * 3, 0), new Vector2i(110  * 3, 225 * 3)).setColor(new Color(0x4F4F4F));
         ui.addPanel(panel);
 
-        uiNameLabel = new UILabel(new Vector2i(60, 250), name).setColor(0xBBBBBB);
+        uiNameLabel = new UILabel(new Vector2i(55, 250), name).setColor(0xBBBBBB);
         uiNameLabel.setFont(new Font("Verdana", Font.PLAIN, 28));
         uiNameLabel.dropShadow = true;
         panel.addComponent(uiNameLabel);
 
-        uiHealthBar = new UIProgressBar(new Vector2i(30, 265), new Vector2i(110 * 3 - 45, 20));
+        uiHealthBar = new UIProgressBar(new Vector2i(20, 265), new Vector2i(110 * 3 - 45, 20));
         uiHealthBar.setColor(0x6A6A6A);
         uiHealthBar.setForegroundColor(0xCC1A15);
         panel.addComponent(uiHealthBar);
 
-        uiHpLabel = new UILabel(new Vector2i(uiHealthBar.position).add(new Vector2i(2, 16)), "HP");
+        uiHpLabel = new UILabel(new Vector2i(uiHealthBar.position).add(new Vector2i(1, 16)), "HP");
         uiHpLabel.setColor(0xFFFFFF);
         uiHpLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
         panel.addComponent(uiHpLabel);
 
-        uiPlayerClassIcon = new UISprite(new Vector2i(20, 215), "/textures/sheets/icons/classIcon.png");
+        uiPlayerClassIcon = new UISprite(new Vector2i(10, 215), "/ui/icons/classIcon.png");
         panel.addComponent(uiPlayerClassIcon);
 
-        uiManaBar = new UIProgressBar(new Vector2i(30, 290), new Vector2i(110 * 3 - 45, 20));
-        uiManaBar.setColor(0x6A6A6A);
-        uiManaBar.setForegroundColor(0xCCD611);
-        panel.addComponent(uiManaBar);
+        uiEnergyBar = new UIProgressBar(new Vector2i(20, 290), new Vector2i(110 * 3 - 45, 20));
+        uiEnergyBar.setColor(0x6A6A6A);
+        uiEnergyBar.setForegroundColor(0xCCD611);
+        panel.addComponent(uiEnergyBar);
 
-        uiMPLabel = new UILabel(new Vector2i(uiManaBar.position).add(new Vector2i(2, 16)), "EN");
-        uiMPLabel.setColor(0xFFFFFF);
-        uiMPLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
-        panel.addComponent(uiMPLabel);
+        uiENLabel = new UILabel(new Vector2i(uiEnergyBar.position).add(new Vector2i(1, 16)), "EN");
+        uiENLabel.setColor(0xFFFFFF);
+        uiENLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        panel.addComponent(uiENLabel);
+
+        inventory = new PlayerInventory(this, panel);
     }
 
     public void update() {
@@ -128,7 +134,9 @@ public class Player extends Mob {
         updateShoot();
 
         uiHealthBar.setProgress(health / 100.0);
-        uiManaBar.setProgress(enery / 100.0);
+        uiEnergyBar.setProgress(energy / 100.0);
+
+        inventory.update();
     }
 
     private void clear() {
@@ -152,6 +160,8 @@ public class Player extends Mob {
         sprite = animSprite.getSprite();
 
         screen.renderMob((int) (x - 16), (int) (y - 16), sprite, false, false);
+
+        inventory.render(screen);
     }
 
     public String getName() {

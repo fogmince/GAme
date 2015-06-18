@@ -30,6 +30,13 @@ public class SpriteSheet {
     public static SpriteSheet player_left = new SpriteSheet(player, 2, 0, 1, 3, 32);
     public static SpriteSheet player_right = new SpriteSheet(player, 3, 0, 1, 3, 32);
 
+    //Items
+    public static SpriteSheet sword = new SpriteSheet("/textures/sheets/items/sword.png", 16);
+
+    //Item Icons
+    public static SpriteSheet sword_icon = new SpriteSheet("/textures/sheets/items/icons/sword_icon.png", 16);
+
+
     private Sprite[] sprites;
 
     public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {
@@ -119,6 +126,10 @@ public class SpriteSheet {
 
     public Sprite[] getSprites() {
         return sprites;
+    }
+
+    public String getPath() {
+        return path;
     }
 
 }

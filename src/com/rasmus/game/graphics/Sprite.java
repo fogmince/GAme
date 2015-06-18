@@ -7,6 +7,7 @@ public class Sprite {
     private int width, height;
     public int[] pixels;
     protected SpriteSheet sheet;
+    public String path;
 
     public static Sprite voidSprite = new Sprite(16, 0x1B87E0);
 
@@ -25,6 +26,12 @@ public class Sprite {
     public static Sprite particle_Default = new Sprite(3, 0xAAAAAA);
     public static Sprite particle_Red = new Sprite(3, 0xFF0000);
 
+    //Items
+    public static Sprite sword = new Sprite(16, 0, 0, SpriteSheet.sword);
+
+    //Item Icons
+    public static Sprite sword_icon = new Sprite(16, 0, 0, SpriteSheet.sword_icon);
+
     public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy);
 
     protected Sprite(SpriteSheet sheet, int width, int height) {
@@ -42,6 +49,7 @@ public class Sprite {
         this.height = size;
         this.sheet = sheet;
         pixels = new int[SIZE * SIZE];
+        path = sheet.getPath();
         load();
     }
 

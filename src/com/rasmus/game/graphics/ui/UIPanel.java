@@ -21,6 +21,10 @@ public class UIPanel extends UIComponent {
         components.add(component);
     }
 
+    public void removeComponent(UIComponent component) {
+        components.remove(component);
+    }
+
     public void update() {
         for(UIComponent component : components) {
             component.setOffset(position);

@@ -25,7 +25,6 @@ public class Tile {
     }
 
     public void render(int x, int y, Screen screen) {
-
     }
 
     public boolean solid() {

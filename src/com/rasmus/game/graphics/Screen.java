@@ -1,5 +1,6 @@
 package com.rasmus.game.graphics;
 
+import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.entity.mob.testMobs.Chaser;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
@@ -96,6 +97,20 @@ public class Screen {
                 if (xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height ) break;
                 if (xa < 0) xa = 0;
                 int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
+                if(col != ALPHA_COL) pixels[xa + ya * width] = col;
+            }
+        }
+    }
+
+    public void renderItem(int xp, int yp, Item item) {
+        xp -= xOffset;
+        yp -= yOffset;
+        for(int y = 0; y < item.getSprite().SIZE; y++) {
+            int ya = y + yp;
+            for(int x = 0; x < item.getSprite().SIZE; x++) {
+                int xa = x + xp;
+                if(xa < 0 || xa >= width || ya < 0 || ya >= height) break;
+                int col = item.getSprite().pixels[x + y * item.getSprite().SIZE];
                 if(col != ALPHA_COL) pixels[xa + ya * width] = col;
             }
         }
