@@ -36,5 +36,4 @@ public class UIPanel extends UIComponent {
             component.render(g);
         }
     }
-
 }

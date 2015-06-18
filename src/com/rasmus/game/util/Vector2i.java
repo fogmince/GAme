@@ -22,6 +22,12 @@ public class Vector2i {
         return this;
     }
 
+    public Vector2i add(int value) {
+        this.x += value;
+        this.y += value;
+        return this;
+    }
+
     public Vector2i subtract(Vector2i vector) {
         this.x -= vector.getX();
         this.y -= vector.getY();
