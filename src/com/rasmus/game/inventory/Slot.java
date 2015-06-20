@@ -1,6 +1,7 @@
 package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.item.Item;
+import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
 import com.rasmus.game.graphics.ui.UISquare;
@@ -41,7 +42,7 @@ public class Slot {
     public void update() {
         square.update();
         if(Mouse.getButton() == 1) {
-            if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16) {
+            if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16 && !isClicked) {
                 isClicked = true;
             } else {
                 isClicked = false;
@@ -73,7 +74,7 @@ public class Slot {
             hasRendered = true;
         }
 
-        if(!hasItem) {
+        if(!hasItem && hasRendered) {
             panel.removeComponent(itemSprite);
             hasRendered = false;
         }
@@ -85,8 +86,27 @@ public class Slot {
         hasItem = true;
     }
 
-    public UISprite removeItem() {
+    public Item removeItem() {
         hasItem = false;
-        return itemSprite;
+        return item;
+    }
+
+    public Item getItemInSlot() {
+        if(item != null) {
+            return item;
+        }
+
+        return new Item(0, 0, Sprite.voidSprite, true);
+    }
+
+    public Item switchItem(Item item) {
+        Item itemTemp = this.item;
+        panel.removeComponent(itemSprite);
+        this.item = item;
+        itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), this.item.getSprite().path);
+        panel.addComponent(itemSprite);
+        hasItem = true;
+
+        return itemTemp;
     }
 }

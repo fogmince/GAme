@@ -1,6 +1,7 @@
 package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
+import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.item.TestItem;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UIPanel;
@@ -18,6 +19,7 @@ public class PlayerInventory extends Inventory {
     private UISprite itemSprite;
 
     private boolean holdingItem = false;
+    private Item item;
 
     public PlayerInventory(Entity entity, UIPanel panel) {
         super(entity, panel);
@@ -48,6 +50,7 @@ public class PlayerInventory extends Inventory {
         }
 
         slotsSmall[1][1].addItem(new TestItem(0, 0, Sprite.sword_icon, true));
+        slotsBig[3].addItem(new TestItem(0, 0, Sprite.projectile_laser, true));
 
     }
 
@@ -57,15 +60,57 @@ public class PlayerInventory extends Inventory {
                 slotsSmall[x][y].update();
 
                 if(!holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
-                    itemSprite = slotsSmall[x][y].removeItem();
+                    item = slotsSmall[x][y].removeItem();
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
                     holdingItem = true;
+                    continue;
+                }
+
+                if(holdingItem && !slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                    slotsSmall[x][y].addItem(item);
+                    holdingItem = false;
+                    continue;
+                }
+
+                if(holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                    panel.removeComponent(itemSprite);
+                    item = slotsSmall[x][y].switchItem(item);
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                    panel.addComponent(itemSprite);
+                    continue;
                 }
             }
         }
 
         for(int i = 0; i < slotsBig.length; i++) {
             slotsBig[i].update();
+
+            if(Mouse.getButton() == 1) {
+                if(!holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                    item = slotsBig[i].removeItem();
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                    holdingItem = true;
+                    continue;
+                }
+
+                if(holdingItem && !slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                    slotsBig[i].addItem(item);
+                    holdingItem = false;
+                    continue;
+                }
+
+                if(holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                    panel.removeComponent(itemSprite);
+                    item = slotsBig[i].switchItem(item);
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                    panel.addComponent(itemSprite);
+                    continue;
+                }
+
+            }
         }
+
+        panel.removeComponent(itemSprite);
 
         if(holdingItem) {
             itemSprite.setPosition(new Vector2i(Mouse.getX() - 870, Mouse.getY()));
