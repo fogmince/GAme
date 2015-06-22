@@ -2,12 +2,13 @@ package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.item.Item;
-import com.rasmus.game.entity.item.Test2Item;
-import com.rasmus.game.graphics.Sprite;
+import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
 import com.rasmus.game.input.Mouse;
 import com.rasmus.game.util.Vector2i;
+
+import java.awt.*;
 
 public class PlayerInventory extends Inventory {
 
@@ -17,11 +18,15 @@ public class PlayerInventory extends Inventory {
     private UISprite inventorySmall;
     private UISprite inventoryBig;
     private UISprite itemSprite;
+    private UILabel amountOfItems;
 
     private boolean holdingItem = false;
+    private boolean hasRenderedAmount = false;
+
     private Item item;
 
-    private int amount;
+    private int amount = 0;
+    private int counter;
 
     public PlayerInventory(Entity entity, UIPanel panel) {
         super(entity, panel);
@@ -51,15 +56,20 @@ public class PlayerInventory extends Inventory {
             }
         }
 
-        //slotsSmall[1][1].addItem(new TestItem(0, 0, Sprite.sword_icon, true), 1);
-        slotsBig[3].addItem(new Test2Item(0, 0, Sprite.potion_icon, true), 64);
+        amountOfItems = new UILabel(new Vector2i(Mouse.getX(), Mouse.getY()), amount);
+        amountOfItems.setColor(0xFFFFFF);
+        amountOfItems.setFont(new Font("Helvetica", Font.PLAIN, 12));
+
+        counter = amount;
     }
 
     public void update() {
         for(int y = 0; y < 2; y++) {
             for(int x = 0; x < 5; x++) {
                 slotsSmall[x][y].update();
+
                 if (!holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                    amount = slotsSmall[x][y].getAmountOfItems();
                     panel.removeComponent(itemSprite);
                     item = slotsSmall[x][y].removeItem();
                     itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
@@ -68,7 +78,7 @@ public class PlayerInventory extends Inventory {
                 }
 
                 if (holdingItem && !slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
-                    slotsSmall[x][y].addItem(item, 1);
+                    slotsSmall[x][y].addItem(item, amount);
                     holdingItem = false;
                     panel.removeComponent(itemSprite);
                     continue;
@@ -85,7 +95,9 @@ public class PlayerInventory extends Inventory {
 
         for(int i = 0; i < slotsBig.length; i++) {
             slotsBig[i].update();
+
             if(!holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                amount = slotsBig[i].getAmountOfItems();
                 panel.removeComponent(itemSprite);
                 item = slotsBig[i].removeItem();
                 itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
@@ -94,7 +106,7 @@ public class PlayerInventory extends Inventory {
             }
 
             if(holdingItem && !slotsBig[i].hasItem && slotsBig[i].isClicked) {
-                slotsBig[i].addItem(item, 1);
+                slotsBig[i].addItem(item, amount);
                 holdingItem = false;
                 panel.removeComponent(itemSprite);
                 continue;
@@ -108,11 +120,60 @@ public class PlayerInventory extends Inventory {
             }
         }
 
+        if(counter != amount) {
+            counter = amount;
+            amountOfItems.setNumber(amount);
+            hasRenderedAmount = false;
+        }
+
+        if(amountOfItems != null && !hasRenderedAmount) {
+            panel.addComponent(amountOfItems);
+            hasRenderedAmount = true;
+        }
+
         panel.removeComponent(itemSprite);
+        panel.removeComponent(amountOfItems);
 
         if(holdingItem) {
+
+            if(amount <= 10) {
+                amountOfItems.setPosition(new Vector2i(Mouse.getX() - 870 + 37, Mouse.getY() + 45));
+            } else {
+                amountOfItems.setPosition(new Vector2i(Mouse.getX() - 870 + 30, Mouse.getY() + 45));
+            }
+
             itemSprite.setPosition(new Vector2i(Mouse.getX() - 870, Mouse.getY()));
             panel.addComponent(itemSprite);
+            panel.addComponent(amountOfItems);
         }
     }
+
+    public void addSmallSlot(int x, int y, Item item, int amount) {
+        slotsSmall[x][y].addItem(item, amount);
+    }
+
+    public void addBigSlot(int x, Item item, int amount) {
+        slotsBig[x].addItem(item, amount);
+    }
+
+    public boolean isItemInSlot(int x, int y) {
+        if(slotsSmall[x][y].hasItem) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isItemInSlot(int x) {
+        if(slotsBig[x].hasItem) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isHoldingItem() {
+        return holdingItem;
+    }
+
  }

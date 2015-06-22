@@ -1,16 +1,27 @@
 package com.rasmus.game.entity.item;
 
+import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.Sprite;
 
-public class TestItem extends Item {
+public class TestItem extends ItemSword {
 
     public TestItem(double x, double y, Sprite sprite, boolean isInInventory) {
         super(x, y, sprite, isInInventory);
     }
 
+    public TestItem(Sprite sprite) {
+        super(sprite);
+    }
+
+    @Override
+    public void onInteract(double x, double y, Player player) {
+        player.addItem(new TestItem(Sprite.sword_icon), 1);
+        remove();
+    }
+
     public void update() {
-        if(interaction(x, y, level.getClientPlayer())) remove();
+        super.update();
     }
 
     public void render(Screen screen) {

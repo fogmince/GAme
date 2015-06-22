@@ -97,6 +97,12 @@ public class Slot {
         if(Mouse.getButton() == -1) key = 0;
 
         if(stackSize != null && !hasRenderStack) {
+            if(numberOfItems <= 10) {
+                stackSize.setPosition(new Vector2i((int) x + 37 - 870, (int) y + 45));
+            } else {
+                stackSize.setPosition(new Vector2i((int) x + 30 - 870, (int) y + 45));
+            }
+
             panel.removeComponent(stackSize);
             stackSize.setNumber(numberOfItems);
             panel.addComponent(stackSize);
@@ -107,13 +113,11 @@ public class Slot {
             counter = numberOfItems;
             hasRenderStack = false;
         }
-
     }
 
     public void addItem(Item item, int amount) {
         this.item = item;
         hasItem = true;
-        System.out.println(amount);
         if(numberOfItems + amount <= item.stackSize) {
             numberOfItems += amount;
         } else {
