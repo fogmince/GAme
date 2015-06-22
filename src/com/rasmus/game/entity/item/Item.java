@@ -8,6 +8,7 @@ import com.rasmus.game.graphics.Sprite;
 public class Item extends Entity {
 
     protected boolean isInInventory = false;
+    public int stackSize = 64;
 
     public Item(double x, double y, Sprite sprite, boolean isInInventory) {
         this.x = x;
@@ -31,5 +32,4 @@ public class Item extends Entity {
 
     public void update() {}
     public void render(Screen screen) {}
-
 }

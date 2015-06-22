@@ -2,7 +2,7 @@ package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.item.Item;
-import com.rasmus.game.entity.item.TestItem;
+import com.rasmus.game.entity.item.Test2Item;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
@@ -20,6 +20,8 @@ public class PlayerInventory extends Inventory {
 
     private boolean holdingItem = false;
     private Item item;
+
+    private int amount;
 
     public PlayerInventory(Entity entity, UIPanel panel) {
         super(entity, panel);
@@ -49,34 +51,33 @@ public class PlayerInventory extends Inventory {
             }
         }
 
-        slotsSmall[1][1].addItem(new TestItem(0, 0, Sprite.sword_icon, true));
-        slotsBig[3].addItem(new TestItem(0, 0, Sprite.projectile_laser, true));
-
+        //slotsSmall[1][1].addItem(new TestItem(0, 0, Sprite.sword_icon, true), 1);
+        slotsBig[3].addItem(new Test2Item(0, 0, Sprite.potion_icon, true), 64);
     }
 
     public void update() {
         for(int y = 0; y < 2; y++) {
             for(int x = 0; x < 5; x++) {
                 slotsSmall[x][y].update();
-
-                if(!holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                if (!holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                    panel.removeComponent(itemSprite);
                     item = slotsSmall[x][y].removeItem();
                     itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
                     holdingItem = true;
                     continue;
                 }
 
-                if(holdingItem && !slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
-                    slotsSmall[x][y].addItem(item);
+                if (holdingItem && !slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                    slotsSmall[x][y].addItem(item, 1);
                     holdingItem = false;
+                    panel.removeComponent(itemSprite);
                     continue;
                 }
 
-                if(holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
+                if (holdingItem && slotsSmall[x][y].hasItem && slotsSmall[x][y].isClicked) {
                     panel.removeComponent(itemSprite);
                     item = slotsSmall[x][y].switchItem(item);
                     itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
-                    panel.addComponent(itemSprite);
                     continue;
                 }
             }
@@ -84,29 +85,26 @@ public class PlayerInventory extends Inventory {
 
         for(int i = 0; i < slotsBig.length; i++) {
             slotsBig[i].update();
+            if(!holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                panel.removeComponent(itemSprite);
+                item = slotsBig[i].removeItem();
+                itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                holdingItem = true;
+                continue;
+            }
 
-            if(Mouse.getButton() == 1) {
-                if(!holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
-                    item = slotsBig[i].removeItem();
-                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
-                    holdingItem = true;
-                    continue;
-                }
+            if(holdingItem && !slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                slotsBig[i].addItem(item, 1);
+                holdingItem = false;
+                panel.removeComponent(itemSprite);
+                continue;
+            }
 
-                if(holdingItem && !slotsBig[i].hasItem && slotsBig[i].isClicked) {
-                    slotsBig[i].addItem(item);
-                    holdingItem = false;
-                    continue;
-                }
-
-                if(holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
-                    panel.removeComponent(itemSprite);
-                    item = slotsBig[i].switchItem(item);
-                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
-                    panel.addComponent(itemSprite);
-                    continue;
-                }
-
+            if(holdingItem && slotsBig[i].hasItem && slotsBig[i].isClicked) {
+                panel.removeComponent(itemSprite);
+                item = slotsBig[i].switchItem(item);
+                itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                continue;
             }
         }
 

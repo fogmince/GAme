@@ -28,10 +28,13 @@ public class Sprite {
 
     //Items
     public static Sprite sword = new Sprite(16, 0, 0, SpriteSheet.sword);
+    public static Sprite potion = new Sprite(16, 0, 0, SpriteSheet.potion);
 
     //Item Icons
     public static Sprite sword_icon = new Sprite(16, 0, 0, SpriteSheet.sword_icon);
+    public static Sprite potion_icon = new Sprite(16, 0, 0, SpriteSheet.potion_icon);
 
+    //Entities
     public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy);
 
     protected Sprite(SpriteSheet sheet, int width, int height) {

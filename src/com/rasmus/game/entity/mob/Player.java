@@ -147,7 +147,7 @@ public class Player extends Mob {
     }
 
     private void updateShoot() {
-        if(Mouse.getButton() == 1 && fireRate <= 0) {
+        if(Mouse.getButton() == 1 && Mouse.getX() < 875 && fireRate <= 0) {
             double dx = Mouse.getX() - Game.getWindowWidth() / 2;
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);

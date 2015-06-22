@@ -2,6 +2,7 @@ package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.graphics.Sprite;
+import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
 import com.rasmus.game.graphics.ui.UISquare;
@@ -16,17 +17,23 @@ public class Slot {
     public double x, y;
     public double width, height;
 
-    public boolean isMousedOver;
-    public boolean isClicked;
+    public boolean isMousedOver = false;
+    public boolean isClicked = false;
 
-    public UIPanel panel;
-    public UISquare square;
+    private UIPanel panel;
+    private UISquare square;
     private UISprite itemSprite;
-    public Item item;
+    private UILabel stackSize;
+    private Item item;
 
     public boolean hasSquare = false;
     public boolean hasItem = false;
     private boolean hasRendered = false;
+    private boolean hasRenderStack = false;
+
+    private int key = 0;
+    private int numberOfItems = 0;
+    private int counter = 0;
 
     public Slot(double x, double y, double width, double height, UIPanel panel) {
         this.x = x + 870;
@@ -37,28 +44,35 @@ public class Slot {
 
         square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
         square.setColor(new Color(0x7FB8B2B2, true));
+
+        stackSize = new UILabel(new Vector2i((int) x + 30, (int) y + 45), numberOfItems);
+        stackSize.setColor(0xFFFFFF);
+        stackSize.setFont(new Font("Helvetica", Font.PLAIN, 12));
+        counter = numberOfItems;
     }
 
     public void update() {
         square.update();
-        if(Mouse.getButton() == 1) {
-            if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16 && !isClicked) {
-                isClicked = true;
-            } else {
-                isClicked = false;
-            }
-        } else {
-            isClicked = false;
-        }
+        if(key != -2) key = Mouse.getButton();
 
         if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16){
             isMousedOver = true;
+            isClicked = false;
         } else {
             isMousedOver = false;
             isClicked = false;
         }
 
-        if(isMousedOver || isClicked) {
+        if (Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16 && !isClicked) {
+            if(key == 1) {
+                isClicked = true;
+                key = -2;
+            } else {
+                isClicked = false;
+            }
+        }
+
+        if(isMousedOver || isMousedOver) {
             if(!hasSquare) {
                 panel.addComponent(square);
                 hasSquare = true;
@@ -74,20 +88,47 @@ public class Slot {
             hasRendered = true;
         }
 
+
         if(!hasItem && hasRendered) {
             panel.removeComponent(itemSprite);
             hasRendered = false;
         }
 
+        if(Mouse.getButton() == -1) key = 0;
+
+        if(stackSize != null && !hasRenderStack) {
+            panel.removeComponent(stackSize);
+            stackSize.setNumber(numberOfItems);
+            panel.addComponent(stackSize);
+            hasRenderStack = true;
+        }
+
+        if(counter != numberOfItems && hasRenderStack) {
+            counter = numberOfItems;
+            hasRenderStack = false;
+        }
+
     }
 
-    public void addItem(Item item) {
+    public void addItem(Item item, int amount) {
         this.item = item;
         hasItem = true;
+        System.out.println(amount);
+        if(numberOfItems + amount <= item.stackSize) {
+            numberOfItems += amount;
+        } else {
+            int itemsLeft = amount - item.stackSize;
+            numberOfItems = amount - itemsLeft;
+        }
+    }
+
+    public int getAmountOfItems() {
+        return numberOfItems;
     }
 
     public Item removeItem() {
         hasItem = false;
+        numberOfItems = 0;
         return item;
     }
 
