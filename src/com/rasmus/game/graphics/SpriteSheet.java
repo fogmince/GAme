@@ -38,7 +38,6 @@ public class SpriteSheet {
     public static SpriteSheet sword_icon = new SpriteSheet("/textures/sheets/items/icons/sword_icon.png", 16);
     public static SpriteSheet potion_icon = new SpriteSheet("/textures/sheets/items/icons/potion_icon.png", 16);
 
-
     private Sprite[] sprites;
 
     public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {

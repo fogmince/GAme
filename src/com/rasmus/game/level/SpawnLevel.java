@@ -1,5 +1,6 @@
 package com.rasmus.game.level;
 
+import com.rasmus.game.entity.item.Test2Item;
 import com.rasmus.game.entity.item.TestItem;
 import com.rasmus.game.entity.mob.testMobs.Dummy;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
@@ -36,6 +37,8 @@ public class SpawnLevel extends Level {
         add(new Shooter(30, 60));
 
         add(new TestItem(30, 60, Sprite.sword, false));
+        add(new TestItem(30, 65, Sprite.sword, false));
+        add(new Test2Item(27, 60, Sprite.potion, false));
 }
 
     protected void generateLevel() {

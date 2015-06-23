@@ -6,6 +6,7 @@ public class ItemSword extends Item {
 
     public ItemSword(double x, double y, Sprite sprite, boolean isInInventory) {
         super(x, y, sprite, isInInventory);
+        stackSize = 1;
     }
 
     public ItemSword(Sprite sprite) {

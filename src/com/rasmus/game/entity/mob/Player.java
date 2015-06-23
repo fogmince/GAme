@@ -2,6 +2,7 @@ package com.rasmus.game.entity.mob;
 
 import com.rasmus.game.Game;
 import com.rasmus.game.entity.item.Item;
+import com.rasmus.game.entity.item.ItemSword;
 import com.rasmus.game.entity.projectlile.LaserProjectile;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.AnimatedSprite;
@@ -169,7 +170,7 @@ public class Player extends Mob {
 
     public void addSmallSlot(Item item, int amount) {
         for(int y = 0; y < 2; y++) {
-            for(int x = 0; x < 5; x++) {
+                for(int x = 0; x < 5; x++) {
                 if(!inventory.isItemInSlot(x, y)) {
                     inventory.addSmallSlot(x, y, item, amount);
                     return;
@@ -187,7 +188,23 @@ public class Player extends Mob {
         }
     }
 
+    private boolean canAddSword(Item item) {
+        if(inventory.canAddInSlot(0, item)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void addItem(Item item, int amount) {
-        //TODO
+        if(item instanceof ItemSword) {
+            if(canAddSword(item)) {
+                addBigSlot(item, amount);
+            } else {
+                addSmallSlot(item, amount);
+            }
+        } else {
+            addSmallSlot(item, amount);
+        }
     }
 }

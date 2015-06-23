@@ -2,6 +2,7 @@ package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.item.Item;
+import com.rasmus.game.entity.item.ItemSword;
 import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
@@ -35,24 +36,29 @@ public class PlayerInventory extends Inventory {
 
         //inventory
         for(int i = 0; i < 4; i++) {
-            inventoryBig = new UISprite(new Vector2i(57 * i + 110 / 4 * 2, 400), "/ui/inventoryBig.png");
+            inventoryBig = new UISprite(new Vector2i(57 * i + 110 / 4 * 2, 430), "/ui/inventoryBig.png");
             panel.addComponent(inventoryBig);
         }
 
         for(int y1 = 0; y1 < 2; y1++) {
             for(int x1 = 0; x1 < 5; x1++) {
-                inventorySmall = new UISprite(new Vector2i(49 * x1 + 110 / 5 * 2, 50 * y1 + 470), "/ui/inventoryBasic.png");
+                inventorySmall = new UISprite(new Vector2i(49 * x1 + 110 / 5 * 2, 50 * y1 + 500), "/ui/inventoryBasic.png");
                 panel.addComponent(inventorySmall);
             }
         }
 
         for(int i = 0; i < slotsBig.length; i++) {
-            slotsBig[i] = new Slot(55 + i * 57, 400, 64, 64, panel);
+            slotsBig[i] = new Slot(55 + i * 57, 430, 64, 64, panel);
         }
+
+        slotsBig[0].setType(1);
+        slotsBig[1].setType(2);
+        slotsBig[2].setType(3);
+        slotsBig[3].setType(4);
 
         for(int y = 0; y < 2; y++) {
             for(int x = 0; x < 5; x++) {
-                slotsSmall[x][y] = new Slot(45 + x * 49, 470 + y * 50, 64, 64, panel);
+                slotsSmall[x][y] = new Slot(45 + x * 49, 500 + y * 50, 64, 64, panel);
             }
         }
 
@@ -106,9 +112,19 @@ public class PlayerInventory extends Inventory {
             }
 
             if(holdingItem && !slotsBig[i].hasItem && slotsBig[i].isClicked) {
-                slotsBig[i].addItem(item, amount);
-                holdingItem = false;
-                panel.removeComponent(itemSprite);
+                if(slotsBig[i].getType() == 0) {
+                    slotsBig[i].addItem(item, amount);
+                    holdingItem = false;
+                    panel.removeComponent(itemSprite);
+                } else if(slotsBig[i].getType() == 1) {
+                    if(item instanceof ItemSword) {
+                        slotsBig[i].addItem(item, amount);
+                        holdingItem = false;
+                        panel.removeComponent(itemSprite);
+                    } else {
+                        continue;
+                    }
+                }
                 continue;
             }
 
@@ -174,6 +190,20 @@ public class PlayerInventory extends Inventory {
 
     public boolean isHoldingItem() {
         return holdingItem;
+    }
+
+    public boolean canAddInSlot(int x, Item item) {
+        if(x == 0 && item instanceof ItemSword && !isItemInSlot(0)) {
+            return true;
+        } else if(x == 1) {
+            return true;
+        } else if(x == 2) {
+            return true;
+        } else if(x == 3) {
+            return true;
+        }
+
+        return false;
     }
 
  }
