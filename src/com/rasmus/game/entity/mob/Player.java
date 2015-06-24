@@ -170,4 +170,8 @@ public class Player extends Mob {
     public void addItem(int x, int y, Item item, int amount) {
         inventory.addItem(x, y, item, amount);
     }
+
+    public void addItem(Item item, int amount) {
+        inventory.addItem(item, amount);
+    }
 }

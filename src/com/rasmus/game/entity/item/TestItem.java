@@ -12,10 +12,12 @@ public class TestItem extends ItemSword {
 
     public TestItem(Sprite sprite) {
         super(sprite);
+        stackSize = 1;
     }
 
     @Override
     public void onInteract(double x, double y, Player player) {
+        player.addItem(new TestItem(Sprite.sword_icon), 1);
         remove();
     }
 

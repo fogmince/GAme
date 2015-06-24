@@ -16,6 +16,7 @@ public class Test2Item extends Item {
 
     @Override
     public void onInteract(double x, double y, Player player) {
+        player.addItem(new Test2Item(Sprite.potion_icon), 16);
         remove();
     }
 

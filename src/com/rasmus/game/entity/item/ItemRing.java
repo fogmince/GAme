@@ -2,13 +2,13 @@ package com.rasmus.game.entity.item;
 
 import com.rasmus.game.graphics.Sprite;
 
-public class ItemSword extends Item {
+public class ItemRing extends Item {
 
-    public ItemSword(double x, double y, Sprite sprite, boolean isInInventory) {
+    public ItemRing(double x, double y, Sprite sprite, boolean isInInventory) {
         super(x, y, sprite, isInInventory);
     }
 
-    public ItemSword(Sprite sprite) {
+    public ItemRing(Sprite sprite) {
         super(sprite);
     }
 }

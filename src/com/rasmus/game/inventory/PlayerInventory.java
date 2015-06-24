@@ -1,10 +1,7 @@
 package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
-import com.rasmus.game.entity.item.Item;
-import com.rasmus.game.entity.item.ItemSword;
-import com.rasmus.game.entity.item.Test2Item;
-import com.rasmus.game.entity.item.TestItem;
+import com.rasmus.game.entity.item.*;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
@@ -53,8 +50,8 @@ public class PlayerInventory extends Inventory {
         slots[3][0].setType(3);
         slots[4][0].setType(4);
 
-        slots[0][0].addItem(new TestItem(Sprite.sword_icon), 10);
-        slots[0][2].addItem(new Test2Item(Sprite.potion_icon), 10);
+        slots[0][0].addItem(new TestItem(Sprite.sword_icon), 1);
+        slots[0][2].addItem(new Test2Item(Sprite.potion_icon), 60);
 
         amountOfItems = new UILabel(new Vector2i(Mouse.getX(), Mouse.getY()), amount);
         amountOfItems.setColor(0xFFFFFF);
@@ -68,7 +65,7 @@ public class PlayerInventory extends Inventory {
             for(int x = 0; x < 5; x++) {
                 slots[x][y].update();
 
-                if (!holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
+                if(!holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
                     amount = slots[x][y].getAmountOfItems();
                     panel.removeComponent(itemSprite);
                     item = slots[x][y].removeItem();
@@ -77,12 +74,24 @@ public class PlayerInventory extends Inventory {
                     continue;
                 }
 
-                if (holdingItem && !slots[x][y].hasItem && slots[x][y].isClicked) {
+                if(holdingItem && !slots[x][y].hasItem && slots[x][y].isClicked) {
                     addItem(x, y, item, amount);
                     continue;
                 }
 
-                if (holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
+                if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
+                    int items = slots[x][y].getAmountOfItems() + amount;
+                    if(items <= item.stackSize) {
+                        slots[x][y].addAmountOfItems(amount);
+                        holdingItem = false;
+                        panel.removeComponent(itemSprite);
+                    } else {
+                        slots[x][y].addItem(item, item.stackSize);
+                        amount = items - item.stackSize;
+                    }
+                }
+
+                if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && item.getClass().equals(slots[x][y].getItemInSlot().getClass()) == false) {
                     switchItem(x, y, item, amount);
                     continue;
                 }
@@ -149,6 +158,143 @@ public class PlayerInventory extends Inventory {
         return false;
     }
 
+    public void addItem(Item item, int amount) {
+        for(int y = 0; y < 3; y++) {
+            for(int x = 0; x < 5; x++) {
+                if(slots[x][y].hasItem && item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
+                    int items = slots[x][y].getAmountOfItems() + amount;
+                    if (items <= item.stackSize) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        slots[x][y].addItem(item, item.stackSize);
+                        for (int y1 = 0; y1 < 3; y1++) {
+                            for (int x1 = 0; x1 < 5; x1++) {
+
+                                if(slots[x1][y1].getType() == 0 && item instanceof ItemSword) {
+                                    if(slots[x1][y1].hasItem) {
+                                        continue;
+                                    } else {
+                                        amount = items - item.stackSize;
+                                        slots[x1][y1].addItem(item, amount);
+                                        return;
+                                    }
+                                }
+
+                                if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+                                    if(slots[x1][y1].hasItem) {
+                                        continue;
+                                    } else {
+                                        amount = items - item.stackSize;
+                                        slots[x1][y1].addItem(item, amount);
+                                        return;
+                                    }
+                                }
+
+                                if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+                                    if(slots[x1][y1].hasItem) {
+                                        continue;
+                                    } else {
+                                        amount = items - item.stackSize;
+                                        slots[x1][y1].addItem(item, amount);
+                                        return;
+                                    }
+                                }
+
+                                if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+                                    if(slots[x1][y1].hasItem) {
+                                        continue;
+                                    } else {
+                                        amount = items - item.stackSize;
+                                        slots[x1][y1].addItem(item, amount);
+                                        return;
+                                    }
+                                }
+
+                                if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+                                    if(slots[x1][y1].hasItem) {
+                                        continue;
+                                    } else {
+                                        amount = items - item.stackSize;
+                                        slots[x1][y1].addItem(item, amount);
+                                        return;
+                                    }
+                                }
+
+                                if(slots[x1][y1].getType() > 4) {
+                                    if (slots[x1][y1].hasItem) continue;
+                                    else {
+                                        amount = items - item.stackSize;
+                                        slots[x1][y1].addItem(item, amount);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for(int y = 0; y < 3; y++) {
+            for(int x = 0; x < 5; x++) {
+                if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
+                    if(!slots[x][y].hasItem) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+                    if(!slots[x][y].hasItem) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+                    if(!slots[x][y].hasItem) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+                    if(!slots[x][y].hasItem) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+                    if(!slots[x][y].hasItem) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+
+                if(slots[x][y].getType() > 4) {
+                    if(!slots[x][y].hasItem) {
+                        slots[x][y].addItem(item, amount);
+                        return;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+
     public void addItem(int x, int y, Item item, int amount) {
         if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
             slots[x][y].addItem(item, amount);
@@ -156,20 +302,28 @@ public class PlayerInventory extends Inventory {
             panel.removeComponent(itemSprite);
         }
 
-        if(slots[x][y].getType() == 1) {
-
+        if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+            slots[x][y].addItem(item, amount);
+            holdingItem = false;
+            panel.removeComponent(itemSprite);
         }
 
-        if(slots[x][y].getType() == 2) {
-
+        if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+            slots[x][y].addItem(item, amount);
+            holdingItem = false;
+            panel.removeComponent(itemSprite);
         }
 
-        if(slots[x][y].getType() == 3) {
-
+        if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+            slots[x][y].addItem(item, amount);
+            holdingItem = false;
+            panel.removeComponent(itemSprite);
         }
 
-        if(slots[x][y].getType() == 4) {
-
+        if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+            slots[x][y].addItem(item, amount);
+            holdingItem = false;
+            panel.removeComponent(itemSprite);
         }
 
 
@@ -188,4 +342,4 @@ public class PlayerInventory extends Inventory {
             itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
         }
     }
- }
+}

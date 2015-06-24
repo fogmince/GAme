@@ -169,6 +169,10 @@ public class Slot {
         return numberOfItems;
     }
 
+    public void addAmountOfItems(int amount) {
+        numberOfItems += amount;
+    }
+
     public Item removeItem() {
         hasItem = false;
         numberOfItems = 0;
