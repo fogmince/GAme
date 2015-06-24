@@ -1,7 +1,6 @@
 package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.item.Item;
-import com.rasmus.game.entity.item.ItemSword;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
@@ -38,11 +37,11 @@ public class Slot {
     private int key = 0;
     private int numberOfItems = 0;
     private int counter = 0;
-    // 0 = all
-    // 1 = swords
-    // 2 == helmet
-    // 3 == chestplate
-    // 4 == boots
+    // 0 = sword
+    // 1 = helmet
+    // 2 == chestplate
+    // 3 == boots
+    // 4 == ring
     private int type;
 
     public Slot(double x, double y, double width, double height, UIPanel panel) {
@@ -51,7 +50,7 @@ public class Slot {
         this.width = width;
         this.height = height;
         this.panel = panel;
-        type = 0;
+        type = 5;
 
         square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
         square.setColor(new Color(0x7FB8B2B2, true));
@@ -108,7 +107,7 @@ public class Slot {
         if(Mouse.getButton() == -1) key = 0;
 
         if(stackSize != null && !hasRenderStack) {
-            if(numberOfItems <= 10) {
+            if(numberOfItems < 10) {
                 stackSize.setPosition(new Vector2i((int) x + 37 - 870, (int) y + 45));
             } else {
                 stackSize.setPosition(new Vector2i((int) x + 30 - 870, (int) y + 45));
@@ -125,22 +124,28 @@ public class Slot {
             hasRenderStack = false;
         }
 
-        if(type == 1 && !hasRenderedTexture && !hasItem) {
-            itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/sword.png");
-            panel.addComponent(itemTexture);
-            hasRenderedTexture = true;
-        } else if(type == 2 && !hasRenderedTexture && !hasItem) {
-            itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/helmet.png");
-            panel.addComponent(itemTexture);
-            hasRenderedTexture = true;
-        } else if(type == 3 && !hasRenderedTexture && !hasItem) {
-            itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/chest.png");
-            panel.addComponent(itemTexture);
-            hasRenderedTexture = true;
-        } else if(type == 4 && !hasRenderedTexture && !hasItem) {
-            itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/boots.png");
-            panel.addComponent(itemTexture);
-            hasRenderedTexture = true;
+        if(!hasRenderedTexture && !hasItem) {
+            if(type == 0) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/sword.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 1) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/helmet.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 2) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/chest.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 3) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/boots.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 4) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/ring.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            }
         }
 
         if(hasItem) {
@@ -150,20 +155,13 @@ public class Slot {
     }
 
     public void addItem(Item item, int amount) {
-        if(type == 0) {
-            this.item = item;
-            hasItem = true;
-            if (numberOfItems + amount <= item.stackSize) {
-                numberOfItems += amount;
-            } else {
-                int itemsLeft = amount - item.stackSize;
-                numberOfItems = amount - itemsLeft;
-            }
-        } else if(type == 1) {
-            if(item instanceof ItemSword) {
-                this.item = item;
-                hasItem = true;
-            }
+        this.item = item;
+        hasItem = true;
+        if (numberOfItems + amount <= item.stackSize) {
+            numberOfItems += amount;
+        } else {
+            int itemsLeft = amount - item.stackSize;
+            numberOfItems = amount - itemsLeft;
         }
     }
 
@@ -191,6 +189,8 @@ public class Slot {
         this.item = item;
         itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), this.item.getSprite().path);
         panel.addComponent(itemSprite);
+        panel.removeComponent(stackSize);
+        panel.addComponent(stackSize);
         hasItem = true;
 
         return itemTemp;

@@ -67,6 +67,9 @@ public class Item extends Entity {
     public void onInteract(double x, double y, Player player) {
     }
 
+    public void onUse() {
+    }
+
     private void interaction(double x, double y, Player player) {
 
     }
