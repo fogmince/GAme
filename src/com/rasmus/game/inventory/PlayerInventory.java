@@ -91,9 +91,17 @@ public class PlayerInventory extends Inventory {
                     }
                 }
 
-                if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && item.getClass().equals(slots[x][y].getItemInSlot().getClass()) == false) {
-                    switchItem(x, y, item, amount);
-                    continue;
+                if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && !item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
+                    if(canSwitchItem(x, y, item)) {
+                        int tempAmount = slots[x][y].getAmountOfItems();
+                        Item tempItem = slots[x][y].removeItem();
+                        slots[x][y].addItem(item, amount);
+                        panel.removeComponent(itemSprite);
+                        amount = tempAmount;
+                        item = tempItem;
+                        itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                        panel.addComponent(itemSprite);
+                    }
                 }
             }
         }
@@ -127,35 +135,8 @@ public class PlayerInventory extends Inventory {
         }
     }
 
-    public void addSmallSlot(int x, int y, Item item, int amount) {
-        slots[x][y].addItem(item, amount);
-    }
-
-
     public boolean isItemInSlot(int x, int y) {
-        if(slots[x][y].hasItem) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isHoldingItem() {
-        return holdingItem;
-    }
-
-    public boolean canAddInSlot(int x, int y, Item item) {
-        if(x == 0 && item instanceof ItemSword && !isItemInSlot(0, 0)) {
-            return true;
-        } else if(x == 1) {
-            return true;
-        } else if(x == 2) {
-            return true;
-        } else if(x == 3) {
-            return true;
-        }
-
-        return false;
+        return slots[x][y].hasItem;
     }
 
     public void addItem(Item item, int amount) {
@@ -287,8 +268,6 @@ public class PlayerInventory extends Inventory {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);
                         return;
-                    } else {
-                        continue;
                     }
                 }
             }
@@ -334,12 +313,32 @@ public class PlayerInventory extends Inventory {
         }
     }
 
-    private void switchItem(int x, int y, Item item, int amount) {
-        //TODO
-        if(slots[x][y].getType() > 4) {
-            panel.removeComponent(itemSprite);
-            item = slots[x][y].switchItem(item);
-            itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+    private boolean canSwitchItem(int x, int y, Item item) {
+
+        if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
+            return true;
         }
+
+        if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+            return true;
+        }
+
+        if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+            return true;
+        }
+
+        if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+            return true;
+        }
+
+        if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+            return true;
+        }
+
+        if(slots[x][y].getType() > 4) {
+            return true;
+        }
+
+        return false;
     }
 }

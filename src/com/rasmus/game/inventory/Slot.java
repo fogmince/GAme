@@ -93,6 +93,7 @@ public class Slot {
         }
 
         if(hasItem && !hasRendered) {
+            System.out.println("asf");
             itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), item.getSprite().path);
             panel.addComponent(itemSprite);
             hasRendered = true;
@@ -157,6 +158,8 @@ public class Slot {
     public void addItem(Item item, int amount) {
         this.item = item;
         hasItem = true;
+        hasRendered = false;
+        panel.removeComponent(itemSprite);
         if (numberOfItems + amount <= item.stackSize) {
             numberOfItems += amount;
         } else {
@@ -187,17 +190,8 @@ public class Slot {
         return new Item(0, 0, Sprite.voidSprite, true);
     }
 
-    public Item switchItem(Item item) {
-        Item itemTemp = this.item;
-        panel.removeComponent(itemSprite);
-        this.item = item;
-        itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), this.item.getSprite().path);
-        panel.addComponent(itemSprite);
-        panel.removeComponent(stackSize);
-        panel.addComponent(stackSize);
-        hasItem = true;
-
-        return itemTemp;
+    public UISprite getItemSprite() {
+        return itemSprite;
     }
 
     public void setType(int type) {
