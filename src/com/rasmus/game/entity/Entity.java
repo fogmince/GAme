@@ -8,11 +8,13 @@ import java.util.Random;
 
 public class Entity {
 
-    protected double x, y;
-    private boolean removed = false;
-    protected Level level;
+    public double x, y;
+    public Level level;
+
     protected final Random random = new Random();
     protected Sprite sprite;
+
+    private boolean removed = false;
 
     public Entity() {
 

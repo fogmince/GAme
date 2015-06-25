@@ -13,32 +13,22 @@ public class SpriteSheet {
     public final int SPRITE_WIDTH, SPRITE_HEIGHT;
     private int width, height;
 
-    public static SpriteSheet spawnLevel = new SpriteSheet("/textures/sheets/spawnlevel.png", 48);
-    public static SpriteSheet projectile_laser = new SpriteSheet("/textures/sheets/projectiles/laserProjectile.png", 48);
+    public static SpriteSheet spawnLevel = new SpriteSheet("/textures/spawnlevel.png", 48);
+    public static SpriteSheet projectile_laser = new SpriteSheet("/textures/projectiles/laserProjectile.png", 48);
 
 
     // Dummy
-    public static SpriteSheet dummy = new SpriteSheet("/textures/sheets/test.png", 128);
+    public static SpriteSheet dummy = new SpriteSheet("/textures/test.png", 128);
     public static SpriteSheet dummy_down = new SpriteSheet(dummy, 2, 0, 1, 3, 32);
     public static SpriteSheet dummy_up = new SpriteSheet(dummy, 0, 0, 1, 3, 32);
     public static SpriteSheet dummy_side = new SpriteSheet(dummy, 1, 0, 1, 3, 32);
 
     //Player
-    public static SpriteSheet player = new SpriteSheet("/textures/sheets/playersheet.png", 128, 96);
+    public static SpriteSheet player = new SpriteSheet("/textures/playersheet.png", 128, 96);
     public static SpriteSheet player_down = new SpriteSheet(player, 0, 0, 1, 3, 32);
     public static SpriteSheet player_up = new SpriteSheet(player, 1, 0, 1, 3, 32);
     public static SpriteSheet player_left = new SpriteSheet(player, 2, 0, 1, 3, 32);
     public static SpriteSheet player_right = new SpriteSheet(player, 3, 0, 1, 3, 32);
-
-    //Items
-    public static SpriteSheet sword = new SpriteSheet("/textures/sheets/items/sword.png", 16);
-    public static SpriteSheet potion = new SpriteSheet("/textures/sheets/items/potion.png", 16);
-    public static SpriteSheet ring = new SpriteSheet("/textures/sheets/items/ring.png", 16);
-
-    //Item Icons
-    public static SpriteSheet sword_icon = new SpriteSheet("/textures/sheets/items/icons/sword_icon.png", 16);
-    public static SpriteSheet potion_icon = new SpriteSheet("/textures/sheets/items/icons/potion_icon.png", 16);
-    public static SpriteSheet ring_icon = new SpriteSheet("/textures/sheets/items/icons/ring_icon.png", 16);
 
     private Sprite[] sprites;
 

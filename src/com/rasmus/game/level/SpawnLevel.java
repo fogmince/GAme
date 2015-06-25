@@ -3,7 +3,6 @@ package com.rasmus.game.level;
 import com.rasmus.game.entity.item.Test2Item;
 import com.rasmus.game.entity.item.TestItem;
 import com.rasmus.game.entity.item.TestRing;
-import com.rasmus.game.entity.mob.testMobs.Dummy;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
 import com.rasmus.game.entity.mob.testMobs.Star;
 import com.rasmus.game.graphics.Sprite;
@@ -31,8 +30,9 @@ public class SpawnLevel extends Level {
             System.out.println("Could not load level file");
         }
 
-        for(int i = 0; i < 3; i++) {
-            add(new Dummy(20 + i * 4, 70 - i * 3));
+        for(int i = 0; i < 5; i++) {
+            //add(new Dummy(20 + i * 4, 70 - i * 3));
+            add(new TestRing(27, 80 / (i + 1), Sprite.ring));
         }
         add(new Star(30, 50));
         add(new Shooter(30, 60));
@@ -40,9 +40,6 @@ public class SpawnLevel extends Level {
         add(new TestItem(30, 60, Sprite.sword));
         add(new TestItem(30, 65, Sprite.sword));
         add(new Test2Item(27, 60, Sprite.potion));
-
-        add(new TestRing(27, 65, Sprite.ring));
-        add(new TestRing(27, 63, Sprite.ring));
 }
 
     protected void generateLevel() {

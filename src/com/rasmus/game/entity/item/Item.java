@@ -73,4 +73,8 @@ public class Item extends Entity {
     private void interaction(double x, double y, Player player) {
 
     }
+
+    public void setInInventory(boolean inInventory) {
+        this.isInInventory = inInventory;
+    }
 }

@@ -1,5 +1,9 @@
 package com.rasmus.game.graphics;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 public class Sprite {
 
     public final int SIZE;
@@ -21,20 +25,14 @@ public class Sprite {
     public static Sprite projectile_laser = new Sprite(16, 0, 0, SpriteSheet.projectile_laser);
     public static Sprite projectile_arrow = new Sprite(16, 1, 0, SpriteSheet.projectile_laser);
 
-
     //Particles
     public static Sprite particle_Default = new Sprite(3, 0xAAAAAA);
     public static Sprite particle_Red = new Sprite(3, 0xFF0000);
 
     //Items
-    public static Sprite sword = new Sprite(16, 0, 0, SpriteSheet.sword);
-    public static Sprite potion = new Sprite(16, 0, 0, SpriteSheet.potion);
-    public static Sprite ring = new Sprite(16, 0, 0, SpriteSheet.ring);
-
-    //Item Icons
-    public static Sprite sword_icon = new Sprite(16, 0, 0, SpriteSheet.sword_icon);
-    public static Sprite potion_icon = new Sprite(16, 0, 0, SpriteSheet.potion_icon);
-    public static Sprite ring_icon = new Sprite(16, 0, 0, SpriteSheet.ring_icon);
+    public static Sprite sword = new Sprite("/textures/items/sword.png", 16, 16);
+    public static Sprite potion = new Sprite("/textures/items/potion.png", 16, 16);
+    public static Sprite ring = new Sprite("/textures/items/ring.png", 16, 16);
 
     //Entities
     public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy);
@@ -56,6 +54,14 @@ public class Sprite {
         pixels = new int[SIZE * SIZE];
         path = sheet.getPath();
         load();
+    }
+
+    public Sprite(String path, int width, int height) {
+        width = width;
+        height = height;
+        SIZE = width == height ? width : -1;
+        this.path = path;
+        loadImage();
     }
 
     public Sprite(int width, int height, int color) {
@@ -176,6 +182,24 @@ public class Sprite {
         }
 
         return sprites;
+    }
+
+    private void loadImage() {
+        try {
+            System.out.print("Trying to load: " + path + "...");
+            BufferedImage image = ImageIO.read(this.getClass().getResourceAsStream(path));
+            System.out.println(" Succeeded!");
+            int w = image.getWidth();
+            int h = image.getHeight();
+
+            pixels = new int[w * h];
+            image.getRGB(0, 0, w, h, pixels, 0, w);
+
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(Exception e) {
+            System.err.println(" Failed");
+        }
     }
 
     private void setColor(int color) {

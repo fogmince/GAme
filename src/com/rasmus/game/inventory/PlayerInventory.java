@@ -10,6 +10,7 @@ import com.rasmus.game.input.Mouse;
 import com.rasmus.game.util.Vector2i;
 
 import java.awt.*;
+import java.util.Random;
 
 public class PlayerInventory extends Inventory {
 
@@ -19,13 +20,16 @@ public class PlayerInventory extends Inventory {
     private UISprite itemSprite;
     private UILabel amountOfItems;
 
-    private boolean holdingItem = false;
+    public boolean holdingItem = false;
     private boolean hasRenderedAmount = false;
 
     private Item item;
 
     private int amount = 0;
     private int counter;
+    private int key = 0;
+
+    private Random random = new Random();
 
     public PlayerInventory(Entity entity, UIPanel panel) {
         super(entity, panel);
@@ -57,8 +61,8 @@ public class PlayerInventory extends Inventory {
         slots[3][1].setType(8);
         slots[4][1].setType(9);
 
-        slots[0][0].addItem(new TestItem(Sprite.sword_icon), 1);
-        slots[0][2].addItem(new Test2Item(Sprite.potion_icon), 60);
+        slots[0][0].addItem(new TestItem(Sprite.sword), 1);
+        slots[0][2].addItem(new Test2Item(Sprite.potion), 60);
 
         amountOfItems = new UILabel(new Vector2i(Mouse.getX(), Mouse.getY()), amount);
         amountOfItems.setColor(0xFFFFFF);
@@ -71,6 +75,7 @@ public class PlayerInventory extends Inventory {
         for(int y = 0; y < ySlots; y++) {
             for(int x = 0; x < xSlots; x++) {
                 slots[x][y].update();
+                if(key != -2) key = Mouse.getButton();
 
                 if(!holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
                     amount = slots[x][y].getAmountOfItems();
@@ -108,7 +113,17 @@ public class PlayerInventory extends Inventory {
                         item = tempItem;
                         itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
                         panel.addComponent(itemSprite);
+                        continue;
                     }
+                }
+
+                if(Mouse.getX() > 0 && Mouse.getX() <= 870 && key == 1 && holdingItem) {
+                    key = -2;
+                    holdingItem = false;
+                    panel.removeComponent(itemSprite);
+                    System.out.println(entity.getX() / 16);
+                    entity.level.add(new TestRing(entity.getX() / 16 + random.nextInt(5) - 3, entity.getY() / 16 + random.nextInt(5) - 3, item.getSprite()));
+                    amount = 0;
                 }
             }
         }
@@ -140,6 +155,8 @@ public class PlayerInventory extends Inventory {
             panel.addComponent(itemSprite);
             panel.addComponent(amountOfItems);
         }
+
+        if(Mouse.getButton() == -1) key = 0;
     }
 
     public boolean isItemInSlot(int x, int y) {

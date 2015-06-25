@@ -18,7 +18,8 @@ public class TestRing extends ItemRing {
 
     @Override
     public void onInteract(double x, double y, Player player) {
-        player.addItem(new TestRing(Sprite.ring_icon), 1);
+        player.addExp(100);
+        player.addItem(new TestRing(Sprite.ring), 1);
         remove();
     }
 

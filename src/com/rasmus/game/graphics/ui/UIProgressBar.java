@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class UIProgressBar extends UIComponent {
 
-    private Vector2i size;
+    public Vector2i size;
     private double progress;   //0.0 - 1.0
 
     private Color foregroundColor;
@@ -35,7 +35,7 @@ public class UIProgressBar extends UIComponent {
 
     public void setProgress(double progress) {
         if(progress < 0.0 || progress > 1.0) {
-            throw new RangeException(RangeException.BAD_BOUNDARYPOINTS_ERR, "Progress must be between 1.0 and 1.0");
+            throw new RangeException(RangeException.BAD_BOUNDARYPOINTS_ERR, "Progress must be between 0.0 and 1.0");
         }
 
         this.progress = progress;
