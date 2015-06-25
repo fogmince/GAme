@@ -6,8 +6,8 @@ import com.rasmus.game.graphics.Sprite;
 
 public class TestItem extends ItemSword {
 
-    public TestItem(double x, double y, Sprite sprite, boolean isInInventory) {
-        super(x, y, sprite, isInInventory);
+    public TestItem(double x, double y, Sprite sprite) {
+        super(x, y, sprite);
     }
 
     public TestItem(Sprite sprite) {
@@ -19,10 +19,6 @@ public class TestItem extends ItemSword {
     public void onInteract(double x, double y, Player player) {
         player.addItem(new TestItem(Sprite.sword_icon), 1);
         remove();
-    }
-
-    public void update() {
-        super.update();
     }
 
     public void render(Screen screen) {

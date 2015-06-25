@@ -8,6 +8,8 @@ public abstract class Inventory {
     protected Entity entity;
     protected UIPanel panel;
 
+    protected int ySlots, xSlots;
+
     public Inventory(Entity entity, UIPanel panel) {
         this.entity = entity;
         this.panel = panel;

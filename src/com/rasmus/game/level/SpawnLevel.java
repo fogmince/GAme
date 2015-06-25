@@ -37,12 +37,12 @@ public class SpawnLevel extends Level {
         add(new Star(30, 50));
         add(new Shooter(30, 60));
 
-        add(new TestItem(30, 60, Sprite.sword, false));
-        add(new TestItem(30, 65, Sprite.sword, false));
-        add(new Test2Item(27, 60, Sprite.potion, false));
+        add(new TestItem(30, 60, Sprite.sword));
+        add(new TestItem(30, 65, Sprite.sword));
+        add(new Test2Item(27, 60, Sprite.potion));
 
-        add(new TestRing(27, 65, Sprite.flower, false));
-        add(new TestRing(27, 63, Sprite.flower, false));
+        add(new TestRing(27, 65, Sprite.ring));
+        add(new TestRing(27, 63, Sprite.ring));
 }
 
     protected void generateLevel() {

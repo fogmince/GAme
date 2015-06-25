@@ -6,8 +6,8 @@ import com.rasmus.game.graphics.Sprite;
 
 public class TestRing extends ItemRing {
 
-    public TestRing(double x, double y, Sprite sprite, boolean isInInventory) {
-        super(x, y, sprite, isInInventory);
+    public TestRing(double x, double y, Sprite sprite) {
+        super(x, y, sprite);
         stackSize = 1;
     }
 
@@ -18,7 +18,7 @@ public class TestRing extends ItemRing {
 
     @Override
     public void onInteract(double x, double y, Player player) {
-        player.addItem(new TestRing(Sprite.floor_wood), 1);
+        player.addItem(new TestRing(Sprite.ring_icon), 1);
         remove();
     }
 

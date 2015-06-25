@@ -4,8 +4,8 @@ import com.rasmus.game.graphics.Sprite;
 
 public class ItemSword extends Item {
 
-    public ItemSword(double x, double y, Sprite sprite, boolean isInInventory) {
-        super(x, y, sprite, isInInventory);
+    public ItemSword(double x, double y, Sprite sprite) {
+        super(x, y, sprite);
     }
 
     public ItemSword(Sprite sprite) {

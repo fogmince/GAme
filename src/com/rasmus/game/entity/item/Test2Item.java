@@ -6,8 +6,8 @@ import com.rasmus.game.graphics.Sprite;
 
 public class Test2Item extends Item {
 
-    public Test2Item(double x, double y, Sprite sprite, boolean isInInventory) {
-        super(x, y, sprite, isInInventory);
+    public Test2Item(double x, double y, Sprite sprite) {
+        super(x, y, sprite);
     }
 
     public Test2Item(Sprite sprite) {

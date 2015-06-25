@@ -33,10 +33,12 @@ public class SpriteSheet {
     //Items
     public static SpriteSheet sword = new SpriteSheet("/textures/sheets/items/sword.png", 16);
     public static SpriteSheet potion = new SpriteSheet("/textures/sheets/items/potion.png", 16);
+    public static SpriteSheet ring = new SpriteSheet("/textures/sheets/items/ring.png", 16);
 
     //Item Icons
     public static SpriteSheet sword_icon = new SpriteSheet("/textures/sheets/items/icons/sword_icon.png", 16);
     public static SpriteSheet potion_icon = new SpriteSheet("/textures/sheets/items/icons/potion_icon.png", 16);
+    public static SpriteSheet ring_icon = new SpriteSheet("/textures/sheets/items/icons/ring_icon.png", 16);
 
     private Sprite[] sprites;
 

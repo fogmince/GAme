@@ -42,6 +42,11 @@ public class Slot {
     // 2 == chestplate
     // 3 == boots
     // 4 == ring
+    // 5 == 1
+    // 6 == 2
+    // 7 == 3
+    // 8 == 4
+    // 9 == 5
     private int type;
 
     public Slot(double x, double y, double width, double height, UIPanel panel) {
@@ -50,7 +55,7 @@ public class Slot {
         this.width = width;
         this.height = height;
         this.panel = panel;
-        type = 5;
+        type = 10;
 
         square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
         square.setColor(new Color(0x7FB8B2B2, true));
@@ -93,7 +98,6 @@ public class Slot {
         }
 
         if(hasItem && !hasRendered) {
-            System.out.println("asf");
             itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), item.getSprite().path);
             panel.addComponent(itemSprite);
             hasRendered = true;
@@ -146,6 +150,26 @@ public class Slot {
                 itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/ring.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
+            } else if(type == 5) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/1.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 6) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/2.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 7) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/3.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 8) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/4.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
+            } else if(type == 9) {
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/5.png");
+                panel.addComponent(itemTexture);
+                hasRenderedTexture = true;
             }
         }
 
@@ -187,7 +211,7 @@ public class Slot {
             return item;
         }
 
-        return new Item(0, 0, Sprite.voidSprite, true);
+        return new Item(Sprite.voidSprite);
     }
 
     public UISprite getItemSprite() {

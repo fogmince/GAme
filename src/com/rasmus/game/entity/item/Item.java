@@ -14,11 +14,11 @@ public class Item extends Entity {
 
     private double tempPX = 0, tempPY = 0;
 
-    public Item(double x, double y, Sprite sprite, boolean isInInventory) {
+    public Item(double x, double y, Sprite sprite) {
         this.x = x;
         this.y = y;
         this.sprite = sprite;
-        this.isInInventory = isInInventory;
+        this.isInInventory = false;
     }
 
     public Item(Sprite sprite) {

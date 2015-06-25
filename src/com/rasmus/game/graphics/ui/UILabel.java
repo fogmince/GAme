@@ -58,6 +58,10 @@ public class UILabel extends UIComponent {
         this.number = number;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     @Override
     public UILabel setColor(Color color) {
         this.color = color;

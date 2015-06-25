@@ -29,17 +29,19 @@ public class PlayerInventory extends Inventory {
 
     public PlayerInventory(Entity entity, UIPanel panel) {
         super(entity, panel);
-        slots = new Slot[5][3];
+        xSlots = 5;
+        ySlots = 4;
+        slots = new Slot[xSlots][ySlots];
 
-        for(int y1 = 0; y1 < 3; y1++) {
-            for(int x1 = 0; x1 < 5; x1++) {
+        for(int y1 = 0; y1 < ySlots; y1++) {
+            for(int x1 = 0; x1 < xSlots; x1++) {
                 inventorySmall = new UISprite(new Vector2i(49 * x1 + 110 / 5 * 2, 50 * y1 + 470), "/ui/inventoryBasic.png");
                 panel.addComponent(inventorySmall);
             }
         }
 
-        for(int y = 0; y < 3; y++) {
-            for(int x = 0; x < 5; x++) {
+        for(int y = 0; y < ySlots; y++) {
+            for(int x = 0; x < xSlots; x++) {
                 slots[x][y] = new Slot(45 + x * 49, 470 + y * 50, 64, 64, panel);
             }
         }
@@ -49,6 +51,11 @@ public class PlayerInventory extends Inventory {
         slots[2][0].setType(2);
         slots[3][0].setType(3);
         slots[4][0].setType(4);
+        slots[0][1].setType(5);
+        slots[1][1].setType(6);
+        slots[2][1].setType(7);
+        slots[3][1].setType(8);
+        slots[4][1].setType(9);
 
         slots[0][0].addItem(new TestItem(Sprite.sword_icon), 1);
         slots[0][2].addItem(new Test2Item(Sprite.potion_icon), 60);
@@ -61,8 +68,8 @@ public class PlayerInventory extends Inventory {
     }
 
     public void update() {
-        for(int y = 0; y < 3; y++) {
-            for(int x = 0; x < 5; x++) {
+        for(int y = 0; y < ySlots; y++) {
+            for(int x = 0; x < xSlots; x++) {
                 slots[x][y].update();
 
                 if(!holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
@@ -140,8 +147,8 @@ public class PlayerInventory extends Inventory {
     }
 
     public void addItem(Item item, int amount) {
-        for(int y = 0; y < 3; y++) {
-            for(int x = 0; x < 5; x++) {
+        for(int y = 0; y < ySlots; y++) {
+            for(int x = 0; x < xSlots; x++) {
                 if(slots[x][y].hasItem && item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
                     int items = slots[x][y].getAmountOfItems() + amount;
                     if (items <= item.stackSize) {
@@ -149,20 +156,20 @@ public class PlayerInventory extends Inventory {
                         return;
                     } else {
                         slots[x][y].addItem(item, item.stackSize);
-                        for (int y1 = 0; y1 < 3; y1++) {
-                            for (int x1 = 0; x1 < 5; x1++) {
+                        for (int y1 = 0; y1 < ySlots; y1++) {
+                            for (int x1 = 0; x1 < xSlots; x1++) {
 
                                 if(slots[x1][y1].getType() == 0 && item instanceof ItemSword) {
                                     if(slots[x1][y1].hasItem) {
                                         continue;
                                     } else {
                                         amount = items - item.stackSize;
-                                        slots[x1][y1].addItem(item, amount);
+                                        slots[x][y].addItem(item, amount);
                                         return;
                                     }
                                 }
 
-                                if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+                                if(slots[x1][y1].getType() == 1 && item instanceof ItemHelmet) {
                                     if(slots[x1][y1].hasItem) {
                                         continue;
                                     } else {
@@ -172,7 +179,7 @@ public class PlayerInventory extends Inventory {
                                     }
                                 }
 
-                                if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+                                if(slots[x1][y1].getType() == 2 && item instanceof ItemChestPlate) {
                                     if(slots[x1][y1].hasItem) {
                                         continue;
                                     } else {
@@ -182,7 +189,7 @@ public class PlayerInventory extends Inventory {
                                     }
                                 }
 
-                                if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+                                if(slots[x1][y1].getType() == 3 && item instanceof ItemBoots) {
                                     if(slots[x1][y1].hasItem) {
                                         continue;
                                     } else {
@@ -192,7 +199,7 @@ public class PlayerInventory extends Inventory {
                                     }
                                 }
 
-                                if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+                                if(slots[x1][y1].getType() == 4 && item instanceof ItemRing) {
                                     if(slots[x1][y1].hasItem) {
                                         continue;
                                     } else {
@@ -217,8 +224,8 @@ public class PlayerInventory extends Inventory {
             }
         }
 
-        for(int y = 0; y < 3; y++) {
-            for(int x = 0; x < 5; x++) {
+        for(int y = 0; y < ySlots; y++) {
+            for(int x = 0; x < xSlots; x++) {
                 if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);

@@ -28,6 +28,8 @@ public class Player extends Mob {
     private AnimatedSprite animSprite = down;
 
     private String name;
+    private int playerLevel = 1;
+    private int exp = 0;
 
     private int fireRate = 0;
 
@@ -35,8 +37,10 @@ public class Player extends Mob {
     private UIProgressBar uiHealthBar;
     private UILabel uiNameLabel;
     private UIProgressBar uiEnergyBar;
+    private UIProgressBar uiLevelBar;
     private UILabel uiHpLabel;
     private UILabel uiENLabel;
+    private UILabel uiLevelLabel;
     private UISprite uiPlayerClassIcon;
 
     private PlayerInventory inventory;
@@ -74,27 +78,38 @@ public class Player extends Mob {
         uiNameLabel.dropShadow = true;
         panel.addComponent(uiNameLabel);
 
-        uiHealthBar = new UIProgressBar(new Vector2i(20, 265), new Vector2i(110 * 3 - 45, 20));
+        uiLevelBar = new UIProgressBar(new Vector2i(20, 265), new Vector2i(110 * 3 - 45, 20));
+        uiLevelBar.setColor(0x6A6A6A);
+        uiLevelBar.setForegroundColor(0x3AAF00);
+        uiLevelBar.setProgress(0.8);
+        panel.addComponent(uiLevelBar);
+
+        uiLevelLabel = new UILabel(new Vector2i(uiLevelBar.position).add(new Vector2i(1, 16)), "Level 1");
+        uiLevelLabel.setColor(0xFFFFFF);
+        uiLevelLabel.setFont(new Font("Verdana", Font.BOLD, 18));
+        panel.addComponent(uiLevelLabel);
+
+        uiHealthBar = new UIProgressBar(new Vector2i(20, 290), new Vector2i(110 * 3 - 45, 20));
         uiHealthBar.setColor(0x6A6A6A);
         uiHealthBar.setForegroundColor(0xCC1A15);
         panel.addComponent(uiHealthBar);
 
         uiHpLabel = new UILabel(new Vector2i(uiHealthBar.position).add(new Vector2i(1, 16)), "HP");
         uiHpLabel.setColor(0xFFFFFF);
-        uiHpLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        uiHpLabel.setFont(new Font("Verdana", Font.BOLD, 18));
         panel.addComponent(uiHpLabel);
 
         uiPlayerClassIcon = new UISprite(new Vector2i(10, 215), "/ui/icons/classIcon.png");
         panel.addComponent(uiPlayerClassIcon);
 
-        uiEnergyBar = new UIProgressBar(new Vector2i(20, 290), new Vector2i(110 * 3 - 45, 20));
+        uiEnergyBar = new UIProgressBar(new Vector2i(20, 315), new Vector2i(110 * 3 - 45, 20));
         uiEnergyBar.setColor(0x6A6A6A);
         uiEnergyBar.setForegroundColor(0xCCD611);
         panel.addComponent(uiEnergyBar);
 
         uiENLabel = new UILabel(new Vector2i(uiEnergyBar.position).add(new Vector2i(1, 16)), "EN");
         uiENLabel.setColor(0xFFFFFF);
-        uiENLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        uiENLabel.setFont(new Font("Verdana", Font.BOLD, 18));
         panel.addComponent(uiENLabel);
 
         inventory = new PlayerInventory(this, panel);
@@ -134,8 +149,17 @@ public class Player extends Mob {
         clear();
         updateShoot();
 
+        if(exp >= 100) {
+            playerLevel++;
+            exp -= 100;
+        }
+
         uiHealthBar.setProgress(health / 100.0);
         uiEnergyBar.setProgress(energy / 100.0);
+        uiLevelBar.setProgress(exp / 100.0);
+
+        uiLevelLabel.setText("Level " + String.valueOf(playerLevel));
+
 
         inventory.update();
     }
