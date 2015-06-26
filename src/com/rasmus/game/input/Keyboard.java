@@ -7,6 +7,8 @@ public class Keyboard implements KeyListener {
 
     private boolean[] keys = new boolean[128];
 
+    public int pressed1, pressed2, pressed3, pressed4, pressed5;
+
     public boolean up, down, left, right;
     public boolean zero, one, two, three, four, five, six, seven, eight, nine;
     public boolean q, e, space, enter, tab, shift;
@@ -34,11 +36,25 @@ public class Keyboard implements KeyListener {
         enter = keys[KeyEvent.VK_ENTER];
         tab = keys[KeyEvent.VK_TAB];
         shift = keys[KeyEvent.VK_SHIFT];
+
+        if(pressed1 == 1) one = false;
+        if(one) pressed1 = 1;
+
+        if(pressed2 == 1) two = false;
+        if(two) pressed2 = 1;
+
+        if(pressed3 == 1) three = false;
+        if(three) pressed3 = 1;
+
+        if(pressed4 == 1) four = false;
+        if(four) pressed4 = 1;
+
+        if(pressed5 == 1) five = false;
+        if(five) pressed5 = 1;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -49,5 +65,10 @@ public class Keyboard implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
+        pressed1 = 0;
+        pressed2 = 0;
+        pressed3 = 0;
+        pressed4 = 0;
+        pressed5 = 0;
     }
 }

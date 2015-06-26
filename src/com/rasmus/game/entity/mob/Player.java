@@ -137,7 +137,7 @@ public class Player extends Mob {
         amountOfEnergy.setColor(0xFFFFFF);
         amountOfEnergy.setFont(new Font("Verdana", Font.BOLD, 18));
 
-        inventory = new PlayerInventory(this, panel);
+        inventory = new PlayerInventory(this, panel, input);
     }
 
     int timer = 0;
@@ -250,7 +250,6 @@ public class Player extends Mob {
         exp -= maxExp;
         if(exp < 0) exp = 0;
         playerLevel++;
-        System.out.println(exp);
         if(exp >= maxExp) levelUp();
     }
 

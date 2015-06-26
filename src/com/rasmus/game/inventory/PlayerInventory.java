@@ -6,6 +6,7 @@ import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
+import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
 import com.rasmus.game.util.Vector2i;
 
@@ -28,14 +29,16 @@ public class PlayerInventory extends Inventory {
     private int amount = 0;
     private int counter;
     private int key = 0;
+    private Keyboard input;
 
     private Random random = new Random();
 
-    public PlayerInventory(Entity entity, UIPanel panel) {
+    public PlayerInventory(Entity entity, UIPanel panel, Keyboard input) {
         super(entity, panel);
         xSlots = 5;
         ySlots = 4;
         slots = new Slot[xSlots][ySlots];
+        this.input = input;
 
         for(int y1 = 0; y1 < ySlots; y1++) {
             for(int x1 = 0; x1 < xSlots; x1++) {
@@ -46,7 +49,7 @@ public class PlayerInventory extends Inventory {
 
         for(int y = 0; y < ySlots; y++) {
             for(int x = 0; x < xSlots; x++) {
-                slots[x][y] = new Slot(45 + x * 49, 470 + y * 50, 64, 64, panel);
+                slots[x][y] = new Slot(45 + x * 49, 470 + y * 50, 64, 64, panel, input, entity);
             }
         }
 
@@ -77,6 +80,7 @@ public class PlayerInventory extends Inventory {
                 slots[x][y].update();
                 if(key != -2) key = Mouse.getButton();
 
+                //Clicking without an item on a slot with an item
                 if(!holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
                     amount = slots[x][y].getAmountOfItems();
                     panel.removeComponent(itemSprite);
@@ -86,11 +90,13 @@ public class PlayerInventory extends Inventory {
                     continue;
                 }
 
+                //CLicking with an item on an empty slot
                 if(holdingItem && !slots[x][y].hasItem && slots[x][y].isClicked) {
                     addItem(x, y, item, amount);
                     continue;
                 }
 
+                //Clicking with a item on a slot with the same item
                 if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
                     int items = slots[x][y].getAmountOfItems() + amount;
                     if(items <= item.stackSize) {
@@ -103,6 +109,7 @@ public class PlayerInventory extends Inventory {
                     }
                 }
 
+                //clicking with an item on a slot with an other item
                 if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && !item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
                     if(canSwitchItem(x, y, item)) {
                         int tempAmount = slots[x][y].getAmountOfItems();
@@ -116,9 +123,50 @@ public class PlayerInventory extends Inventory {
                         continue;
                     }
                 }
+
+                //Right Clicking on a slot without an item
+                if(!holdingItem && slots[x][y].hasItem && slots[x][y].isRightClicked) {
+                    panel.removeComponent(itemSprite);
+                    if(slots[x][y].getAmountOfItems() == 1) {
+                        amount = 1;
+                        item = slots[x][y].removeItem();
+                    } else if((slots[x][y].getAmountOfItems() % 2) == 0) {
+                        item = slots[x][y].item;
+                        amount = slots[x][y].getAmountOfItems() / 2;
+                        slots[x][y].setNumberOfItems(amount);
+                    } else {
+                        item = slots[x][y].item;
+                        amount = slots[x][y].getAmountOfItems() / 2 + 1;
+                        slots[x][y].setNumberOfItems(amount - 1);
+                    }
+
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                    panel.addComponent(itemSprite);
+                    holdingItem = true;
+                    continue;
+                }
+
+                //Right clicking on a empty slot with an item
+                if(holdingItem && !slots[x][y].hasItem && slots[x][y].isRightClicked) {
+                    slots[x][y].addItem(item, 1);
+                    if(amount > 0) amount--;
+                    else amount = 0;
+                    continue;
+                }
+
+                //Right clicking on a slot with the same item
+                if(holdingItem && slots[x][y].hasItem && slots[x][y].isRightClicked && item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
+                    if(slots[x][y].getAmountOfItems() >= item.stackSize) continue;
+                    slots[x][y].addAmountOfItems(1);
+                    if(amount > 0) amount--;
+                    else amount = 0;
+                }
             }
         }
 
+        if(amount <= 0) {
+            holdingItem = false;
+        }
 
         if(counter != amount) {
             counter = amount;

@@ -8,16 +8,23 @@ public class Test2Item extends Item {
 
     public Test2Item(double x, double y, Sprite sprite) {
         super(x, y, sprite);
+        isUsable = true;
     }
 
     public Test2Item(Sprite sprite) {
         super(sprite);
+        isUsable = true;
     }
 
     @Override
     public void onInteract(double x, double y, Player player) {
         player.addItem(new Test2Item(Sprite.potion), 16);
         remove();
+    }
+
+    @Override
+    public void onUse(Player player) {
+        player.addExp(100);
     }
 
     @Override

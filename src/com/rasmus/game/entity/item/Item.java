@@ -12,6 +12,8 @@ public class Item extends Entity {
 
     private boolean playerMoved = true;
 
+    public boolean isUsable = false;
+
     private double tempPX = 0, tempPY = 0;
 
     public Item(double x, double y, Sprite sprite) {
@@ -67,7 +69,7 @@ public class Item extends Entity {
     public void onInteract(double x, double y, Player player) {
     }
 
-    public void onUse() {
+    public void onUse(Player player) {
     }
 
     private void interaction(double x, double y, Player player) {

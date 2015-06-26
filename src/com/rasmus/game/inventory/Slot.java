@@ -1,11 +1,14 @@
 package com.rasmus.game.inventory;
 
+import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.item.Item;
+import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
 import com.rasmus.game.graphics.ui.UISquare;
+import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
 import com.rasmus.game.util.Vector2i;
 
@@ -19,6 +22,7 @@ public class Slot {
 
     public boolean isMousedOver = false;
     public boolean isClicked = false;
+    public boolean isRightClicked = false;
 
     private UIPanel panel;
     private UISquare square;
@@ -26,7 +30,8 @@ public class Slot {
     private UILabel stackSize;
     private UISprite itemTexture;
 
-    private Item item;
+    public Item item;
+    private Keyboard input;
 
     public boolean hasSquare = false;
     public boolean hasItem = false;
@@ -34,9 +39,10 @@ public class Slot {
     private boolean hasRenderStack = false;
     private boolean hasRenderedTexture = false;
 
-    private int key = 0;
+    public int key = 0;
     private int numberOfItems = 0;
     private int counter = 0;
+    private Entity entity;
     // 0 = sword
     // 1 = helmet
     // 2 == chestplate
@@ -49,13 +55,15 @@ public class Slot {
     // 9 == 5
     private int type;
 
-    public Slot(double x, double y, double width, double height, UIPanel panel) {
+    public Slot(double x, double y, double width, double height, UIPanel panel, Keyboard input, Entity entity) {
         this.x = x + 870;
         this.y = y;
         this.width = width;
         this.height = height;
         this.panel = panel;
         type = 10;
+        this.input = input;
+        this.entity = entity;
 
         square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
         square.setColor(new Color(0x7FB8B2B2, true));
@@ -73,9 +81,12 @@ public class Slot {
         if(Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16){
             isMousedOver = true;
             isClicked = false;
+            isRightClicked = false;
+            isRightClicked = false;
         } else {
             isMousedOver = false;
             isClicked = false;
+            isRightClicked = false;
         }
 
         if (Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16 && !isClicked) {
@@ -84,6 +95,15 @@ public class Slot {
                 key = -2;
             } else {
                 isClicked = false;
+            }
+        }
+
+        if (Mouse.getX() > x && Mouse.getX() < x + width - 16 && Mouse.getY() > y && Mouse.getY() < y + height - 16 && !isRightClicked) {
+            if(key == 3) {
+                isRightClicked = true;
+                key = -2;
+            } else {
+                isRightClicked = false;
             }
         }
 
@@ -173,9 +193,30 @@ public class Slot {
             }
         }
 
+        if(type == 5 && input.one && hasItem && entity instanceof Player && item.isUsable) {
+            item.onUse((Player) entity);
+            numberOfItems--;
+        } else if(type == 6 && input.two && hasItem && entity instanceof Player && item.isUsable) {
+            item.onUse((Player) entity);
+            numberOfItems--;
+        } else if(type == 7 && input.three && hasItem && entity instanceof Player && item.isUsable) {
+            item.onUse((Player) entity);
+            numberOfItems--;
+        } else if(type == 8 && input.four && hasItem && entity instanceof Player && item.isUsable) {
+            item.onUse((Player) entity);
+            numberOfItems--;
+        } else if(type == 9 && input.five && hasItem && entity instanceof Player && item.isUsable) {
+            item.onUse((Player) entity);
+            numberOfItems--;
+        }
+
         if(hasItem) {
             panel.removeComponent(itemTexture);
             hasRenderedTexture = false;
+        }
+
+        if(numberOfItems <= 0) {
+            removeItem();
         }
     }
 
@@ -212,6 +253,10 @@ public class Slot {
         }
 
         return new Item(Sprite.voidSprite);
+    }
+
+    public void setNumberOfItems(int amount) {
+        numberOfItems = amount;
     }
 
     public UISprite getItemSprite() {

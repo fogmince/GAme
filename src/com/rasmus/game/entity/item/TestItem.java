@@ -21,6 +21,11 @@ public class TestItem extends ItemSword {
         remove();
     }
 
+    @Override
+    public void onUse(Player player) {
+        player.addExp(300);
+    }
+
     public void render(Screen screen) {
         if(!isInInventory) screen.renderItem((int) x << 4, (int) y << 4, this);
     }
