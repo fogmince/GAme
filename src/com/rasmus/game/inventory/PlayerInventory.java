@@ -116,15 +116,6 @@ public class PlayerInventory extends Inventory {
                         continue;
                     }
                 }
-
-                if(Mouse.getX() > 0 && Mouse.getX() <= 870 && key == 1 && holdingItem) {
-                    key = -2;
-                    holdingItem = false;
-                    panel.removeComponent(itemSprite);
-                    System.out.println(entity.getX() / 16);
-                    entity.level.add(new TestRing(entity.getX() / 16 + random.nextInt(5) - 3, entity.getY() / 16 + random.nextInt(5) - 3, item.getSprite()));
-                    amount = 0;
-                }
             }
         }
 
