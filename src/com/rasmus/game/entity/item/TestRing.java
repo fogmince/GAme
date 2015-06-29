@@ -24,11 +24,11 @@ public class TestRing extends ItemRing {
     }
 
     public void putInInventory(Player player) {
-        player.addDamageResistance(400);
+        player.addMagicDamage(20);
     }
 
     public void removedFromInventory(Player player) {
-        player.subAttackDamage(30);
+        player.subMagicDamage(20);
     }
 
     public void render(Screen screen) {

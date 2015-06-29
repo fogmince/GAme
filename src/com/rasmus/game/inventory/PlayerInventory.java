@@ -65,6 +65,7 @@ public class PlayerInventory extends Inventory {
         slots[4][1].setType(9);
 
         slots[0][0].addItem(new TestItem(Sprite.sword), 1);
+        slots[0][0].item.putInInventory((Player) entity);
         slots[0][2].addItem(new Test2Item(Sprite.potion), 60);
 
         amountOfItems = new UILabel(new Vector2i(Mouse.getX(), Mouse.getY()), amount, false);
@@ -133,8 +134,28 @@ public class PlayerInventory extends Inventory {
 
                 //Clicking with an item on a slot with an other item
                 if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && !item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
+                    System.out.println("asf");
                     if(canSwitchItem(x, y, item)) {
-                        slots[x][y].item.removedFromInventory((Player) entity);
+                        if(slots[x][y].getType() == 0) {
+                            slots[x][y].item.removedFromInventory((Player) entity);
+                        }
+
+                        if(slots[x][y].getType() == 1) {
+                            slots[x][y].item.removedFromInventory((Player) entity);
+                        }
+
+                        if(slots[x][y].getType() == 2) {
+                            slots[x][y].item.removedFromInventory((Player) entity);
+                        }
+
+                        if(slots[x][y].getType() == 3) {
+                            slots[x][y].item.removedFromInventory((Player) entity);
+                        }
+
+                        if(slots[x][y].getType() == 4) {
+                            slots[x][y].item.removedFromInventory((Player) entity);
+                        }
+
                         int tempAmount = slots[x][y].getAmountOfItems();
                         Item tempItem = slots[x][y].removeItem();
                         slots[x][y].addItem(item, amount);

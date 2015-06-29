@@ -21,6 +21,14 @@ public class TestItem extends ItemSword {
         remove();
     }
 
+    public void putInInventory(Player player) {
+        player.addAttackDamage(20);
+    }
+
+    public void removedFromInventory(Player player) {
+        player.subAttackDamage(20);
+    }
+
     @Override
     public void onUse(Player player) {
         player.addExp(300);
