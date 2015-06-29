@@ -25,7 +25,6 @@ public class UISprite extends UIComponent {
 
     private void loadImage() {
         try {
-            System.out.print("Trying to load: " + path + "...");
             image = ImageIO.read(this.getClass().getResourceAsStream(path));
             imageA = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
             int[] pixels = new int[image.getWidth() * image.getHeight()];
@@ -39,13 +38,8 @@ public class UISprite extends UIComponent {
 
             imageA.setRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
 
-            System.out.println(" Succeeded!");
         }catch(IOException e) {
             e.printStackTrace();
-        } catch(Exception e) {
-            System.err.println(" Failed");
         }
     }
-
-
 }

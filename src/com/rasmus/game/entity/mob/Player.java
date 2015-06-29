@@ -45,6 +45,20 @@ public class Player extends Mob {
     private UILabel amountOfExp;
     private UILabel amountOfEnergy;
 
+    //Stats
+    private UILabel ATT;
+    private UILabel ATTDAMAGE;
+
+    private UILabel MAG;
+    private UILabel MAGICDAMAGE;
+
+    private UILabel RESITANCE;
+    private UILabel DEF;
+
+    private UILabel SPD;
+    private UILabel MOVMENTSPEED;
+
+
     private UIPanel panel;
 
     private PlayerInventory inventory;
@@ -55,7 +69,7 @@ public class Player extends Mob {
 
     //Player stats
     private int energy;
-    private int exp = 0;
+    private int exp;
     private double maxHealth;
     private double maxExp;
 
@@ -72,7 +86,6 @@ public class Player extends Mob {
         this.y = y;
         this.input = input;
         sprite = down.getSprite();
-        speed = 2;
         fireRate = LaserProjectile.FIRE_RATE;
 
         //Default player stats
@@ -80,6 +93,11 @@ public class Player extends Mob {
         maxHealth = 100;
         maxExp = 100;
         energy = 100;
+        exp = 0;
+        attackDamage = 20;
+        magicDamage = 0;
+        damageResistance = 10;
+        momentSpeed = 20;
 
         //UI Stuff
         ui = Game.getUiManager();
@@ -137,6 +155,54 @@ public class Player extends Mob {
         amountOfEnergy.setColor(0xFFFFFF);
         amountOfEnergy.setFont(new Font("Verdana", Font.BOLD, 18));
 
+        ATT = new UILabel(new Vector2i(50, 380), "ATT - ");
+        ATT.dropShadow = true;
+        ATT.setColor(0xCCCCCC);
+        ATT.setFont(new Font("Verdana", Font.BOLD, 14));
+        panel.addComponent(ATT);
+
+        ATTDAMAGE = new UILabel(new Vector2i(100, 380), attackDamage, true);
+        ATTDAMAGE.dropShadow = true;
+        ATTDAMAGE.setColor(0xF7F7F7);
+        ATTDAMAGE.setFont(new Font("Verdana", Font.BOLD, 12));
+        panel.addComponent(ATTDAMAGE);
+
+        MAG = new UILabel(new Vector2i(50, 405), "MAG - ");
+        MAG.dropShadow = true;
+        MAG.setColor(0xCCCCCC);
+        MAG.setFont(new Font("Verdana", Font.BOLD, 14));
+        panel.addComponent(MAG);
+
+        MAGICDAMAGE = new UILabel(new Vector2i(103, 405), magicDamage, true);
+        MAGICDAMAGE.dropShadow = true;
+        MAGICDAMAGE.setColor(0xF7F7F7);
+        MAGICDAMAGE.setFont(new Font("Verdana", Font.BOLD, 12));
+        panel.addComponent(MAGICDAMAGE);
+
+        DEF = new UILabel(new Vector2i(195, 380), "DEF - ");
+        DEF.dropShadow = true;
+        DEF.setColor(0xCCCCCC);
+        DEF.setFont(new Font("Verdana", Font.BOLD, 14));
+        panel.addComponent(DEF);
+
+        RESITANCE = new UILabel(new Vector2i(245, 380), damageResistance, true);
+        RESITANCE.dropShadow = true;
+        RESITANCE.setColor(0xF7F7F7);
+        RESITANCE.setFont(new Font("Verdana", Font.BOLD, 12));
+        panel.addComponent(RESITANCE);
+
+        SPD = new UILabel(new Vector2i(195, 405), "SPD - ");
+        SPD.dropShadow = true;
+        SPD.setColor(0xCCCCCC);
+        SPD.setFont(new Font("Verdana", Font.BOLD, 14));
+        panel.addComponent(SPD);
+
+        MOVMENTSPEED = new UILabel(new Vector2i(245, 405), (int) momentSpeed, true);
+        MOVMENTSPEED.dropShadow = true;
+        MOVMENTSPEED.setColor(0xF7F7F7);
+        MOVMENTSPEED.setFont(new Font("Verdana", Font.BOLD, 12));
+        panel.addComponent(MOVMENTSPEED);
+
         inventory = new PlayerInventory(this, panel, input);
     }
 
@@ -149,22 +215,21 @@ public class Player extends Mob {
         if(fireRate > 0) fireRate--;
 
         double xa = 0, ya = 0;
-        double speed = 1.4;
 
         if(input.left) {
             animSprite = left;
-            xa -= speed;
+            xa -= momentSpeed / 10;
         } else if(input.right) {
             animSprite = right;
-            xa += speed;
+            xa += momentSpeed / 10;
         }
 
         if(input.up) {
             animSprite = up;
-            ya -= speed;
+            ya -= momentSpeed / 10;
         } else if(input.down) {
             animSprite = down;
-            ya += speed;
+            ya += momentSpeed / 10;
         }
 
         if(xa != 0 || ya != 0) {
@@ -176,12 +241,11 @@ public class Player extends Mob {
 
         clear();
         updateShoot();
+        updateStats();
 
         if(energy < 100 && timer % 18 == 0) {
             energy += random.nextInt(4) + 1;
         }
-
-        if(Mouse.getButton() == 3) energy -= 20;
 
         if(exp >= maxExp) {
             levelUp();
@@ -261,13 +325,56 @@ public class Player extends Mob {
     }
 
     private void updateShoot() {
-        if(Mouse.getButton() == 1 && Mouse.getX() < 875 && fireRate <= 0 && !inventory.holdingItem) {
+        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && fireRate <= 0 && !inventory.holdingItem) {
             double dx = Mouse.getX() - Game.getWindowWidth() / 2;
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
             fireRate = LaserProjectile.FIRE_RATE;
         }
+    }
+
+    private void updateStats() {
+        if(magicDamage > 0) {
+            MAGICDAMAGE.setColor(Color.GREEN);
+            MAGICDAMAGE.setText("(+" + magicDamage + ")");
+        } else {
+            MAGICDAMAGE.setText(null);
+            MAGICDAMAGE.setNumber(magicDamage);
+            MAGICDAMAGE.setColor(0xF7F7F7);
+        }
+
+        if(attackDamage > 20) {
+            ATTDAMAGE.setColor(Color.GREEN);
+            ATTDAMAGE.setText("(+" + (attackDamage - 20) + ")");
+        } else {
+            ATTDAMAGE.setText(null);
+            ATTDAMAGE.setNumber(magicDamage);
+            ATTDAMAGE.setColor(0xF7F7F7);
+        }
+
+        if(damageResistance > 10) {
+            RESITANCE.setColor(Color.GREEN);
+            RESITANCE.setText("(+" + (damageResistance - 10) + ")");
+        } else {
+            RESITANCE.setText(null);
+            RESITANCE.setNumber(magicDamage);
+            RESITANCE.setColor(0xF7F7F7);
+        }
+
+        if(momentSpeed > 20) {
+            MOVMENTSPEED.setColor(Color.GREEN);
+            MOVMENTSPEED.setText("(+" + ((int) momentSpeed - 20) + ")");
+        } else {
+            MOVMENTSPEED.setText(null);
+            MOVMENTSPEED.setNumber(magicDamage);
+            MOVMENTSPEED.setColor(0xF7F7F7);
+        }
+
+        MAGICDAMAGE.setNumber(magicDamage);
+        ATTDAMAGE.setNumber(attackDamage);
+        RESITANCE.setNumber(damageResistance);
+        MOVMENTSPEED.setNumber((int) momentSpeed);
     }
 
     public void render(Screen screen) {

@@ -1,7 +1,7 @@
 package com.rasmus.game.inventory;
 
-import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.item.*;
+import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
 import com.rasmus.game.graphics.ui.UIPanel;
@@ -33,8 +33,8 @@ public class PlayerInventory extends Inventory {
 
     private Random random = new Random();
 
-    public PlayerInventory(Entity entity, UIPanel panel, Keyboard input) {
-        super(entity, panel);
+    public PlayerInventory(Player player, UIPanel panel, Keyboard input) {
+        super(player, panel);
         xSlots = 5;
         ySlots = 4;
         slots = new Slot[xSlots][ySlots];
@@ -67,7 +67,7 @@ public class PlayerInventory extends Inventory {
         slots[0][0].addItem(new TestItem(Sprite.sword), 1);
         slots[0][2].addItem(new Test2Item(Sprite.potion), 60);
 
-        amountOfItems = new UILabel(new Vector2i(Mouse.getX(), Mouse.getY()), amount);
+        amountOfItems = new UILabel(new Vector2i(Mouse.getX(), Mouse.getY()), amount, false);
         amountOfItems.setColor(0xFFFFFF);
         amountOfItems.setFont(new Font("Helvetica", Font.PLAIN, 12));
 
@@ -82,6 +82,27 @@ public class PlayerInventory extends Inventory {
 
                 //Clicking without an item on a slot with an item
                 if(!holdingItem && slots[x][y].hasItem && slots[x][y].isClicked) {
+                    if(slots[x][y].getType() == 0) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 1) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 2) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 3) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 4) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+
                     amount = slots[x][y].getAmountOfItems();
                     panel.removeComponent(itemSprite);
                     item = slots[x][y].removeItem();
@@ -107,11 +128,13 @@ public class PlayerInventory extends Inventory {
                         slots[x][y].addItem(item, item.stackSize);
                         amount = items - item.stackSize;
                     }
+                    continue;
                 }
 
-                //clicking with an item on a slot with an other item
+                //Clicking with an item on a slot with an other item
                 if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && !item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
                     if(canSwitchItem(x, y, item)) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
                         int tempAmount = slots[x][y].getAmountOfItems();
                         Item tempItem = slots[x][y].removeItem();
                         slots[x][y].addItem(item, amount);
@@ -126,6 +149,26 @@ public class PlayerInventory extends Inventory {
 
                 //Right Clicking on a slot without an item
                 if(!holdingItem && slots[x][y].hasItem && slots[x][y].isRightClicked) {
+                    if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
+                    if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+                        slots[x][y].item.removedFromInventory((Player) entity);
+                    }
+
                     panel.removeComponent(itemSprite);
                     if(slots[x][y].getAmountOfItems() == 1) {
                         amount = 1;
@@ -148,10 +191,52 @@ public class PlayerInventory extends Inventory {
 
                 //Right clicking on a empty slot with an item
                 if(holdingItem && !slots[x][y].hasItem && slots[x][y].isRightClicked) {
-                    slots[x][y].addItem(item, 1);
-                    if(amount > 0) amount--;
-                    else amount = 0;
-                    continue;
+                    if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
+                        slots[x][y].item.putInInventory((Player) entity);
+                        slots[x][y].addItem(item, 1);
+                        if(amount > 0) amount--;
+                        else amount = 0;
+                        continue;
+                    }
+
+                    if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+                        slots[x][y].item.putInInventory((Player) entity);
+                        slots[x][y].addItem(item, 1);
+                        if(amount > 0) amount--;
+                        else amount = 0;
+                        continue;
+                    }
+
+                    if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+                        slots[x][y].item.putInInventory((Player) entity);
+                        slots[x][y].addItem(item, 1);
+                        if(amount > 0) amount--;
+                        else amount = 0;
+                        continue;
+                    }
+
+                    if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+                        slots[x][y].item.putInInventory((Player) entity);
+                        slots[x][y].addItem(item, 1);
+                        if(amount > 0) amount--;
+                        else amount = 0;
+                        continue;
+                    }
+
+                    if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+                        slots[x][y].item.putInInventory((Player) entity);
+                        slots[x][y].addItem(item, 1);
+                        if(amount > 0) amount--;
+                        else amount = 0;
+                        continue;
+                    }
+
+                    if(slots[x][y].getType() > 4) {
+                        slots[x][y].addItem(item, 1);
+                        if(amount > 0) amount--;
+                        else amount = 0;
+                        continue;
+                    }
                 }
 
                 //Right clicking on a slot with the same item
@@ -285,6 +370,7 @@ public class PlayerInventory extends Inventory {
                 if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);
+                        slots[x][y].item.putInInventory((Player) entity);
                         return;
                     } else {
                         continue;
@@ -294,6 +380,7 @@ public class PlayerInventory extends Inventory {
                 if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);
+                        slots[x][y].item.putInInventory((Player) entity);
                         return;
                     } else {
                         continue;
@@ -303,6 +390,7 @@ public class PlayerInventory extends Inventory {
                 if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);
+                        slots[x][y].item.putInInventory((Player) entity);
                         return;
                     } else {
                         continue;
@@ -312,6 +400,7 @@ public class PlayerInventory extends Inventory {
                 if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);
+                        slots[x][y].item.putInInventory((Player) entity);
                         return;
                     } else {
                         continue;
@@ -321,6 +410,7 @@ public class PlayerInventory extends Inventory {
                 if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
                     if(!slots[x][y].hasItem) {
                         slots[x][y].addItem(item, amount);
+                        slots[x][y].item.putInInventory((Player) entity);
                         return;
                     } else {
                         continue;
@@ -339,30 +429,35 @@ public class PlayerInventory extends Inventory {
 
     public void addItem(int x, int y, Item item, int amount) {
         if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
+            slots[x][y].item.putInInventory((Player) entity);
             slots[x][y].addItem(item, amount);
             holdingItem = false;
             panel.removeComponent(itemSprite);
         }
 
         if(slots[x][y].getType() == 1 && item instanceof ItemHelmet) {
+            slots[x][y].item.putInInventory((Player) entity);
             slots[x][y].addItem(item, amount);
             holdingItem = false;
             panel.removeComponent(itemSprite);
         }
 
         if(slots[x][y].getType() == 2 && item instanceof ItemChestPlate) {
+            slots[x][y].item.putInInventory((Player) entity);
             slots[x][y].addItem(item, amount);
             holdingItem = false;
             panel.removeComponent(itemSprite);
         }
 
         if(slots[x][y].getType() == 3 && item instanceof ItemBoots) {
+            slots[x][y].item.putInInventory((Player) entity);
             slots[x][y].addItem(item, amount);
             holdingItem = false;
             panel.removeComponent(itemSprite);
         }
 
         if(slots[x][y].getType() == 4 && item instanceof ItemRing) {
+            slots[x][y].item.putInInventory((Player) entity);
             slots[x][y].addItem(item, amount);
             holdingItem = false;
             panel.removeComponent(itemSprite);

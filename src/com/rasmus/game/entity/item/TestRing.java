@@ -23,6 +23,14 @@ public class TestRing extends ItemRing {
         remove();
     }
 
+    public void putInInventory(Player player) {
+        player.addDamageResistance(400);
+    }
+
+    public void removedFromInventory(Player player) {
+        player.subAttackDamage(30);
+    }
+
     public void render(Screen screen) {
         if(!isInInventory) screen.renderItem((int) x << 4, (int) y << 4, this);
     }

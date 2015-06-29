@@ -68,7 +68,7 @@ public class Slot {
         square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
         square.setColor(new Color(0x7FB8B2B2, true));
 
-        stackSize = new UILabel(new Vector2i((int) x + 30, (int) y + 45), numberOfItems);
+        stackSize = new UILabel(new Vector2i((int) x + 30, (int) y + 45), numberOfItems, false);
         stackSize.setColor(0xFFFFFF);
         stackSize.setFont(new Font("Helvetica", Font.PLAIN, 12));
         counter = numberOfItems;
@@ -225,7 +225,7 @@ public class Slot {
         hasItem = true;
         hasRendered = false;
         panel.removeComponent(itemSprite);
-        if (numberOfItems + amount <= item.stackSize) {
+        if(numberOfItems + amount <= item.stackSize) {
             numberOfItems += amount;
         } else {
             int itemsLeft = amount - item.stackSize;

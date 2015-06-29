@@ -17,7 +17,6 @@ public class Star extends Mob {
     private AnimatedSprite animSprite = down;
 
     private double xa = 0, ya = 0;
-    private double speed = 1;
     private int time = 0;
 
     private List<Node> path = null;
@@ -28,6 +27,7 @@ public class Star extends Mob {
         this.x = x << 4;
         this.y = y << 4;
         sprite = down.getSprite();
+        momentSpeed = 1;
     }
 
     public void update() {
@@ -75,10 +75,10 @@ public class Star extends Mob {
         if(path != null) {
             if(path.size() > 0) {
                 Vector2i vec = path.get(path.size() - 1).tile;
-                if(x < vec.getX() << 4) xa += speed;
-                if(x > vec.getX() << 4) xa -= speed;
-                if(y < vec.getY() << 4) ya += speed;
-                if(y > vec.getY() << 4) ya -= speed;
+                if(x < vec.getX() << 4) xa += momentSpeed;
+                if(x > vec.getX() << 4) xa -= momentSpeed;
+                if(y < vec.getY() << 4) ya += momentSpeed;
+                if(y > vec.getY() << 4) ya -= momentSpeed;
             }
         }
 
@@ -87,15 +87,15 @@ public class Star extends Mob {
             xa = 0;
             ya = 0;
             if(getX() - px <= 0) {
-                xa -= speed;
+                xa -= momentSpeed / 10;
             } else {
-                xa += speed;
+                xa += momentSpeed / 10;
             }
 
             if(getY() - py < 0) {
-                ya -= speed;
+                ya -= momentSpeed / 10;
             } else {
-                ya += speed;
+                ya += momentSpeed / 10;
             }
 
         } else if((Math.abs(getX() - px) / 16) <= 5 && (Math.abs(getY() - py) / 16) <= 5) {

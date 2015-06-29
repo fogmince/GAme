@@ -41,7 +41,7 @@ public class Item extends Entity {
         }
 
         if(intX == 0 && intY == 0) {
-            interaction(x, y, player);
+            interacting(x, y, player);
         }
 
         if(intX == 0 && intY == 0 && playerMoved) {
@@ -61,22 +61,23 @@ public class Item extends Entity {
     public void render(Screen screen) {}
 
 
-    //Calls when a player is standing in the item
+    //Called when a player is standing in the item
     public void interacting(double x, double y, Player player) {
     }
 
-    //Calls when a player steps on the item
+    //Called when a player steps on the item
     public void onInteract(double x, double y, Player player) {
     }
 
+    //Called when item is used in the inventory
     public void onUse(Player player) {
     }
 
-    private void interaction(double x, double y, Player player) {
-
+    //Called when the item is put in the players inventory
+    public void putInInventory(Player player) {
     }
 
-    public void setInInventory(boolean inInventory) {
-        this.isInInventory = inInventory;
+    //Called when the item is removed from the players invetory
+    public void removedFromInventory(Player player) {
     }
 }

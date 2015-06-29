@@ -18,7 +18,6 @@ public class SmartChaser extends Mob {
     private AnimatedSprite animSprite = down;
 
     private double xa = 0, ya = 0;
-    private double speed = 1;
     private int time = 0;
 
     private List<Node> path = null;
@@ -27,6 +26,7 @@ public class SmartChaser extends Mob {
         this.x = x << 4;
         this.y = y << 4;
         sprite = down.getSprite();
+        momentSpeed = 1;
     }
 
     public void update() {
@@ -72,10 +72,10 @@ public class SmartChaser extends Mob {
         if(path != null) {
             if(path.size() > 0) {
                 Vector2i vec = path.get(path.size() - 1).tile;
-                if(x < vec.getX() << 4) xa += speed;
-                if(x > vec.getX() << 4) xa -= speed;
-                if(y < vec.getY() << 4) ya += speed;
-                if(y > vec.getY() << 4) ya -= speed;
+                if(x < vec.getX() << 4) xa += momentSpeed / 10;
+                if(x > vec.getX() << 4) xa -= momentSpeed / 10;
+                if(y < vec.getY() << 4) ya += momentSpeed / 10;
+                if(y > vec.getY() << 4) ya -= momentSpeed / 10;
             }
         }
 

@@ -11,9 +11,12 @@ import java.util.List;
 
 public abstract class Mob extends Entity {
 
-    protected boolean moving = false;
     protected boolean walking = false;
-    protected int speed = 0;
+
+    protected double momentSpeed;
+    protected int attackDamage;
+    protected int magicDamage;
+    protected int damageResistance;
 
     protected int health;
 
@@ -181,5 +184,53 @@ public abstract class Mob extends Entity {
         }
 
         return solid;
+    }
+
+    public void addAttackDamage(int attackDamage) {
+        this.attackDamage += attackDamage;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public void subAttackDamage(int attackDamage) {
+        this.attackDamage -= attackDamage;
+    }
+
+    public void addMagicDamage(int magicDamage) {
+        this.magicDamage += magicDamage;
+    }
+
+    public void setMagicDamage(int magicDamage) {
+        this.magicDamage = magicDamage;
+    }
+
+    public void subMagicDamage(int magicDamage) {
+        this.magicDamage -= magicDamage;
+    }
+
+    public void addMovmentSpeed(int momentSpeed) {
+        this.momentSpeed += momentSpeed;
+    }
+
+    public void setMomentSpeed(int momentSpeed) {
+        this.momentSpeed = momentSpeed;
+    }
+
+    public void subMovmentSpeed(int momentSpeed) {
+        this.momentSpeed -= momentSpeed;
+    }
+
+    public void addDamageResistance(int damageResistance) {
+        this.damageResistance += damageResistance;
+    }
+
+    public void setDamageResistance(int damageResistance) {
+        this.damageResistance = damageResistance;
+    }
+
+    public void subRESISTANCE(int damageResistance) {
+        this.damageResistance -= damageResistance;
     }
 }

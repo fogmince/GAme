@@ -10,6 +10,7 @@ public class UILabel extends UIComponent {
     private int number;
     private Font font;
     public boolean dropShadow = false;
+    private boolean allNumbers = false;
     public int dropShadowOffset = 2;
 
     public UILabel(Vector2i position, String text) {
@@ -19,27 +20,43 @@ public class UILabel extends UIComponent {
         color = new Color(0xFF00FF);
     }
 
-    public UILabel(Vector2i position, int number) {
+    public UILabel(Vector2i position, int number, boolean allNumbers) {
         super(position);
         font = new Font("Helvetica", Font.PLAIN, 32);
         color = new Color(0xFF00FF);
         this.number = number;
+        this.allNumbers = allNumbers;
     }
 
     public void render(Graphics g) {
         if(dropShadow) {
             g.setFont(font);
             g.setColor(Color.BLACK);
-            g.drawString(text, position.x + offset.x + dropShadowOffset, position.y + offset.y + dropShadowOffset);
+
+            if(text != null && number == 0) {
+                g.drawString(text, position.x + offset.x + dropShadowOffset, position.y + offset.y + dropShadowOffset);
+            } else if(text != null && allNumbers && number > 0) {
+                g.drawString(Integer.toString(number) +  " " + text, position.x + offset.x + dropShadowOffset, position.y + offset.y + dropShadowOffset);
+            } else if(allNumbers) {
+                g.drawString(Integer.toString(number), position.x + offset.x + dropShadowOffset, position.y + offset.y + dropShadowOffset);
+            } else if(!allNumbers) {
+                if(number <= 0 || number == 1) return;
+                g.drawString(Integer.toString(number), position.x + offset.x + dropShadowOffset, position.y + offset.y + dropShadowOffset);
+            }
         }
 
         g.setFont(font);
         g.setColor(color);
 
-        if(text != null) {
+        if(text != null && number == 0) {
             g.drawString(text, position.x + offset.x, position.y + offset.y);
-        } else if(number != 0 && number != 1) {
-            g.drawString(String.valueOf(number), position.x + offset.x, position.y + offset.y);
+        } else if(text != null && allNumbers && number > 0) {
+            g.drawString(Integer.toString(number) + " " + text, position.x + offset.x, position.y + offset.y);
+        } else if(allNumbers) {
+            g.drawString(Integer.toString(number), position.x + offset.x, position.y + offset.y);
+        } else if(!allNumbers) {
+            if(number <= 0 || number == 1) return;
+            g.drawString(Integer.toString(number), position.x + offset.x, position.y + offset.y);
         }
     }
 
