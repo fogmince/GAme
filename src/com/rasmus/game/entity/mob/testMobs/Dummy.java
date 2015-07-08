@@ -19,7 +19,7 @@ public class Dummy extends Mob {
     public Dummy(int x, int y) {
         super(x, y);
         sprite = down.getSprite();
-        health = 200;
+        health = 100;
     }
 
     public void update() {

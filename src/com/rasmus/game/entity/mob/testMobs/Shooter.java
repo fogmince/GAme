@@ -21,10 +21,11 @@ public class Shooter extends Mob {
     public Shooter(int x, int y) {
         super(x, y);
         sprite = Sprite.dummy;
-        health = 100;
+        health = 2000;
     }
 
     public void update() {
+        super.update();
         time++;
         if(time % (random.nextInt(50) + 30) == 0) {
             xa = random.nextInt(3) - 1;
@@ -70,6 +71,7 @@ public class Shooter extends Mob {
     }
 
     public void render(Screen screen) {
+        super.render(screen);
         sprite = animSprite.getSprite();
         screen.renderMob((int) x - 16, (int) y - 16, this, dir == Direction.LEFT, false);
     }
