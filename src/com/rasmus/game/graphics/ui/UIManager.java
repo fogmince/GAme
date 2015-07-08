@@ -29,4 +29,14 @@ public class UIManager {
             panel.render(g);
         }
     }
+
+    public void clear() {
+       for(int i = 0; i < panels.size(); i++) {
+           panels.remove(i);
+       }
+    }
+
+    public void removePanel(UIPanel panel) {
+        panels.remove(panel);
+    }
 }

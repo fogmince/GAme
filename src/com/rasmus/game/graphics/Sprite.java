@@ -37,6 +37,9 @@ public class Sprite {
     //Entities
     public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy);
 
+    //Menu
+    public static Sprite menu = new Sprite("/menu/test.png", 290, 225);
+
     protected Sprite(SpriteSheet sheet, int width, int height) {
         SIZE = width == height ? width : -1;
         this.width = width;
@@ -57,8 +60,8 @@ public class Sprite {
     }
 
     public Sprite(String path, int width, int height) {
-        width = width;
-        height = height;
+        this.width = width;
+        this.height = height;
         SIZE = width == height ? width : -1;
         this.path = path;
         loadImage();

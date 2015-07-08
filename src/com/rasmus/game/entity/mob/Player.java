@@ -59,7 +59,7 @@ public class Player extends Mob {
     private UILabel MOVMENTSPEED;
 
 
-    private UIPanel panel;
+    public UIPanel panel;
 
     private PlayerInventory inventory;
 
@@ -101,7 +101,7 @@ public class Player extends Mob {
 
         //UI Stuff
         ui = Game.getUiManager();
-        panel = (UIPanel) new UIPanel(new Vector2i((400 - 110) * 3, 0), new Vector2i(110  * 3, 225 * 3)).setColor(new Color(0x4F4F4F));
+        panel = (UIPanel) new UIPanel(new Vector2i((400 - 110) * 3, 0), new Vector2i(110 * 3, 225 * 3)).setColor(new Color(0x4F4F4F));
         ui.addPanel(panel);
 
         uiNameLabel = new UILabel(new Vector2i(55, 250), name).setColor(0xBBBBBB);

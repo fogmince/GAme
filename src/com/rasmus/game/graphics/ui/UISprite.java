@@ -11,7 +11,7 @@ public class UISprite extends UIComponent {
 
     private BufferedImage image;
     private BufferedImage imageA;
-    private String path;
+    public String path;
 
     public UISprite(Vector2i position, String path) {
         super(position);

@@ -9,6 +9,7 @@ public class Item extends Entity {
 
     protected boolean isInInventory = false;
     public int stackSize = 64;
+    public int amountOfItems;
 
     private boolean playerMoved = true;
 

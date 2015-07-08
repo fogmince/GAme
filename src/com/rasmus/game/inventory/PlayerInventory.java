@@ -134,7 +134,6 @@ public class PlayerInventory extends Inventory {
 
                 //Clicking with an item on a slot with an other item
                 if(holdingItem && slots[x][y].hasItem && slots[x][y].isClicked && !item.getClass().equals(slots[x][y].getItemInSlot().getClass())) {
-                    System.out.println("asf");
                     if(canSwitchItem(x, y, item)) {
                         if(slots[x][y].getType() == 0) {
                             slots[x][y].item.removedFromInventory((Player) entity);
@@ -302,10 +301,6 @@ public class PlayerInventory extends Inventory {
         }
 
         if(Mouse.getButton() == -1) key = 0;
-    }
-
-    public boolean isItemInSlot(int x, int y) {
-        return slots[x][y].hasItem;
     }
 
     public void addItem(Item item, int amount) {

@@ -1,12 +1,11 @@
 package com.rasmus.game;
 
-import com.rasmus.game.entity.mob.Player;
+import com.rasmus.game.gamestates.GameStateManager;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.ui.UIManager;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
 import com.rasmus.game.level.Level;
-import com.rasmus.game.level.TileCoordinate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +15,8 @@ import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
 
-    private static final int WIDTH = 400 - 110;
-    private static final int HEIGHT = 225;    //225
+    private static int WIDTH = 400 - 110;
+    private static int HEIGHT = 225;    //225
     private static final int SCALE = 3;
     public static final String TITLE = "Rain";
 
@@ -28,8 +27,8 @@ public class Game extends Canvas implements Runnable {
     private Screen screen;
     private Keyboard key;
     private Level level;
-    private Player player;
     private static UIManager uiManager;
+    private GameStateManager gsm;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -43,9 +42,8 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         key = new Keyboard();
         level = Level.spawn;
-        TileCoordinate playerSpawn = new TileCoordinate(29, 70);
-        player = new Player("Name", playerSpawn.x(), playerSpawn.y(), key);
-        level.add(player);
+
+        gsm = new GameStateManager(level, key, uiManager);
 
         Mouse mouse = new Mouse();
 
@@ -94,19 +92,29 @@ public class Game extends Canvas implements Runnable {
             frames++;
 
             if(System.currentTimeMillis() - timer > 1000) {
-            timer += 1000;
-            System.out.println("Updates: " + updates + ", FPS: " + frames);
-            frame.setTitle(TITLE + "  |  Updates: " + updates + ", FPS:" + frames);
-            updates = 0;
-            frames = 0;
+                timer += 1000;
+                System.out.println("Updates: " + updates + ", FPS: " + frames);
+                frame.setTitle(TITLE + "  |  Updates: " + updates + ", FPS:" + frames);
+                updates = 0;
+                frames = 0;
             }
          }
     }
 
     public void update() {
         key.update();
-        level.update();
+        gsm.update();
         uiManager.update();
+
+        if(key.enter) {
+            gsm.currentState = GameStateManager.SINGLEPLAYER_STATE;
+            System.out.println("af");
+        }
+
+        if(gsm.currentState != GameStateManager.SINGLEPLAYER_STATE) {
+            WIDTH = 400;
+        }
+        else WIDTH = 290;
     }
 
     public void render() {
@@ -116,20 +124,22 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
+        Graphics g = bs.getDrawGraphics();
+
         screen.clear();
-        double xScroll = player.getX() - screen.width / 2;
-        double yScroll = player.getY() - screen.height / 2;
-        level.render((int) xScroll, (int) yScroll, screen);
+
+        gsm.render(screen);
 
         for(int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.pixels[i];
         }
 
-        Graphics g = bs.getDrawGraphics();
+        uiManager.render(g);
 
 
         g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-        uiManager.render(g);
+
+        gsm.render(g);
 
         g.dispose();
         bs.show();
