@@ -4,6 +4,7 @@ import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.projectlile.LaserProjectile;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.Screen;
+import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.util.Vector2i;
 
 import java.util.List;
@@ -18,13 +19,20 @@ public abstract class Mob extends Entity {
     protected int magicDamage;
     protected int damageResistance;
 
-    protected int health;
+    public int health;
+    private int tempHealth;
+    private int dmgTaken;
 
     protected enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
 
     protected Direction dir;
+
+    public Mob(int x, int y) {
+        this.x = x << 4;
+        this.y = y << 4;
+    }
 
     public void move(double xa, double ya) {
             if(xa != 0 && ya != 0) {
@@ -73,10 +81,39 @@ public abstract class Mob extends Entity {
         return 0;
     }
 
-    public abstract void update();
+    public void update() {
 
-    public abstract void render(Screen screen);
+    }
 
+    public void render(Screen screen) {
+        screen.renderSprite((int) x - 16, (int) y - 27, Sprite.mobHealthBar, true);
+
+        for(int i = 0; i < health; i++) {
+            screen.renderSprite((int) x - 16 + (i - 8) / 3, (int) y - 27, Sprite.mobHealth, true);
+        }
+    }
+
+    protected void init() {
+        tempHealth = health;
+    }
+
+    protected boolean isDead() {
+        return health <= 0 ? true : false;
+    }
+
+    protected boolean takenDamage() {
+        if(tempHealth != health) {
+            tempHealth = health;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void doDamage(int dmg) {
+        health -= dmg;
+        dmgTaken = dmg;
+    }
 
     protected void shoot(double x, double y, double dir) {
         Projectile p = new LaserProjectile(x, y, dir);

@@ -19,9 +19,9 @@ public class Shooter extends Mob {
     private double xa = 1, ya = 0;
 
     public Shooter(int x, int y) {
-        this.x = x << 4;
-        this.y = y << 4;
+        super(x, y);
         sprite = Sprite.dummy;
+        health = 100;
     }
 
     public void update() {
@@ -62,8 +62,11 @@ public class Shooter extends Mob {
             walking = false;
         }
 
+        if(isDead()) {
+            remove();
+        }
 
-        shootRandom(time, 500, 100);
+        //shootRandom(time, 500, 100);
     }
 
     public void render(Screen screen) {

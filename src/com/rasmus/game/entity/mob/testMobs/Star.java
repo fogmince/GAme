@@ -1,8 +1,10 @@
 package com.rasmus.game.entity.mob.testMobs;
 
+import com.rasmus.game.entity.Spawner.ParticleSpawner;
 import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.graphics.AnimatedSprite;
 import com.rasmus.game.graphics.Screen;
+import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.SpriteSheet;
 import com.rasmus.game.level.Node;
 import com.rasmus.game.util.Vector2i;
@@ -24,13 +26,15 @@ public class Star extends Mob {
     private int fireRate = 60;
 
     public Star(int x, int y) {
-        this.x = x << 4;
-        this.y = y << 4;
+        super(x, y);
         sprite = down.getSprite();
         momentSpeed = 1;
+        health = 100;
+        init();
     }
 
     public void update() {
+        super.update();
         fireRate--;
         time++;
         move();
@@ -54,10 +58,14 @@ public class Star extends Mob {
         }
 
         if(fireRate < 0) {
-            shootClosestPlayer(150);
+            //shootClosestPlayer(150);
             fireRate = 40 + random.nextInt(40);
        }
 
+        if(isDead()) {
+            remove();
+            level.add(new ParticleSpawner((int) x, (int) y, 44, 20, 0.4, level, Sprite.particle_Red));
+        }
     }
 
     private void move() {
@@ -114,6 +122,7 @@ public class Star extends Mob {
 
 
     public void render(Screen screen) {
+        super.render(screen);
         sprite = animSprite.getSprite();
         screen.renderMob((int) (x - 16), (int) (y - 16), this, dir == Direction.LEFT, false);
     }

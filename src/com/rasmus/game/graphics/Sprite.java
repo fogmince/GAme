@@ -40,6 +40,10 @@ public class Sprite {
     //Menu
     public static Sprite menu = new Sprite("/menu/test.png", 290, 225);
 
+    //UI
+    public static Sprite mobHealthBar = new Sprite(32, 19, 0, 0, SpriteSheet.mobUI);
+    public static Sprite mobHealth = new Sprite(32, 19, 0, 1, SpriteSheet.mobUI);
+
     protected Sprite(SpriteSheet sheet, int width, int height) {
         SIZE = width == height ? width : -1;
         this.width = width;
@@ -55,6 +59,18 @@ public class Sprite {
         this.height = size;
         this.sheet = sheet;
         pixels = new int[SIZE * SIZE];
+        path = sheet.getPath();
+        load();
+    }
+
+    public Sprite(int width, int height, int x, int y, SpriteSheet sheet) {
+        SIZE = width;
+        this.x = x * width;
+        this.y = y * height;
+        this.width = width;
+        this.height = height;
+        this.sheet = sheet;
+        pixels = new int[width * height];
         path = sheet.getPath();
         load();
     }

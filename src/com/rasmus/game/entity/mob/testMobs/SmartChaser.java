@@ -23,10 +23,10 @@ public class SmartChaser extends Mob {
     private List<Node> path = null;
 
     public SmartChaser(int x, int y) {
-        this.x = x << 4;
-        this.y = y << 4;
+        super(x, y);
         sprite = down.getSprite();
         momentSpeed = 1;
+        health = 100;
     }
 
     public void update() {

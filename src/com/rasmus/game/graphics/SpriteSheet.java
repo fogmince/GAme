@@ -16,6 +16,7 @@ public class SpriteSheet {
     public static SpriteSheet spawnLevel = new SpriteSheet("/textures/spawnlevel.png", 48);
     public static SpriteSheet projectile_laser = new SpriteSheet("/textures/projectiles/laserProjectile.png", 48);
 
+    public static SpriteSheet mobUI = new SpriteSheet("/ui/mobUI.png", 48);
 
     // Dummy
     public static SpriteSheet dummy = new SpriteSheet("/textures/test.png", 128);

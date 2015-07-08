@@ -3,6 +3,7 @@ package com.rasmus.game.level;
 import com.rasmus.game.entity.item.Test2Item;
 import com.rasmus.game.entity.item.TestItem;
 import com.rasmus.game.entity.item.TestRing;
+import com.rasmus.game.entity.mob.testMobs.Dummy;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
 import com.rasmus.game.entity.mob.testMobs.Star;
 import com.rasmus.game.graphics.Sprite;
@@ -31,7 +32,7 @@ public class SpawnLevel extends Level {
         }
 
         for(int i = 0; i < 5; i++) {
-            //add(new Dummy(20 + i * 4, 70 - i * 3));
+            add(new Dummy(20 + i * 4, 70 - i * 3));
             add(new TestRing(27, 80 / (i + 1), Sprite.ring));
         }
         add(new Star(30, 50));

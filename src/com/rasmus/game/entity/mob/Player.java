@@ -74,6 +74,7 @@ public class Player extends Mob {
     private double maxExp;
 
     public Player(String name, Keyboard input) {
+        super(0, 0);
         this.name = name;
         this.input = input;
         sprite = up;
@@ -81,9 +82,8 @@ public class Player extends Mob {
     }
 
     public Player(String name, int x, int y, Keyboard input) {
+        super(x, y);
         this.name = name;
-        this.x = x;
-        this.y = y;
         this.input = input;
         sprite = down.getSprite();
         fireRate = LaserProjectile.FIRE_RATE;

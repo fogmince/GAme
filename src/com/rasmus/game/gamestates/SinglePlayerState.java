@@ -36,8 +36,7 @@ public class SinglePlayerState extends GamState {
     @Override
     public void render(Screen screen) {
         if(gsm.currentState == GameStateManager.SINGLEPLAYER_STATE && !hasPLayer) {
-            TileCoordinate playerSpawn = new TileCoordinate(29, 70);
-            player = new Player("Name", playerSpawn.x(), playerSpawn.y(), key);
+            player = new Player("Name", 29, 70, key);
             level.add(player);
             hasPLayer = true;
         }

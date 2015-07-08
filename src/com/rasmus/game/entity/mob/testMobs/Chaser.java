@@ -19,10 +19,10 @@ public class Chaser extends Mob {
     private double xa = 0, ya = 0;
 
     public Chaser(int x, int y) {
-        this.x = x << 4;
-        this.y = y << 4;
+        super(x, y);
         sprite = down.getSprite();
         momentSpeed = 0.8;
+        health = 100;
     }
 
     private void move() {

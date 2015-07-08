@@ -21,8 +21,15 @@ public class LaserProjectile extends Projectile {
     }
 
     public void update() {
+        for(int i = 0; i < level.mobs.size(); i++) {
+            if(x < level.mobs.get(i).getX() + 17 && x > level.mobs.get(i).getX() - 17 && y <  level.mobs.get(i).getY() + 17 && y >  level.mobs.get(i).getY() - 17) {
+                level.mobs.get(i).doDamage(10);
+                remove();
+            }
+        }
+
         if(level.tileCollision((int) (x + nx),(int) (y + ny), size, 3, 3)) {
-            level.add(new ParticleSpawner((int) x, (int) y, 44, 20, level, Sprite.particle_Red));
+            level.add(new ParticleSpawner((int) x, (int) y, 44, 20, 0.4, level, Sprite.particle_Red));
             remove();
         }
         move();

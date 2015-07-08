@@ -17,12 +17,13 @@ public class Dummy extends Mob {
     private double xa = 1, ya = 0;
 
     public Dummy(int x, int y) {
-        this.x = x << 4;
-        this.y = y << 4;
+        super(x, y);
         sprite = down.getSprite();
+        health = 200;
     }
 
     public void update() {
+        super.update();
         time++;
         if(time % (random.nextInt(50) + 30) == 0) {
             xa = random.nextInt(3) - 1;
@@ -62,6 +63,7 @@ public class Dummy extends Mob {
     }
 
     public void render(Screen screen) {
+        super.render(screen);
         sprite = animSprite.getSprite();
         screen.renderMob((int) (x - 16), (int) (y - 16), this, dir == Direction.LEFT, false);
     }

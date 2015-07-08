@@ -9,17 +9,19 @@ public class Particle extends Entity {
 
     protected Sprite sprite;
     protected int life;
+    private double speed;
     private int time = 0;
     protected double xx, yy, zz;
     protected double xa, ya, za;
 
-    public Particle(int x, int y, int life, Sprite sprite) {
+    public Particle(int x, int y, int life, double speed, Sprite sprite) {
         this.x = x;
         this.y = y;
         this.xx = x;
         this.yy = y;
         this.life = life + (random.nextInt(20) - 10);
         this.sprite = sprite;
+        this.speed = speed;
 
         this.xa = random.nextGaussian();
         this.ya = random.nextGaussian();
@@ -35,8 +37,8 @@ public class Particle extends Entity {
         if(zz < 0) {
             zz = 0;
             za *= -0.7;
-            xa *= 0.4;
-            ya *= 0.4;
+            xa *= speed;
+            ya *= speed;
         }
 
         move(xx + xa, yy + ya + zz + za);

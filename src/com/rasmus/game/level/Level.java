@@ -26,7 +26,7 @@ public class Level {
     private List<Entity> entities = new ArrayList<Entity>();
     private List<Projectile> projectiles = new ArrayList<Projectile>();
     private List<Particle> particles = new ArrayList<Particle>();
-    private List<Mob> mobs = new ArrayList<Mob>();
+    public List<Mob> mobs = new ArrayList<Mob>();
 
     private List<Player> players = new ArrayList<Player>();
 
@@ -107,11 +107,11 @@ public class Level {
         }
 
         for(int i = 0; i < mobs.size(); i++) {
-            mobs.get(i).remove();
+            if(mobs.get(i).isRemoved()) mobs.remove(i);
         }
 
         for(int i = 0; i < items.size(); i++) {
-            items.get(i).remove();
+            if(items.get(i).isRemoved()) items.remove(i);
         }
     }
 
