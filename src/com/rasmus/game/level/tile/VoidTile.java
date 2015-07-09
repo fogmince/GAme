@@ -12,4 +12,8 @@ public class VoidTile extends Tile {
     public void render(int x, int y, Screen screen) {
         screen.renderTile(x << 4, y << 4, this);
     }
+
+    public int getColor() {
+        return 0x1B87E0;
+    }
 }

@@ -45,6 +45,9 @@ public class Player extends Mob {
     private UILabel amountOfExp;
     private UILabel amountOfEnergy;
 
+    private UIMiniMap miniMap;
+    private UISquare mimiMapSquare;
+
     //Stats
     private UILabel ATT;
     private UILabel ATTDAMAGE;
@@ -58,7 +61,6 @@ public class Player extends Mob {
     private UILabel SPD;
     private UILabel MOVMENTSPEED;
 
-
     public UIPanel panel;
 
     private PlayerInventory inventory;
@@ -66,6 +68,7 @@ public class Player extends Mob {
     private boolean canAddHealthAmount = true;
     private boolean canAddEnergyAmount = true;
     private boolean canAddExpAmount = true;
+    private boolean canAddMiniMap = true;
 
     //Player stats
     private int energy;
@@ -153,6 +156,10 @@ public class Player extends Mob {
         amountOfEnergy = new UILabel(new Vector2i(uiEnergyBar.position).add(new Vector2i(142, 16)), energy + "/100");
         amountOfEnergy.setColor(0xFFFFFF);
         amountOfEnergy.setFont(new Font("Verdana", Font.BOLD, 18));
+
+        mimiMapSquare = new UISquare(new Vector2i(34, 6), new Vector2i(268, 200));
+        mimiMapSquare.setColor(new Color(0x262626));
+        panel.addComponent(mimiMapSquare);
 
         ATT = new UILabel(new Vector2i(50, 380), "ATT - ");
         ATT.dropShadow = true;
@@ -294,7 +301,7 @@ public class Player extends Mob {
         uiLevelBar.setProgress(exp / maxExp);
 
         uiLevelLabel.setText("Level " + String.valueOf(playerLevel));
-
+        if(canAddMiniMap) addMiniMap();
         inventory.update();
     }
 
@@ -374,6 +381,12 @@ public class Player extends Mob {
         ATTDAMAGE.setNumber(attackDamage);
         RESITANCE.setNumber(damageResistance);
         MOVMENTSPEED.setNumber((int) momentSpeed);
+    }
+
+    private void addMiniMap() {
+        miniMap = new UIMiniMap(new Vector2i(40, 10), level);
+        panel.addComponent(miniMap);
+        canAddMiniMap = false;
     }
 
     public void render(Screen screen) {

@@ -31,4 +31,8 @@ public class Tile {
         return false;
     }
 
+    public int getColor() {
+        return 0xFF00FF;
+    }
+
 }

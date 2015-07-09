@@ -17,4 +17,8 @@ public class WallTile extends Tile {
     public boolean solid() {
         return true;
     }
+
+    public int getColor() {
+        return 0xFF404040;
+    }
 }

@@ -33,7 +33,7 @@ public class SinglePlayerState extends GamState {
     @Override
     public void render(Screen screen) {
         if(gsm.currentState == GameStateManager.SINGLEPLAYER_STATE && !hasPLayer) {
-            player = new Player("Name", 29, 70, key);
+            player = new Player("'Name'", 29, 70, key);
             level.add(player);
             hasPLayer = true;
         }
