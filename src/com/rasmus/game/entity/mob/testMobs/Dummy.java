@@ -20,6 +20,7 @@ public class Dummy extends Mob {
         super(x, y);
         sprite = down.getSprite();
         health = 100;
+        init();
     }
 
     public void update() {

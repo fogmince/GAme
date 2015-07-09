@@ -2,7 +2,6 @@ package com.rasmus.game.gamestates;
 
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Screen;
-import com.rasmus.game.graphics.ui.UIManager;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.level.Level;
 import com.rasmus.game.level.TileCoordinate;
@@ -10,16 +9,14 @@ import com.rasmus.game.level.TileCoordinate;
 public class SinglePlayerState extends GamState {
 
     private Level level;
-    private static UIManager uiManager;
     private Player player;
 
     private boolean hasPLayer = false;
 
-    public SinglePlayerState(GameStateManager gsm, Level level, Keyboard key, UIManager uiManager) {
+    public SinglePlayerState(GameStateManager gsm, Level level, Keyboard key) {
         super(gsm, key);
         this.level = level;
         this.key = key;
-        this.uiManager = uiManager;
 
         if(gsm.currentState == GameStateManager.SINGLEPLAYER_STATE) {
             TileCoordinate playerSpawn = new TileCoordinate(29, 70);

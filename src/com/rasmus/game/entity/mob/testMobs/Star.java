@@ -1,10 +1,8 @@
 package com.rasmus.game.entity.mob.testMobs;
 
-import com.rasmus.game.entity.Spawner.ParticleSpawner;
 import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.graphics.AnimatedSprite;
 import com.rasmus.game.graphics.Screen;
-import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.SpriteSheet;
 import com.rasmus.game.level.Node;
 import com.rasmus.game.util.Vector2i;
@@ -61,11 +59,6 @@ public class Star extends Mob {
             //shootClosestPlayer(150);
             fireRate = 40 + random.nextInt(40);
        }
-
-        if(isDead()) {
-            remove();
-            level.add(new ParticleSpawner((int) x, (int) y, 44, 20, 0.4, level, Sprite.particle_Red));
-        }
     }
 
     private void move() {

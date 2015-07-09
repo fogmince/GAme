@@ -1,6 +1,7 @@
 package com.rasmus.game.entity.mob;
 
 import com.rasmus.game.entity.Entity;
+import com.rasmus.game.entity.Spawner.ParticleSpawner;
 import com.rasmus.game.entity.projectlile.LaserProjectile;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.Screen;
@@ -21,7 +22,10 @@ public abstract class Mob extends Entity {
 
     public int health;
     private int tempHealth;
-    private int dmgTaken;
+    protected double maxHealth;
+    private int healthTimer;
+
+    private boolean displayHealth = false;
 
     protected enum Direction {
         UP, DOWN, LEFT, RIGHT
@@ -35,9 +39,9 @@ public abstract class Mob extends Entity {
     }
 
     public void move(double xa, double ya) {
-            if(xa != 0 && ya != 0) {
-                move(xa, 0);
-                move(0, ya);
+        if(xa != 0 && ya != 0) {
+            move(xa, 0);
+            move(0, ya);
             return;
         }
 
@@ -82,18 +86,43 @@ public abstract class Mob extends Entity {
     }
 
     public void update() {
+        if(health > maxHealth) health = (int) maxHealth;
 
+        //If you want to have the health bar to disappear after a while
+        if(health != tempHealth) {
+            healthTimer = 0;
+            displayHealth = true;
+            tempHealth = health;
+        }
+
+        if(healthTimer >= 175) {
+            displayHealth = false;
+            healthTimer = 0;
+        }
+
+        if(displayHealth && healthTimer < 175) {
+            healthTimer++;
+        }
+
+        if(isDead()) {
+            remove();
+            level.add(new ParticleSpawner((int) x, (int) y, 44, 20, 0.4, level, Sprite.particle_Red));
+        }
     }
 
     public void render(Screen screen) {
-        screen.renderSprite((int) x - 16, (int) y - 27, Sprite.mobHealthBar, true);
+        if(displayHealth) {
+            screen.renderSprite((int) x - 16, (int) y - 27, Sprite.mobHealthBar, true);
 
-        for(int i = 0; i < health; i++) {
-            screen.renderSprite((int) x - 16 + (i - 8) / 3, (int) y - 27, Sprite.mobHealth, true);
+            double h = health / maxHealth * 16;
+            for(int i = 0; i < h; i++) {
+                screen.renderSprite((int) x - 16 + 2 * i, (int) y - 27, Sprite.mobHealth, true);
+            }
         }
     }
 
     protected void init() {
+        maxHealth = health;
         tempHealth = health;
     }
 
@@ -101,18 +130,8 @@ public abstract class Mob extends Entity {
         return health <= 0 ? true : false;
     }
 
-    protected boolean takenDamage() {
-        if(tempHealth != health) {
-            tempHealth = health;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void doDamage(int dmg) {
+    public void dealDamage(int dmg) {
         health -= dmg;
-        dmgTaken = dmg;
     }
 
     protected void shoot(double x, double y, double dir) {

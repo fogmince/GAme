@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable {
         key = new Keyboard();
         level = Level.spawn;
 
-        gsm = new GameStateManager(level, key, uiManager);
+        gsm = new GameStateManager(level, key);
 
         Mouse mouse = new Mouse();
 
@@ -135,7 +135,6 @@ public class Game extends Canvas implements Runnable {
         }
 
         uiManager.render(g);
-
 
         g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
 

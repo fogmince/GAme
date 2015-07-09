@@ -22,6 +22,7 @@ public class Shooter extends Mob {
         super(x, y);
         sprite = Sprite.dummy;
         health = 2000;
+        init();
     }
 
     public void update() {
@@ -61,10 +62,6 @@ public class Shooter extends Mob {
             walking = true;
         } else {
             walking = false;
-        }
-
-        if(isDead()) {
-            remove();
         }
 
         //shootRandom(time, 500, 100);

@@ -31,6 +31,7 @@ public class Screen {
             xp -= xOffset;
             yp -= yOffset;
         }
+
         for(int y = 0; y < sprite.getHeight(); y++) {
             int ya = y + yp;
             for(int x = 0; x < sprite.getWidth(); x++) {

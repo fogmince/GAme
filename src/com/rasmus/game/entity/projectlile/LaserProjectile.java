@@ -23,7 +23,7 @@ public class LaserProjectile extends Projectile {
     public void update() {
         for(int i = 0; i < level.mobs.size(); i++) {
             if(x < level.mobs.get(i).getX() + 17 && x > level.mobs.get(i).getX() - 17 && y <  level.mobs.get(i).getY() + 17 && y >  level.mobs.get(i).getY() - 17) {
-                level.mobs.get(i).doDamage(10);
+                level.mobs.get(i).dealDamage(10);
                 remove();
             }
         }

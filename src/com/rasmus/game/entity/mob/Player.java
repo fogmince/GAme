@@ -70,7 +70,6 @@ public class Player extends Mob {
     //Player stats
     private int energy;
     private int exp;
-    private double maxHealth;
     private double maxExp;
 
     public Player(String name, Keyboard input) {

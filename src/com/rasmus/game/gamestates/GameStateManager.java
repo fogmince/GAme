@@ -1,7 +1,6 @@
 package com.rasmus.game.gamestates;
 
 import com.rasmus.game.graphics.Screen;
-import com.rasmus.game.graphics.ui.UIManager;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.level.Level;
 
@@ -20,9 +19,9 @@ public class GameStateManager {
 
     public int currentState = MENU_STATE;
 
-    public GameStateManager(Level level, Keyboard key, UIManager uiManager) {
+    public GameStateManager(Level level, Keyboard key) {
         addState(new MenuState(this, key));
-        addState(new SinglePlayerState(this, level, key, uiManager));
+        addState(new SinglePlayerState(this, level, key));
         addState(new OptionState(this, key));
         addState(new HelpState(this, key));
     }
