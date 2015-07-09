@@ -295,6 +295,18 @@ public class Level {
         return result;
     }
 
+    public boolean mobOnTile(int x, int y) {
+        for(int i = 0; i < mobs.size(); i++) {
+            Mob m = mobs.get(i);
+
+            if(m.getX() / 16 == x && m.getY() / 16 == y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public List<Player> getPlayers(Entity entity, int radius) {
         List<Player> result = new ArrayList<Player>();
         int ex = entity.getX();

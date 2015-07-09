@@ -2,7 +2,7 @@ package com.rasmus.game.entity.mob;
 
 import com.rasmus.game.Game;
 import com.rasmus.game.entity.item.Item;
-import com.rasmus.game.entity.projectlile.LaserProjectile;
+import com.rasmus.game.entity.projectlile.PlayerProjectile;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.AnimatedSprite;
 import com.rasmus.game.graphics.Screen;
@@ -88,7 +88,7 @@ public class Player extends Mob {
         this.name = name;
         this.input = input;
         sprite = down.getSprite();
-        fireRate = LaserProjectile.FIRE_RATE;
+        fireRate = PlayerProjectile.FIRE_RATE;
 
         //Default player stats
         health = 100;
@@ -99,7 +99,7 @@ public class Player extends Mob {
         attackDamage = 20;
         magicDamage = 0;
         damageResistance = 10;
-        momentSpeed = 20;
+        momentSpeed = 15;
 
         //UI Stuff
         ui = Game.getUiManager();
@@ -216,7 +216,7 @@ public class Player extends Mob {
     public void update() {
         timer++;
         if(timer > 10000) timer = 0;
-        if(walking) animSprite.update();
+        if(walking || attacking) animSprite.update();
         else animSprite.setFrame(0);
         if(fireRate > 0) fireRate--;
 
@@ -336,7 +336,7 @@ public class Player extends Mob {
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
             shoot(x, y, dir);
-            fireRate = LaserProjectile.FIRE_RATE;
+            fireRate = PlayerProjectile.FIRE_RATE;
         }
     }
 

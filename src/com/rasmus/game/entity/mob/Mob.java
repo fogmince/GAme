@@ -2,7 +2,7 @@ package com.rasmus.game.entity.mob;
 
 import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.Spawner.ParticleSpawner;
-import com.rasmus.game.entity.projectlile.LaserProjectile;
+import com.rasmus.game.entity.projectlile.PlayerProjectile;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.Sprite;
@@ -15,15 +15,17 @@ public abstract class Mob extends Entity {
 
     protected boolean walking = false;
 
-    protected double momentSpeed;
-    protected int attackDamage;
-    protected int magicDamage;
-    protected int damageResistance;
+    public double momentSpeed;
+    public int attackDamage;
+    public int magicDamage;
+    public int damageResistance;
 
     public int health;
     private int tempHealth;
     protected double maxHealth;
     private int healthTimer;
+
+    protected boolean attacking = false;
 
     private boolean displayHealth = false;
 
@@ -135,7 +137,7 @@ public abstract class Mob extends Entity {
     }
 
     protected void shoot(double x, double y, double dir) {
-        Projectile p = new LaserProjectile(x, y, dir);
+        Projectile p = new PlayerProjectile(x, y, dir);
         level.add(p);
     }
 

@@ -321,7 +321,7 @@ public class PlayerInventory extends Inventory {
                                         continue;
                                     } else {
                                         amount = items - item.stackSize;
-                                        slots[x][y].addItem(item, amount);
+                                        slots[x1][y1].addItem(item, amount);
                                         return;
                                     }
                                 }

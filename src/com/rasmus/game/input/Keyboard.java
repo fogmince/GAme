@@ -11,7 +11,7 @@ public class Keyboard implements KeyListener {
 
     public boolean up, down, left, right;
     public boolean zero, one, two, three, four, five, six, seven, eight, nine;
-    public boolean q, e, space, enter, tab, shift;
+    public boolean q, e, space, enter, tab, shift, backspace;
 
     public void update() {
         up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
@@ -36,6 +36,7 @@ public class Keyboard implements KeyListener {
         enter = keys[KeyEvent.VK_ENTER];
         tab = keys[KeyEvent.VK_TAB];
         shift = keys[KeyEvent.VK_SHIFT];
+        backspace = keys[KeyEvent.VK_BACK_SPACE];
 
         if(pressed1 == 1) one = false;
         if(one) pressed1 = 1;

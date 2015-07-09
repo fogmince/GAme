@@ -20,6 +20,8 @@ public class Game extends Canvas implements Runnable {
     private static final int SCALE = 3;
     public static final String TITLE = "Rain";
 
+    public static String PLAYER_NAME;
+
     private Thread thread;
     private JFrame frame;
     private boolean running = false;

@@ -18,6 +18,7 @@ public class UIMiniMap extends UIComponent {
         for(int y = 0; y < 32; y++) {
             for(int x = 0; x < 32; x++) {
                 colors[x][y] = new Color(level.getTile((int) (level.getClientPlayer().x + x * 16 - 16 * 16) / 16, (int) (level.getClientPlayer().y + y * 16 - 16 * 16) / 16).getColor());
+                if(level.mobOnTile((int) (level.getClientPlayer().x + x * 16 - 16 * 16) / 16, (int) (level.getClientPlayer().y + y * 16 - 16 * 16) / 16)) colors[x][y] = new Color(0xFF0000);
             }
         }
 
@@ -29,6 +30,7 @@ public class UIMiniMap extends UIComponent {
         for(int y = 0; y < 32; y++) {
             for(int x = 0; x < 32; x++) {
                 colors[x][y] = new Color(level.getTile((int) (level.getClientPlayer().x + x * 16 - 16 * 16) / 16, (int) (level.getClientPlayer().y + y * 16 - 16 * 16) / 16).getColor());
+                if(level.mobOnTile((int) (level.getClientPlayer().x + x * 16 - 16 * 16) / 16, (int) (level.getClientPlayer().y + y * 16 - 16 * 16) / 16)) colors[x][y] = new Color(0xFF0000);
             }
         }
 

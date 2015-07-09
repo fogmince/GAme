@@ -1,5 +1,6 @@
 package com.rasmus.game.gamestates;
 
+import com.rasmus.game.Game;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.input.Keyboard;
@@ -20,7 +21,7 @@ public class SinglePlayerState extends GamState {
 
         if(gsm.currentState == GameStateManager.SINGLEPLAYER_STATE) {
             TileCoordinate playerSpawn = new TileCoordinate(29, 70);
-            player = new Player("Name", playerSpawn.x(), playerSpawn.y(), key);
+            player = new Player(Game.PLAYER_NAME, playerSpawn.x(), playerSpawn.y(), key);
             level.add(player);
         }
     }

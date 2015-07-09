@@ -72,6 +72,5 @@ public class MenuState extends GamState {
 
             g.drawString(options[i], Game.getWindowWidth() / 2 - 15, (135 + 15 * i) * 3);
         }
-
     }
 }

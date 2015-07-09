@@ -4,14 +4,14 @@ import com.rasmus.game.entity.Spawner.ParticleSpawner;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.Sprite;
 
-public class LaserProjectile extends Projectile {
+public class PlayerProjectile extends Projectile {
 
     public static final int FIRE_RATE = 15;
 
-    public LaserProjectile(double x, double y, double dir) {
+    public PlayerProjectile(double x, double y, double dir) {
         super(x, y, dir);
         range = 150;
-        damage = 2;
+        damage = 10;
         speed = 3;
         sprite = Sprite.rotate(Sprite.projectile_laser, angle);
         size = 7;
@@ -21,9 +21,11 @@ public class LaserProjectile extends Projectile {
     }
 
     public void update() {
+        damage = level.getClientPlayer().attackDamage;
+
         for(int i = 0; i < level.mobs.size(); i++) {
             if(x < level.mobs.get(i).getX() + 17 && x > level.mobs.get(i).getX() - 17 && y <  level.mobs.get(i).getY() + 17 && y >  level.mobs.get(i).getY() - 17) {
-                level.mobs.get(i).dealDamage(10);
+                level.mobs.get(i).dealDamage((int) damage);
                 remove();
             }
         }
