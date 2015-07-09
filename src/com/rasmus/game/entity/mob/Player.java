@@ -69,6 +69,7 @@ public class Player extends Mob {
     private boolean canAddEnergyAmount = true;
     private boolean canAddExpAmount = true;
     private boolean canAddMiniMap = true;
+    public boolean canMove = true;
 
     //Player stats
     private int energy;
@@ -222,29 +223,30 @@ public class Player extends Mob {
 
         double xa = 0, ya = 0;
 
-        if(input.left) {
-            animSprite = left;
-            xa -= momentSpeed / 10;
-        } else if(input.right) {
-            animSprite = right;
-            xa += momentSpeed / 10;
-        }
+        if(canMove) {
+            if(input.left) {
+                animSprite = left;
+                xa -= momentSpeed / 10;
+            } else if(input.right) {
+                animSprite = right;
+                xa += momentSpeed / 10;
+            }
 
-        if(input.up) {
-            animSprite = up;
-            ya -= momentSpeed / 10;
-        } else if(input.down) {
-            animSprite = down;
-            ya += momentSpeed / 10;
-        }
+            if(input.up) {
+                animSprite = up;
+                ya -= momentSpeed / 10;
+            } else if(input.down) {
+                animSprite = down;
+                ya += momentSpeed / 10;
+            }
 
-        if(xa != 0 || ya != 0) {
-            move(xa, ya);
-            walking = true;
-        } else {
-            walking = false;
+            if(xa != 0 || ya != 0) {
+                move(xa, ya);
+                walking = true;
+            } else {
+                walking = false;
+            }
         }
-
         clear();
         updateShoot();
         updateStats();

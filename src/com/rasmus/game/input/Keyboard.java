@@ -7,11 +7,11 @@ public class Keyboard implements KeyListener {
 
     private boolean[] keys = new boolean[128];
 
-    public int pressed1, pressed2, pressed3, pressed4, pressed5;
+    public int pressed1, pressed2, pressed3, pressed4, pressed5, pressedEsc;
 
     public boolean up, down, left, right;
     public boolean zero, one, two, three, four, five, six, seven, eight, nine;
-    public boolean q, e, space, enter, tab, shift, backspace;
+    public boolean q, e, space, enter, tab, shift, backspace, esc;
 
     public void update() {
         up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
@@ -37,6 +37,7 @@ public class Keyboard implements KeyListener {
         tab = keys[KeyEvent.VK_TAB];
         shift = keys[KeyEvent.VK_SHIFT];
         backspace = keys[KeyEvent.VK_BACK_SPACE];
+        esc = keys[KeyEvent.VK_ESCAPE];
 
         if(pressed1 == 1) one = false;
         if(one) pressed1 = 1;
@@ -52,6 +53,9 @@ public class Keyboard implements KeyListener {
 
         if(pressed5 == 1) five = false;
         if(five) pressed5 = 1;
+
+        if(pressedEsc == 1) esc = false;
+        if(esc) pressedEsc = 1;
     }
 
     @Override
@@ -71,5 +75,6 @@ public class Keyboard implements KeyListener {
         pressed3 = 0;
         pressed4 = 0;
         pressed5 = 0;
+        pressedEsc = 0;
     }
 }

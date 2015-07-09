@@ -17,7 +17,8 @@ public class GameStateManager {
     public static int OPTIONS_STATE = 2;
     public static int HELP_STATE = 3;
 
-    public int currentState = MENU_STATE;
+    private int currentState = MENU_STATE;
+    private int lastState = MENU_STATE;
 
     public GameStateManager(Level level, Keyboard key) {
         addState(new MenuState(this, key));
@@ -43,6 +44,16 @@ public class GameStateManager {
     }
 
     public void setState(int state) {
+        lastState = currentState;
         currentState = state;
+        gamStates.get(currentState).init();
+    }
+
+    public int getState() {
+        return currentState;
+    }
+
+    public int getLastState() {
+        return lastState;
     }
 }

@@ -24,29 +24,29 @@ public class MenuState extends GamState {
 
 
         if(mKey == 1) {
-            if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 55 && Mouse.getY() > 135 * 3 - 30 && Mouse.getY() <= 135 * 3) {
-                gsm.currentState = GameStateManager.SINGLEPLAYER_STATE;
+            if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 55 && Mouse.getY() > 120 * 3 - 30 && Mouse.getY() <= 120 * 3) {
+                gsm.setState(GameStateManager.SINGLEPLAYER_STATE);
                 selected = 1;
-            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 95 && Mouse.getY() > 150 * 3 - 30 && Mouse.getY() <= 150 * 3) {
-                gsm.currentState = GameStateManager.OPTIONS_STATE;
+            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 95 && Mouse.getY() > 135 * 3 - 30 && Mouse.getY() <= 135 * 3) {
+                gsm.setState(GameStateManager.OPTIONS_STATE);
                 selected = 2;
-            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 50 && Mouse.getY() > 165 * 3 - 30 && Mouse.getY() <= 165 * 3) {
-                gsm.currentState = GameStateManager.HELP_STATE;
+            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 50 && Mouse.getY() > 150 * 3 - 30 && Mouse.getY() <= 150 * 3) {
+                gsm.setState(GameStateManager.HELP_STATE);
                 selected = 3;
-            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 47 && Mouse.getY() > 180 * 3 - 30 && Mouse.getY() <= 180 * 3) {
+            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 47 && Mouse.getY() > 165 * 3 - 30 && Mouse.getY() <= 165 * 3) {
                 System.exit(1);
                 selected = 4;
             } else {
                 selected = 0;
             }
         } else {
-            if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 55 && Mouse.getY() > 135 * 3 - 30 && Mouse.getY() <= 135 * 3) {
+            if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 55 && Mouse.getY() > 120 * 3 - 30 && Mouse.getY() <= 120 * 3) {
                 selected = 1;
-            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 95 && Mouse.getY() > 150 * 3 - 30 && Mouse.getY() <= 150 * 3) {
+            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 95 && Mouse.getY() > 135 * 3 - 30 && Mouse.getY() <= 135 * 3) {
                 selected = 2;
-            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 50 && Mouse.getY() > 165 * 3 - 30 && Mouse.getY() <= 165 * 3) {
+            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 50 && Mouse.getY() > 150 * 3 - 30 && Mouse.getY() <= 150 * 3) {
                 selected = 3;
-            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 47 && Mouse.getY() > 180 * 3 - 30 && Mouse.getY() <= 180 * 3) {
+            } else if(Mouse.getX() >= Game.getWindowWidth() / 2 - 12 && Mouse.getX() <= Game.getWindowWidth() / 2 + 47 && Mouse.getY() > 165 * 3 - 30 && Mouse.getY() <= 165 * 3) {
                 selected = 4;
             } else {
                 selected = 0;
@@ -70,7 +70,12 @@ public class MenuState extends GamState {
             if(i + 1 == selected) g.setColor(Color.WHITE);
             else g.setColor(Color.RED);
 
-            g.drawString(options[i], Game.getWindowWidth() / 2 - 15, (135 + 15 * i) * 3);
+            g.drawString(options[i], Game.getWindowWidth() / 2 - 15, (120 + 15 * i) * 3);
         }
+    }
+
+    @Override
+    public void init() {
+
     }
 }

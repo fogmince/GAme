@@ -18,4 +18,6 @@ public abstract class GamState {
     public abstract void update();
     public abstract void render(Screen screen);
     public void render(Graphics g) {}
+
+    public abstract void init();
 }

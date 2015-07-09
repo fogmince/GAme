@@ -109,11 +109,11 @@ public class Game extends Canvas implements Runnable {
         uiManager.update();
 
         if(key.enter) {
-            gsm.currentState = GameStateManager.SINGLEPLAYER_STATE;
+            gsm.setState(GameStateManager.SINGLEPLAYER_STATE);
             System.out.println("af");
         }
 
-        if(gsm.currentState != GameStateManager.SINGLEPLAYER_STATE) {
+        if(gsm.getState() != GameStateManager.SINGLEPLAYER_STATE) {
             WIDTH = 400;
         }
         else WIDTH = 290;

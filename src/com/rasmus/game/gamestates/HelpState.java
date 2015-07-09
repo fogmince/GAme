@@ -20,7 +20,7 @@ public class HelpState extends GamState {
     public void update() {
         if(Mouse.getButton() == 1) {
             if(Mouse.getX() >= 16 && Mouse.getX() <= 16 + 70 && Mouse.getY() > 30 - 30 && Mouse.getY() <= 30) {
-                gsm.currentState = GameStateManager.MENU_STATE;
+                gsm.setState(GameStateManager.MENU_STATE);
                 selected = true;
             } else {
                 selected = false;
@@ -51,5 +51,10 @@ public class HelpState extends GamState {
         else g.setColor(Color.WHITE);
 
         g.drawString(back, 16, 30);
+    }
+
+    @Override
+    public void init() {
+
     }
 }
