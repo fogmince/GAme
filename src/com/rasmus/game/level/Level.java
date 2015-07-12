@@ -1,12 +1,12 @@
 package com.rasmus.game.level;
 
 import com.rasmus.game.entity.Entity;
-import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.entity.particle.Particle;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.Screen;
+import com.rasmus.game.item.Item;
 import com.rasmus.game.level.tile.Tile;
 import com.rasmus.game.util.Vector2i;
 
@@ -74,16 +74,16 @@ public class Level {
             particles.get(i).update();
         }
 
-        for(int i = 0; i < players.size(); i++) {
-            players.get(i).update();
-        }
-
         for(int i = 0; i < mobs.size(); i++) {
             mobs.get(i).update();
         }
 
         for(int i = 0; i < items.size(); i++) {
             items.get(i).update();
+        }
+
+        for(int i = 0; i < players.size(); i++) {
+            players.get(i).update();
         }
 
         remove();
@@ -102,16 +102,16 @@ public class Level {
             if(particles.get(i).isRemoved()) particles.remove(i);
         }
 
-        for(int i = 0; i < players.size(); i++) {
-            if(players.get(i).isRemoved()) players.remove(i);
-        }
-
         for(int i = 0; i < mobs.size(); i++) {
             if(mobs.get(i).isRemoved()) mobs.remove(i);
         }
 
         for(int i = 0; i < items.size(); i++) {
             if(items.get(i).isRemoved()) items.remove(i);
+        }
+
+        for(int i = 0; i < players.size(); i++) {
+            if(players.get(i).isRemoved()) players.remove(i);
         }
     }
 
@@ -157,16 +157,16 @@ public class Level {
             particles.get(i).render(screen);
         }
 
-        for(int i = 0; i < players.size(); i++) {
-            players.get(i).render(screen);
-        }
-
         for(int i = 0; i < mobs.size(); i++) {
             mobs.get(i).render(screen);
         }
 
         for(int i = 0; i < items.size(); i++) {
             items.get(i).render(screen);
+        }
+
+        for(int i = 0; i < players.size(); i++) {
+            players.get(i).render(screen);
         }
     }
 
@@ -189,11 +189,14 @@ public class Level {
             players.add((Player) entity);
         } else if(entity instanceof Mob) {
             mobs.add((Mob) entity);
-        } else if(entities instanceof Item) {
-            items.add((Item) entity);
         } else {
             entities.add(entity);
         }
+    }
+
+    public void addItem(Item item) {
+        item.init(this);
+        items.add(item);
     }
 
     public List<Projectile> getProjectiles() {
@@ -298,13 +301,24 @@ public class Level {
     public boolean mobOnTile(int x, int y) {
         for(int i = 0; i < mobs.size(); i++) {
             Mob m = mobs.get(i);
-
             if(m.getX() / 16 == x && m.getY() / 16 == y) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public Mob getMobOnTile(int x, int y) {
+        for(int i = 0; i < mobs.size(); i++) {
+            Mob m = mobs.get(i);
+
+            if(m.getX() / 16 == x && m.getY() / 16 == y) {
+                return m;
+            }
+        }
+
+        return null;
     }
 
     public List<Player> getPlayers(Entity entity, int radius) {

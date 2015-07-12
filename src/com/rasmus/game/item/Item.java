@@ -1,15 +1,20 @@
-package com.rasmus.game.entity.item;
+package com.rasmus.game.item;
 
-import com.rasmus.game.entity.Entity;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.graphics.Sprite;
+import com.rasmus.game.level.Level;
 
-public class Item extends Entity {
+public class Item {
+
+    protected double x, y;
+    protected Sprite sprite;
+    protected Level level;
 
     protected boolean isInInventory = false;
     public int stackSize = 64;
     public int amountOfItems;
+    private boolean removed = false;
 
     private boolean playerMoved = true;
 
@@ -59,6 +64,14 @@ public class Item extends Entity {
         }
     }
 
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void init(Level level) {
+        this.level = level;
+    }
+
     public void render(Screen screen) {}
 
 
@@ -80,5 +93,13 @@ public class Item extends Entity {
 
     //Called when the item is removed from the players invetory
     public void removedFromInventory(Player player) {
+    }
+
+    public void remove() {
+        removed = true;
+    }
+
+    public boolean isRemoved() {
+        return removed;
     }
 }

@@ -1,12 +1,12 @@
 package com.rasmus.game.level;
 
-import com.rasmus.game.entity.item.Test2Item;
-import com.rasmus.game.entity.item.TestItem;
-import com.rasmus.game.entity.item.TestRing;
 import com.rasmus.game.entity.mob.testMobs.Dummy;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
 import com.rasmus.game.entity.mob.testMobs.Star;
 import com.rasmus.game.graphics.Sprite;
+import com.rasmus.game.item.Test2Item;
+import com.rasmus.game.item.TestItem;
+import com.rasmus.game.item.TestRing;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -33,14 +33,14 @@ public class SpawnLevel extends Level {
 
         for(int i = 0; i < 5; i++) {
             add(new Dummy(20 + i * 4, 70 - i * 3));
-            add(new TestRing(27, 80 / (i + 1), Sprite.ring));
+            addItem(new TestRing(27, 80 / (i + 1), Sprite.ring));
         }
         add(new Star(30, 50));
         add(new Shooter(30, 60));
 
-        add(new TestItem(30, 60, Sprite.sword));
-        add(new TestItem(30, 65, Sprite.sword));
-        add(new Test2Item(27, 60, Sprite.potion));
+        addItem(new TestItem(30, 60, Sprite.sword));
+        addItem(new TestItem(30, 65, Sprite.sword));
+        addItem(new Test2Item(27, 60, Sprite.potion));
 }
 
     protected void generateLevel() {

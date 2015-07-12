@@ -1,6 +1,5 @@
 package com.rasmus.game.inventory;
 
-import com.rasmus.game.entity.item.*;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
@@ -8,10 +7,10 @@ import com.rasmus.game.graphics.ui.UIPanel;
 import com.rasmus.game.graphics.ui.UISprite;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
+import com.rasmus.game.item.*;
 import com.rasmus.game.util.Vector2i;
 
 import java.awt.*;
-import java.util.Random;
 
 public class PlayerInventory extends Inventory {
 
@@ -30,8 +29,6 @@ public class PlayerInventory extends Inventory {
     private int counter;
     private int key = 0;
     private Keyboard input;
-
-    private Random random = new Random();
 
     public PlayerInventory(Player player, UIPanel panel, Keyboard input) {
         super(player, panel);

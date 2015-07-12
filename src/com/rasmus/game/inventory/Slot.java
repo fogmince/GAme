@@ -1,7 +1,6 @@
 package com.rasmus.game.inventory;
 
 import com.rasmus.game.entity.Entity;
-import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Sprite;
 import com.rasmus.game.graphics.ui.UILabel;
@@ -10,6 +9,7 @@ import com.rasmus.game.graphics.ui.UISprite;
 import com.rasmus.game.graphics.ui.UISquare;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
+import com.rasmus.game.item.Item;
 import com.rasmus.game.util.Vector2i;
 
 import java.awt.*;
@@ -63,6 +63,24 @@ public class Slot {
         this.panel = panel;
         type = 10;
         this.input = input;
+        this.entity = entity;
+
+        square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
+        square.setColor(new Color(0x7FB8B2B2, true));
+
+        stackSize = new UILabel(new Vector2i((int) x + 30, (int) y + 45), numberOfItems, false);
+        stackSize.setColor(0xFFFFFF);
+        stackSize.setFont(new Font("Helvetica", Font.PLAIN, 12));
+        counter = numberOfItems;
+    }
+
+    public Slot(double x, double y, double width, double height, UIPanel panel, Entity entity) {
+        this.x = x + 870;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.panel = panel;
+        type = 10;
         this.entity = entity;
 
         square = new UISquare(new Vector2i((int) x + 3, (int) y + 3), new Vector2i(42, 42));
@@ -263,8 +281,9 @@ public class Slot {
         return itemSprite;
     }
 
-    public void setType(int type) {
+    public Slot setType(int type) {
         this.type = type;
+        return this;
     }
 
     public int getType() {

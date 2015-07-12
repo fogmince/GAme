@@ -13,12 +13,11 @@ import java.util.List;
 
 public abstract class Mob extends Entity {
 
-    protected boolean walking = false;
-
     public double momentSpeed;
     public int attackDamage;
     public int magicDamage;
     public int damageResistance;
+    public int attackSpeed = 0;
 
     public int health;
     private int tempHealth;
@@ -26,6 +25,7 @@ public abstract class Mob extends Entity {
     private int healthTimer;
 
     protected boolean attacking = false;
+    protected boolean walking = false;
 
     private boolean displayHealth = false;
 
@@ -81,6 +81,58 @@ public abstract class Mob extends Entity {
         }
     }
 
+    public void attack(double angle) {
+        double degrees = Math.toDegrees(angle);
+        if(degrees >= -45 && degrees <= 45) {
+            dir = Direction.RIGHT;
+            if(level.mobOnTile((int) (x + 20) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x + 20) / 16, (int) y / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 32) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x + 32) / 16, (int) y / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 20) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x + 20) / 16, (int) (y + 16) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 32) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x + 32) / 16, (int) (y + 16) / 16).health -= attackDamage - damageResistance;
+            }
+        } else if(degrees >= 45 && degrees <= 135) {
+            dir = Direction.DOWN;
+            if(level.mobOnTile((int) x / 16, (int) (y + 20) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y + 20) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y + 20) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y + 20) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) x / 16, (int) (y + 40) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y + 40) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y + 40) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y + 40) / 16).health -= attackDamage - damageResistance;
+            }
+
+        } else if(degrees < -45 && degrees > -135) {
+            dir = Direction.UP;
+            if(level.mobOnTile((int) x / 16, (int) (y - 12) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y - 12) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y - 12) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y - 12) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) x / 16, (int) (y - 24) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y - 24) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y - 24) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y - 24) / 16).health -= attackDamage - damageResistance;
+            }
+        } else {
+            dir = Direction.LEFT;
+            if(level.mobOnTile((int) (x - 20) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x - 20) / 16, (int) y / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x - 32) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x - 32) / 16, (int) y / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x - 20) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x - 20) / 16, (int) (y + 16) / 16).health -= attackDamage - damageResistance;
+            } else if(level.mobOnTile((int) (x - 32) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x - 32) / 16, (int) (y + 16) / 16).health -= attackDamage - damageResistance;
+            }
+        }
+
+        attacking = true;
+    }
+
     private int abs(double value) {
         if(value < 0) return -1;
         if(value > 0) return 1;
@@ -90,7 +142,6 @@ public abstract class Mob extends Entity {
     public void update() {
         if(health > maxHealth) health = (int) maxHealth;
 
-        //If you want to have the health bar to disappear after a while
         if(health != tempHealth) {
             healthTimer = 0;
             displayHealth = true;
@@ -108,6 +159,7 @@ public abstract class Mob extends Entity {
 
         if(isDead()) {
             remove();
+            level.getClientPlayer().addExp(20);
             level.add(new ParticleSpawner((int) x, (int) y, 44, 20, 0.4, level, Sprite.particle_Red));
         }
     }
@@ -129,11 +181,12 @@ public abstract class Mob extends Entity {
     }
 
     protected boolean isDead() {
-        return health <= 0 ? true : false;
+        return health <= 0;
     }
 
-    public void dealDamage(int dmg) {
-        health -= dmg;
+    public void dealMagicDamage(int dmg) {
+        health -= dmg - damageResistance;
+        if(dmg - damageResistance <= 0) health -= 1;
     }
 
     protected void shoot(double x, double y, double dir) {
@@ -288,7 +341,19 @@ public abstract class Mob extends Entity {
         this.damageResistance = damageResistance;
     }
 
-    public void subRESISTANCE(int damageResistance) {
+    public void subDamageResistance(int damageResistance) {
         this.damageResistance -= damageResistance;
+    }
+
+    public void addAttackSpeed(int attackSpeed) {
+        this.attackSpeed += attackSpeed;
+    }
+
+    public void setAttackSpeed(int attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
+    public void subAttackSpeed(int attackSpeed) {
+        this.attackSpeed -= attackSpeed;
     }
 }

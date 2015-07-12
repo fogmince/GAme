@@ -20,7 +20,7 @@ public class Entity {
 
     }
 
-    public Entity(int x, int y, Sprite sprite) {
+    public Entity(double x, double y, Sprite sprite) {
         this.x = x;
         this.y = y;
         this.sprite = sprite;

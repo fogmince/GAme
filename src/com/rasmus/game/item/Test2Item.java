@@ -1,4 +1,4 @@
-package com.rasmus.game.entity.item;
+package com.rasmus.game.item;
 
 import com.rasmus.game.entity.mob.Player;
 import com.rasmus.game.graphics.Screen;

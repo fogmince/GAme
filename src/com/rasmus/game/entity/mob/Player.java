@@ -1,7 +1,6 @@
 package com.rasmus.game.entity.mob;
 
 import com.rasmus.game.Game;
-import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.projectlile.PlayerProjectile;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.AnimatedSprite;
@@ -12,6 +11,7 @@ import com.rasmus.game.graphics.ui.*;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
 import com.rasmus.game.inventory.PlayerInventory;
+import com.rasmus.game.item.Item;
 import com.rasmus.game.util.Vector2i;
 
 import java.awt.*;
@@ -25,6 +25,12 @@ public class Player extends Mob {
     private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
     private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 32, 32, 3);
     private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 32, 32, 3);
+
+
+    private AnimatedSprite attackDown = new AnimatedSprite(SpriteSheet.player_attack_down, 32, 32, 3);
+    private AnimatedSprite attackUp = new AnimatedSprite(SpriteSheet.player_attack_up, 32, 32, 3);
+    private AnimatedSprite attackLeft = new AnimatedSprite(SpriteSheet.player_attack_left, 32, 32, 3);
+    private AnimatedSprite attackRight = new AnimatedSprite(SpriteSheet.player_attack_right, 32, 32, 3);
     private AnimatedSprite animSprite = down;
 
     private String name;
@@ -90,6 +96,7 @@ public class Player extends Mob {
         this.input = input;
         sprite = down.getSprite();
         fireRate = PlayerProjectile.FIRE_RATE;
+        dir = Direction.DOWN;
 
         //Default player stats
         health = 100;
@@ -101,6 +108,7 @@ public class Player extends Mob {
         magicDamage = 0;
         damageResistance = 10;
         momentSpeed = 15;
+        attackSpeed = 40;
 
         //UI Stuff
         ui = Game.getUiManager();
@@ -220,6 +228,7 @@ public class Player extends Mob {
         if(walking || attacking) animSprite.update();
         else animSprite.setFrame(0);
         if(fireRate > 0) fireRate--;
+        if(attackSpeed > 0) attackSpeed--;
 
         double xa = 0, ya = 0;
 
@@ -247,6 +256,27 @@ public class Player extends Mob {
                 walking = false;
             }
         }
+
+        if(dir == Direction.RIGHT) animSprite = right;
+        if(dir == Direction.DOWN) animSprite = down;
+        if(dir == Direction.UP) animSprite = up;
+        if(dir == Direction.LEFT) animSprite = left;
+
+        if(dir == Direction.DOWN && attacking) animSprite = attackDown;
+        if(dir == Direction.UP && attacking) animSprite = attackUp;
+        if(dir == Direction.LEFT && attacking) animSprite = attackLeft;
+        if(dir == Direction.RIGHT && attacking) animSprite = attackRight;
+
+        if(Mouse.getButton() == 1 && attackSpeed <= 0) {
+            double dx = Mouse.getX() - Game.getWindowWidth() / 2;
+            double dy = Mouse.getY() - Game.getWindowHeight() / 2;
+            double dir = Math.atan2(dy, dx);
+            attackSpeed = 40;
+            attack(dir);
+        }
+
+        if(attackSpeed <= 20) attacking = false;
+
         clear();
         updateShoot();
         updateStats();

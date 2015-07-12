@@ -1,11 +1,11 @@
 package com.rasmus.game.graphics;
 
-import com.rasmus.game.entity.item.Item;
 import com.rasmus.game.entity.mob.Mob;
 import com.rasmus.game.entity.mob.testMobs.Chaser;
 import com.rasmus.game.entity.mob.testMobs.Shooter;
 import com.rasmus.game.entity.mob.testMobs.Star;
 import com.rasmus.game.entity.projectlile.Projectile;
+import com.rasmus.game.item.Item;
 import com.rasmus.game.level.tile.Tile;
 
 import java.util.Random;

@@ -11,7 +11,6 @@ public class PlayerProjectile extends Projectile {
     public PlayerProjectile(double x, double y, double dir) {
         super(x, y, dir);
         range = 150;
-        damage = 10;
         speed = 3;
         sprite = Sprite.rotate(Sprite.projectile_laser, angle);
         size = 7;
@@ -21,11 +20,10 @@ public class PlayerProjectile extends Projectile {
     }
 
     public void update() {
-        damage = level.getClientPlayer().attackDamage;
 
         for(int i = 0; i < level.mobs.size(); i++) {
             if(x < level.mobs.get(i).getX() + 17 && x > level.mobs.get(i).getX() - 17 && y <  level.mobs.get(i).getY() + 17 && y >  level.mobs.get(i).getY() - 17) {
-                level.mobs.get(i).dealDamage((int) damage);
+                level.mobs.get(i).dealMagicDamage(level.getClientPlayer().magicDamage);
                 remove();
             }
         }
