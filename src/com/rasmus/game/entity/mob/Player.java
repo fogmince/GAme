@@ -34,7 +34,7 @@ public class Player extends Mob {
     private AnimatedSprite animSprite = down;
 
     private String name;
-    private int playerLevel = 1;
+    public int playerLevel = 1;
 
     private int fireRate = 0;
 
@@ -363,10 +363,12 @@ public class Player extends Mob {
     }
 
     private void updateShoot() {
-        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && fireRate <= 0 && !inventory.holdingItem) {
+        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && fireRate <= 0 && !inventory.holdingItem && energy >= 50) {
             double dx = Mouse.getX() - Game.getWindowWidth() / 2;
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
+            energy -= 50;
+            energy -= 50;
             shoot(x, y, dir);
             fireRate = PlayerProjectile.FIRE_RATE;
         }

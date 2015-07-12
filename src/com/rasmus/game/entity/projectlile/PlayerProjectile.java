@@ -6,12 +6,12 @@ import com.rasmus.game.graphics.Sprite;
 
 public class PlayerProjectile extends Projectile {
 
-    public static final int FIRE_RATE = 15;
+    public static final int FIRE_RATE = 90;
 
     public PlayerProjectile(double x, double y, double dir) {
         super(x, y, dir);
         range = 150;
-        speed = 3;
+        speed = 2;
         sprite = Sprite.rotate(Sprite.projectile_laser, angle);
         size = 7;
 
@@ -23,7 +23,7 @@ public class PlayerProjectile extends Projectile {
 
         for(int i = 0; i < level.mobs.size(); i++) {
             if(x < level.mobs.get(i).getX() + 17 && x > level.mobs.get(i).getX() - 17 && y <  level.mobs.get(i).getY() + 17 && y >  level.mobs.get(i).getY() - 17) {
-                level.mobs.get(i).dealMagicDamage(level.getClientPlayer().magicDamage);
+                level.mobs.get(i).dealDamage(45 + (level.getClientPlayer().playerLevel * 5) + level.getClientPlayer().magicDamage);
                 remove();
             }
         }
