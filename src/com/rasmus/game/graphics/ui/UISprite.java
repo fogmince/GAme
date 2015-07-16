@@ -12,15 +12,17 @@ public class UISprite extends UIComponent {
     private BufferedImage image;
     private BufferedImage imageA;
     public String path;
+    public Vector2i size;
 
-    public UISprite(Vector2i position, String path) {
+    public UISprite(Vector2i position, Vector2i size, String path) {
         super(position);
         this.path = path;
+        this.size = new Vector2i(size);
         loadImage();
     }
 
     public void render(Graphics g) {
-        g.drawImage(imageA, position.x + offset.x, position.y + offset.y, 48, 48, null);
+        g.drawImage(imageA, position.x + offset.x, position.y + offset.y, size.x, size.y, null);
     }
 
     private void loadImage() {

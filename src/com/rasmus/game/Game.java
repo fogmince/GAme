@@ -136,11 +136,11 @@ public class Game extends Canvas implements Runnable {
             pixels[i] = screen.pixels[i];
         }
 
-        uiManager.render(g);
 
         g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
 
         gsm.render(g);
+        uiManager.render(g);
 
         g.dispose();
         bs.show();

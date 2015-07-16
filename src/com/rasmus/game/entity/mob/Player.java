@@ -36,7 +36,7 @@ public class Player extends Mob {
     private String name;
     public int playerLevel = 1;
 
-    private int fireRate = 0;
+    private double fireRate = 90;
 
     private UIManager ui;
     private UIProgressBar uiHealthBar;
@@ -68,6 +68,24 @@ public class Player extends Mob {
     private UILabel MOVMENTSPEED;
 
     public UIPanel panel;
+
+    //Hotbar
+    public UIPanel actionPanel;
+    private UISprite mouse1AttackIcon;
+    private UISprite mouse1IconUsed;
+    private UILabel mouse1Attack;
+
+    private UISprite mouse2AttackIcon;
+    private UISprite mouse2IconUsed;
+    private UILabel mouse2Attack;
+
+
+
+    private double mouse1AttackCooldown;
+    private UIDouble mouse1Cooldown;
+
+    private double mouse2AttackCooldown;
+    private UIDouble mouse2Cooldown;
 
     private PlayerInventory inventory;
 
@@ -115,6 +133,9 @@ public class Player extends Mob {
         panel = (UIPanel) new UIPanel(new Vector2i((400 - 110) * 3, 0), new Vector2i(110 * 3, 225 * 3)).setColor(new Color(0x4F4F4F));
         ui.addPanel(panel);
 
+        actionPanel = (UIPanel) new UIPanel(new Vector2i(Game.getWindowWidth() / 2 - 280, Game.getWindowHeight() - 75), new Vector2i(600, 150)).setColor(new Color(0x4F4F4F));
+        ui.addPanel(actionPanel);
+
         uiNameLabel = new UILabel(new Vector2i(55, 250), name).setColor(0xBBBBBB);
         uiNameLabel.setFont(new Font("Verdana", Font.PLAIN, 28));
         uiNameLabel.dropShadow = true;
@@ -141,7 +162,7 @@ public class Player extends Mob {
         uiHpLabel.setFont(new Font("Verdana", Font.BOLD, 18));
         panel.addComponent(uiHpLabel);
 
-        uiPlayerClassIcon = new UISprite(new Vector2i(10, 215), "/ui/icons/classIcon.png");
+        uiPlayerClassIcon = new UISprite(new Vector2i(10, 215), new Vector2i(32, 32), "/ui/icons/classIcon.png");
         panel.addComponent(uiPlayerClassIcon);
 
         uiEnergyBar = new UIProgressBar(new Vector2i(20, 315), new Vector2i(110 * 3 - 45, 20));
@@ -218,6 +239,35 @@ public class Player extends Mob {
         MOVMENTSPEED.setFont(new Font("Verdana", Font.BOLD, 12));
         panel.addComponent(MOVMENTSPEED);
 
+        //HotBar
+        mouse1AttackIcon = new UISprite(new Vector2i(52, 5), new Vector2i(64, 64), "/ui/hotbar/mose1attack.png");
+        actionPanel.addComponent(mouse1AttackIcon);
+
+        mouse1Attack = new UILabel(new Vector2i(5, 45), "MB1");
+        mouse1Attack.setColor(new Color(0x787878));
+        mouse1Attack.setFont(new Font("Verdana", Font.BOLD, 18));
+        actionPanel.addComponent(mouse1Attack);
+
+        mouse1IconUsed = new UISprite(new Vector2i(52, 5), new Vector2i(64, 64), "/ui/hotbar/mose1attack_used.png");
+
+        mouse2AttackIcon = new UISprite(new Vector2i(172, 5), new Vector2i(64, 64), "/ui/hotbar/mose2attack.png");
+        actionPanel.addComponent(mouse2AttackIcon);
+
+        mouse2Attack = new UILabel(new Vector2i(125, 45), "MB2");
+        mouse2Attack.setColor(new Color(0x787878));
+        mouse2Attack.setFont(new Font("Verdana", Font.BOLD, 18));
+        actionPanel.addComponent(mouse2Attack);
+
+        mouse2IconUsed = new UISprite(new Vector2i(172, 5), new Vector2i(64, 64), "/ui/hotbar/mose2attack_used.png");
+
+        mouse1Cooldown = new UIDouble(new Vector2i(70, 42), mouse1AttackCooldown);
+        mouse1Cooldown.setColor(new Color(0xE5E5E5));
+        mouse1Cooldown.setFont(new Font("Verdana", Font.BOLD, 18));
+
+        mouse2Cooldown = new UIDouble(new Vector2i(190, 42), mouse2AttackCooldown);
+        mouse2Cooldown.setColor(new Color(0xE5E5E5));
+        mouse2Cooldown.setFont(new Font("Verdana", Font.BOLD, 18));
+
         inventory = new PlayerInventory(this, panel, input);
     }
 
@@ -267,15 +317,26 @@ public class Player extends Mob {
         if(dir == Direction.LEFT && attacking) animSprite = attackLeft;
         if(dir == Direction.RIGHT && attacking) animSprite = attackRight;
 
-        if(Mouse.getButton() == 1 && attackSpeed <= 0) {
+        if(Mouse.getButton() == 1 && attackSpeed <= 0 && Mouse.getX() < 875) {
             double dx = Mouse.getX() - Game.getWindowWidth() / 2;
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
+            actionPanel.addComponent(mouse1IconUsed);
+            mouse1Attack.setColor(new Color(0x313131));
+            actionPanel.addComponent(mouse1Cooldown);
             attackSpeed = 40;
             attack(dir);
         }
 
-        if(attackSpeed <= 20) attacking = false;
+        if(attackSpeed <= 20) {
+            attacking = false;
+            actionPanel.removeComponent(mouse1IconUsed);
+            mouse1Attack.setColor(new Color(0x787878));
+            actionPanel.removeComponent(mouse1Cooldown);
+        }
+
+        mouse1AttackCooldown = attackSpeed * 0.4 / 60;
+        mouse1Cooldown.setNumber(mouse1AttackCooldown);
 
         clear();
         updateShoot();
@@ -363,15 +424,26 @@ public class Player extends Mob {
     }
 
     private void updateShoot() {
-        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && fireRate <= 0 && !inventory.holdingItem && energy >= 50) {
+        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && fireRate == 0 && !inventory.holdingItem && energy >= 50) {
             double dx = Mouse.getX() - Game.getWindowWidth() / 2;
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
             energy -= 50;
-            energy -= 50;
+            actionPanel.addComponent(mouse2IconUsed);
+            mouse2Attack.setColor(new Color(0x313131));
+            actionPanel.addComponent(mouse2Cooldown);
             shoot(x, y, dir);
             fireRate = PlayerProjectile.FIRE_RATE;
         }
+
+        if(fireRate <= 0) {
+            actionPanel.removeComponent(mouse2IconUsed);
+            mouse2Attack.setColor(new Color(0x787878));
+            actionPanel.removeComponent(mouse2Cooldown);
+        }
+
+        mouse2AttackCooldown = fireRate * 1.5 / 60;
+        mouse2Cooldown.setNumber(mouse2AttackCooldown);
     }
 
     private void updateStats() {
@@ -421,6 +493,58 @@ public class Player extends Mob {
         miniMap = new UIMiniMap(new Vector2i(40, 10), level);
         panel.addComponent(miniMap);
         canAddMiniMap = false;
+    }
+
+    public void attack(double angle) {
+        double degrees = Math.toDegrees(angle);
+        if(degrees >= -45 && degrees <= 45) {
+            dir = Direction.RIGHT;
+            if(level.mobOnTile((int) (x + 20) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x + 20) / 16, (int) y / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 32) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x + 32) / 16, (int) y / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 20) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x + 20) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 32) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x + 32) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
+            }
+        } else if(degrees >= 45 && degrees <= 135) {
+            dir = Direction.DOWN;
+            if(level.mobOnTile((int) x / 16, (int) (y + 20) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y + 20) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y + 20) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y + 20) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) x / 16, (int) (y + 40) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y + 40) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y + 40) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y + 40) / 16).dealDamage(attackDamage);
+            }
+
+        } else if(degrees < -45 && degrees > -135) {
+            dir = Direction.UP;
+            if(level.mobOnTile((int) x / 16, (int) (y - 12) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y - 12) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y - 12) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y - 12) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) x / 16, (int) (y - 24) / 16)) {
+                level.getMobOnTile((int) x / 16, (int) (y - 24) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y - 24) / 16)) {
+                level.getMobOnTile((int) (x + 16) / 16, (int) (y - 24) / 16).dealDamage(attackDamage);
+            }
+        } else {
+            dir = Direction.LEFT;
+            if(level.mobOnTile((int) (x - 10) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x - 10) / 16, (int) y / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x - 22) / 16, (int) y / 16)) {
+                level.getMobOnTile((int) (x - 22) / 16, (int) y / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x - 10) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x - 10) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
+            } else if(level.mobOnTile((int) (x - 22) / 16, (int) (y + 16) / 16)) {
+                level.getMobOnTile((int) (x - 22) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
+            }
+        }
+
+        attacking = true;
     }
 
     public void render(Screen screen) {

@@ -81,58 +81,6 @@ public abstract class Mob extends Entity {
         }
     }
 
-    public void attack(double angle) {
-        double degrees = Math.toDegrees(angle);
-        if(degrees >= -45 && degrees <= 45) {
-            dir = Direction.RIGHT;
-            if(level.mobOnTile((int) (x + 20) / 16, (int) y / 16)) {
-                level.getMobOnTile((int) (x + 20) / 16, (int) y / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 32) / 16, (int) y / 16)) {
-                level.getMobOnTile((int) (x + 32) / 16, (int) y / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 20) / 16, (int) (y + 16) / 16)) {
-                level.getMobOnTile((int) (x + 20) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 32) / 16, (int) (y + 16) / 16)) {
-                level.getMobOnTile((int) (x + 32) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
-            }
-        } else if(degrees >= 45 && degrees <= 135) {
-            dir = Direction.DOWN;
-            if(level.mobOnTile((int) x / 16, (int) (y + 20) / 16)) {
-                level.getMobOnTile((int) x / 16, (int) (y + 20) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y + 20) / 16)) {
-                level.getMobOnTile((int) (x + 16) / 16, (int) (y + 20) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) x / 16, (int) (y + 40) / 16)) {
-                level.getMobOnTile((int) x / 16, (int) (y + 40) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y + 40) / 16)) {
-                level.getMobOnTile((int) (x + 16) / 16, (int) (y + 40) / 16).dealDamage(attackDamage);
-            }
-
-        } else if(degrees < -45 && degrees > -135) {
-            dir = Direction.UP;
-            if(level.mobOnTile((int) x / 16, (int) (y - 12) / 16)) {
-                level.getMobOnTile((int) x / 16, (int) (y - 12) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y - 12) / 16)) {
-                level.getMobOnTile((int) (x + 16) / 16, (int) (y - 12) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) x / 16, (int) (y - 24) / 16)) {
-                level.getMobOnTile((int) x / 16, (int) (y - 24) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x + 16) / 16, (int) (y - 24) / 16)) {
-                level.getMobOnTile((int) (x + 16) / 16, (int) (y - 24) / 16).dealDamage(attackDamage);
-            }
-        } else {
-            dir = Direction.LEFT;
-            if(level.mobOnTile((int) (x - 20) / 16, (int) y / 16)) {
-                level.getMobOnTile((int) (x - 20) / 16, (int) y / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x - 32) / 16, (int) y / 16)) {
-                level.getMobOnTile((int) (x - 32) / 16, (int) y / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x - 20) / 16, (int) (y + 16) / 16)) {
-                level.getMobOnTile((int) (x - 20) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
-            } else if(level.mobOnTile((int) (x - 32) / 16, (int) (y + 16) / 16)) {
-                level.getMobOnTile((int) (x - 32) / 16, (int) (y + 16) / 16).dealDamage(attackDamage);
-            }
-        }
-
-        attacking = true;
-    }
-
     private int abs(double value) {
         if(value < 0) return -1;
         if(value > 0) return 1;
@@ -185,7 +133,6 @@ public abstract class Mob extends Entity {
     }
 
     public void dealDamage(int dmg) {
-        System.out.println(dmg);
         health -= dmg - damageResistance;
         if(dmg - damageResistance <= 0) health -= 1;
     }

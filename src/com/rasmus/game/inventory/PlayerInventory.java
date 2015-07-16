@@ -39,7 +39,7 @@ public class PlayerInventory extends Inventory {
 
         for(int y1 = 0; y1 < ySlots; y1++) {
             for(int x1 = 0; x1 < xSlots; x1++) {
-                inventorySmall = new UISprite(new Vector2i(49 * x1 + 110 / 5 * 2, 50 * y1 + 470), "/ui/inventoryBasic.png");
+                inventorySmall = new UISprite(new Vector2i(49 * x1 + 110 / 5 * 2, 50 * y1 + 470), new Vector2i(48, 48), "/ui/inventory/inventoryBasic.png");
                 panel.addComponent(inventorySmall);
             }
         }
@@ -104,7 +104,7 @@ public class PlayerInventory extends Inventory {
                     amount = slots[x][y].getAmountOfItems();
                     panel.removeComponent(itemSprite);
                     item = slots[x][y].removeItem();
-                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), new Vector2i(48, 48), item.getSprite().path);
                     holdingItem = true;
                     continue;
                 }
@@ -158,7 +158,7 @@ public class PlayerInventory extends Inventory {
                         panel.removeComponent(itemSprite);
                         amount = tempAmount;
                         item = tempItem;
-                        itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                        itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), new Vector2i(48, 48), item.getSprite().path);
                         panel.addComponent(itemSprite);
                         continue;
                     }
@@ -200,7 +200,7 @@ public class PlayerInventory extends Inventory {
                         slots[x][y].setNumberOfItems(amount - 1);
                     }
 
-                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), item.getSprite().path);
+                    itemSprite = new UISprite(new Vector2i(Mouse.getX(), Mouse.getY()), new Vector2i(48, 48), item.getSprite().path);
                     panel.addComponent(itemSprite);
                     holdingItem = true;
                     continue;

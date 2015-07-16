@@ -136,7 +136,7 @@ public class Slot {
         }
 
         if(hasItem && !hasRendered) {
-            itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), item.getSprite().path);
+            itemSprite = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), item.getSprite().path);
             panel.addComponent(itemSprite);
             hasRendered = true;
         }
@@ -169,43 +169,43 @@ public class Slot {
 
         if(!hasRenderedTexture && !hasItem) {
             if(type == 0) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/sword.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/sword.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 1) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/helmet.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/helmet.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 2) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/chest.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/chest.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 3) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/boots.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/boots.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 4) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/ring.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/ring.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 5) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/1.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/1.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 6) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/2.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/2.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 7) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/3.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/3.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 8) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/4.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/4.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             } else if(type == 9) {
-                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), "/ui/5.png");
+                itemTexture = new UISprite(new Vector2i((int) x - 870, (int) y), new Vector2i(48, 48), "/ui/inventory/5.png");
                 panel.addComponent(itemTexture);
                 hasRenderedTexture = true;
             }
