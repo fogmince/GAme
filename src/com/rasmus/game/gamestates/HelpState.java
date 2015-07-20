@@ -3,7 +3,6 @@ package com.rasmus.game.gamestates;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.input.Keyboard;
 import com.rasmus.game.input.Mouse;
-import com.rasmus.game.level.tile.Tile;
 
 import java.awt.*;
 
@@ -36,11 +35,7 @@ public class HelpState extends GamState {
 
     @Override
     public void render(Screen screen) {
-        for(int y = 0; y < 20; y++) {
-            for(int x = 0; x < 15; x++) {
-                screen.renderTile(0 + 16 * x, 0 + 16 * y, Tile.flower);
-            }
-        }
+
     }
 
     @Override
