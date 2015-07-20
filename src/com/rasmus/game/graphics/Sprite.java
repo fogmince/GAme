@@ -22,8 +22,7 @@ public class Sprite {
     public static Sprite floor_wood = new Sprite(16, 1, 1, SpriteSheet.spawnLevel);
 
     //projectiles
-    public static Sprite projectile_laser = new Sprite(16, 0, 0, SpriteSheet.projectile_laser);
-    public static Sprite projectile_arrow = new Sprite(16, 1, 0, SpriteSheet.projectile_laser);
+    public static Sprite playerProjectile = new Sprite(16, 0, 0, SpriteSheet.playerProjectile);
 
     //Particles
     public static Sprite particle_Default = new Sprite(3, 0xAAAAAA);

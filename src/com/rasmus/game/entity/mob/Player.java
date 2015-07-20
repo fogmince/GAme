@@ -36,7 +36,7 @@ public class Player extends Mob {
     private String name;
     public int playerLevel = 1;
 
-    private double fireRate = 90;
+    private double MB2Cooldown = 0;
 
     private UIManager ui;
     private UIProgressBar uiHealthBar;
@@ -113,7 +113,6 @@ public class Player extends Mob {
         this.name = name;
         this.input = input;
         sprite = down.getSprite();
-        fireRate = PlayerProjectile.FIRE_RATE;
         dir = Direction.DOWN;
 
         //Default player stats
@@ -277,7 +276,7 @@ public class Player extends Mob {
         if(timer > 10000) timer = 0;
         if(walking || attacking) animSprite.update();
         else animSprite.setFrame(0);
-        if(fireRate > 0) fireRate--;
+        if(MB2Cooldown > 0) MB2Cooldown--;
         if(attackSpeed > 0) attackSpeed--;
 
         double xa = 0, ya = 0;
@@ -335,7 +334,7 @@ public class Player extends Mob {
             actionPanel.removeComponent(mouse1Cooldown);
         }
 
-        mouse1AttackCooldown = attackSpeed * 0.4 / 60;
+        mouse1AttackCooldown = attackSpeed * 0.3 / 40;
         mouse1Cooldown.setNumber(mouse1AttackCooldown);
 
         clear();
@@ -424,7 +423,7 @@ public class Player extends Mob {
     }
 
     private void updateShoot() {
-        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && fireRate == 0 && !inventory.holdingItem && energy >= 50) {
+        if(Mouse.getButton() == 3 && Mouse.getX() < 875 && MB2Cooldown == 0 && !inventory.holdingItem && energy >= 50) {
             double dx = Mouse.getX() - Game.getWindowWidth() / 2;
             double dy = Mouse.getY() - Game.getWindowHeight() / 2;
             double dir = Math.atan2(dy, dx);
@@ -433,16 +432,16 @@ public class Player extends Mob {
             mouse2Attack.setColor(new Color(0x313131));
             actionPanel.addComponent(mouse2Cooldown);
             shoot(x, y, dir);
-            fireRate = PlayerProjectile.FIRE_RATE;
+            MB2Cooldown = PlayerProjectile.FIRE_RATE;
         }
 
-        if(fireRate <= 0) {
+        if(MB2Cooldown <= 0) {
             actionPanel.removeComponent(mouse2IconUsed);
             mouse2Attack.setColor(new Color(0x787878));
             actionPanel.removeComponent(mouse2Cooldown);
         }
 
-        mouse2AttackCooldown = fireRate * 1.5 / 60;
+        mouse2AttackCooldown = MB2Cooldown * 5 / 300;
         mouse2Cooldown.setNumber(mouse2AttackCooldown);
     }
 
