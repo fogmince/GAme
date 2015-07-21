@@ -7,9 +7,9 @@ import com.rasmus.game.graphics.SpriteSheet;
 
 public class Dummy extends Mob {
 
-    private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3);
-    private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3);
-    private AnimatedSprite side = new AnimatedSprite(SpriteSheet.dummy_side, 32, 32, 3);
+    private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 32, 32, 3, 7);
+    private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 32, 32, 3, 7);
+    private AnimatedSprite side = new AnimatedSprite(SpriteSheet.dummy_side, 32, 32, 3, 7);
 
     private AnimatedSprite animSprite = down;
 

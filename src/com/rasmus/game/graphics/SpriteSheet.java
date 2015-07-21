@@ -13,9 +13,17 @@ public class SpriteSheet {
     public final int SPRITE_WIDTH, SPRITE_HEIGHT;
     private int width, height;
 
-    public static SpriteSheet spawnLevel = new SpriteSheet("/textures/spawnlevel.png", 48);
+    //Tiles
+    public static SpriteSheet spawnLevel = new SpriteSheet("/textures/tiles/spawnlevel.png", 48);
+    public static SpriteSheet flower = new SpriteSheet("/textures/tiles/flower_anim.png", 16, 48);
+
+    //AnimatedTiles
+    public static SpriteSheet flower_anim = new SpriteSheet(flower, 0, 0, 1, 3, 16);
+
+    //Projectiles
     public static SpriteSheet playerProjectile = new SpriteSheet("/textures/projectiles/playerProjectile.png", 16);
 
+    //UI
     public static SpriteSheet mobUI = new SpriteSheet("/ui/mobUI.png", 48);
 
     // Dummy

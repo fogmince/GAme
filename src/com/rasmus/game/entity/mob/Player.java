@@ -21,16 +21,16 @@ public class Player extends Mob {
 
     private Keyboard input;
     private Sprite sprite;
-    private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 32, 32, 3);
-    private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
-    private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 32, 32, 3);
-    private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 32, 32, 3);
+    private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 32, 32, 3, 7);
+    private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3, 7);
+    private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 32, 32, 3, 7);
+    private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 32, 32, 3, 7);
 
 
-    private AnimatedSprite attackDown = new AnimatedSprite(SpriteSheet.player_attack_down, 32, 32, 3);
-    private AnimatedSprite attackUp = new AnimatedSprite(SpriteSheet.player_attack_up, 32, 32, 3);
-    private AnimatedSprite attackLeft = new AnimatedSprite(SpriteSheet.player_attack_left, 32, 32, 3);
-    private AnimatedSprite attackRight = new AnimatedSprite(SpriteSheet.player_attack_right, 32, 32, 3);
+    private AnimatedSprite attackDown = new AnimatedSprite(SpriteSheet.player_attack_down, 32, 32, 3, 7);
+    private AnimatedSprite attackUp = new AnimatedSprite(SpriteSheet.player_attack_up, 32, 32, 3, 7);
+    private AnimatedSprite attackLeft = new AnimatedSprite(SpriteSheet.player_attack_left, 32, 32, 3, 7);
+    private AnimatedSprite attackRight = new AnimatedSprite(SpriteSheet.player_attack_right, 32, 32, 3, 7);
     private AnimatedSprite animSprite = down;
 
     private String name;

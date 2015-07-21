@@ -7,6 +7,7 @@ import com.rasmus.game.entity.particle.Particle;
 import com.rasmus.game.entity.projectlile.Projectile;
 import com.rasmus.game.graphics.Screen;
 import com.rasmus.game.item.Item;
+import com.rasmus.game.level.tile.AnimatedTile;
 import com.rasmus.game.level.tile.Tile;
 import com.rasmus.game.util.Vector2i;
 
@@ -23,10 +24,13 @@ public class Level {
     protected int[] tilesInt;
     protected int[] tiles;
 
+    private byte waterAdded = 0;
+
     private List<Entity> entities = new ArrayList<Entity>();
     private List<Projectile> projectiles = new ArrayList<Projectile>();
     private List<Particle> particles = new ArrayList<Particle>();
     public List<Mob> mobs = new ArrayList<Mob>();
+    public List<AnimatedTile> tiles_anim = new ArrayList<AnimatedTile>();
 
     private List<Player> players = new ArrayList<Player>();
 
@@ -84,6 +88,10 @@ public class Level {
 
         for(int i = 0; i < players.size(); i++) {
             players.get(i).update();
+        }
+
+        for(int i = 0; i < tiles_anim.size(); i++) {
+            tiles_anim.get(i).update();
         }
 
         remove();
@@ -173,7 +181,13 @@ public class Level {
     public Tile getTile(int x, int y) {
         if(x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
         if(tiles[x + y * width] == Tile.col_grass) return Tile.grass;
-        if(tiles[x + y * width] == Tile.col_flower) return Tile.flower;
+        if(tiles[x + y * width] == Tile.col_flower) {
+            if(waterAdded == 0) {
+                waterAdded = 1;
+                addTile(Tile.flower_anim_tile);
+            }
+            return Tile.flower_anim_tile;
+        }
         if(tiles[x + y * width] == Tile.col_wallStone) return Tile.wallStone;
         if(tiles[x + y * width] == Tile.col_floorWood) return Tile.floorWood;
         return Tile.voidTile;
@@ -197,6 +211,10 @@ public class Level {
     public void addItem(Item item) {
         item.init(this);
         items.add(item);
+    }
+
+    public void addTile(AnimatedTile tile) {
+        tiles_anim.add(tile);
     }
 
     public List<Projectile> getProjectiles() {
