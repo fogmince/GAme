@@ -27,13 +27,13 @@ public class SpriteSheet {
     public static SpriteSheet mobUI = new SpriteSheet("/ui/mobUI.png", 48);
 
     // Dummy
-    public static SpriteSheet dummy = new SpriteSheet("/textures/test.png", 128);
+    public static SpriteSheet dummy = new SpriteSheet("/textures/mobs/test.png", 128);
     public static SpriteSheet dummy_down = new SpriteSheet(dummy, 2, 0, 1, 3, 32);
     public static SpriteSheet dummy_up = new SpriteSheet(dummy, 0, 0, 1, 3, 32);
     public static SpriteSheet dummy_side = new SpriteSheet(dummy, 1, 0, 1, 3, 32);
 
     //Player
-    public static SpriteSheet player = new SpriteSheet("/textures/playersheet.png", 256, 96);
+    public static SpriteSheet player = new SpriteSheet("/textures/mobs/playersheet.png", 256, 96);
     public static SpriteSheet player_down = new SpriteSheet(player, 0, 0, 1, 3, 32);
     public static SpriteSheet player_up = new SpriteSheet(player, 1, 0, 1, 3, 32);
     public static SpriteSheet player_left = new SpriteSheet(player, 2, 0, 1, 3, 32);

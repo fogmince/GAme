@@ -14,18 +14,18 @@ import java.awt.*;
 
 public class PlayerInventory extends Inventory {
 
-    private Slot[][] slots;
+    public Slot[][] slots;
 
-    private UISprite inventorySmall;
-    private UISprite itemSprite;
-    private UILabel amountOfItems;
+    public UISprite inventorySmall;
+    public UISprite itemSprite;
+    public UILabel amountOfItems;
 
     public boolean holdingItem = false;
     private boolean hasRenderedAmount = false;
 
-    private Item item;
+    public Item item;
 
-    private int amount = 0;
+    public int amount = 0;
     private int counter;
     private int key = 0;
     private Keyboard input;
@@ -312,7 +312,6 @@ public class PlayerInventory extends Inventory {
                         slots[x][y].addItem(item, item.stackSize);
                         for (int y1 = 0; y1 < ySlots; y1++) {
                             for (int x1 = 0; x1 < xSlots; x1++) {
-
                                 if(slots[x1][y1].getType() == 0 && item instanceof ItemSword) {
                                     if(slots[x1][y1].hasItem) {
                                         continue;
@@ -485,7 +484,6 @@ public class PlayerInventory extends Inventory {
     }
 
     private boolean canSwitchItem(int x, int y, Item item) {
-
         if(slots[x][y].getType() == 0 && item instanceof ItemSword) {
             return true;
         }

@@ -71,19 +71,16 @@ public class Player extends Mob {
 
     //Hotbar
     public UIPanel actionPanel;
+
     private UISprite mouse1AttackIcon;
     private UISprite mouse1IconUsed;
     private UILabel mouse1Attack;
+    private double mouse1AttackCooldown;
+    private UIDouble mouse1Cooldown;
 
     private UISprite mouse2AttackIcon;
     private UISprite mouse2IconUsed;
     private UILabel mouse2Attack;
-
-
-
-    private double mouse1AttackCooldown;
-    private UIDouble mouse1Cooldown;
-
     private double mouse2AttackCooldown;
     private UIDouble mouse2Cooldown;
 
@@ -249,6 +246,10 @@ public class Player extends Mob {
 
         mouse1IconUsed = new UISprite(new Vector2i(52, 5), new Vector2i(64, 64), "/ui/hotbar/mose1attack_used.png");
 
+        mouse1Cooldown = new UIDouble(new Vector2i(70, 42), mouse1AttackCooldown);
+        mouse1Cooldown.setColor(new Color(0xE5E5E5));
+        mouse1Cooldown.setFont(new Font("Verdana", Font.BOLD, 18));
+
         mouse2AttackIcon = new UISprite(new Vector2i(172, 5), new Vector2i(64, 64), "/ui/hotbar/mose2attack.png");
         actionPanel.addComponent(mouse2AttackIcon);
 
@@ -258,11 +259,6 @@ public class Player extends Mob {
         actionPanel.addComponent(mouse2Attack);
 
         mouse2IconUsed = new UISprite(new Vector2i(172, 5), new Vector2i(64, 64), "/ui/hotbar/mose2attack_used.png");
-
-        mouse1Cooldown = new UIDouble(new Vector2i(70, 42), mouse1AttackCooldown);
-        mouse1Cooldown.setColor(new Color(0xE5E5E5));
-        mouse1Cooldown.setFont(new Font("Verdana", Font.BOLD, 18));
-
         mouse2Cooldown = new UIDouble(new Vector2i(190, 42), mouse2AttackCooldown);
         mouse2Cooldown.setColor(new Color(0xE5E5E5));
         mouse2Cooldown.setFont(new Font("Verdana", Font.BOLD, 18));
